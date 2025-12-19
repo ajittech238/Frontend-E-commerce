@@ -12,6 +12,8 @@ import {
   Plus,
   ChevronRight,
   Check,
+  Package,
+  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,17 +22,19 @@ import Footer from "@/components/layout/Footer";
 import CartSidebar from "@/components/cart/CartSidebar";
 import ProductCard from "@/components/products/ProductCard";
 import { products } from "@/data/products";
+import { electronicsProducts } from "@/data/electronics";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { cn } from "@/lib/utils";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = products.find((p) => p.id === id);
+  const product = products.find((p) => p.id === id) || electronicsProducts.find((p) => p.id === id);
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   if (!product) {
     return (
@@ -48,9 +52,17 @@ const ProductDetail = () => {
   }
 
   const inWishlist = isInWishlist(product.id);
-  const relatedProducts = products.filter(
+  
+  const allProducts = [...products, ...electronicsProducts];
+  let relatedProducts = allProducts.filter(
     (p) => p.category === product.category && p.id !== product.id
   ).slice(0, 4);
+  
+  if (relatedProducts.length === 0) {
+    relatedProducts = allProducts.filter(
+      (p) => p.subcategory?.some(sub => product.subcategory?.includes(sub)) && p.id !== product.id
+    ).slice(0, 4);
+  }
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-IN", {
@@ -196,8 +208,31 @@ const ProductDetail = () => {
               </span>
             </div>
 
+            {/* Size Selection */}
+            {product.sizes && product.sizes.length > 0 && product.sizes[0] !== "Free" && (
+              <div className="space-y-3 pt-4 border-t border-border">
+                <label className="text-sm font-semibold text-foreground">Select Size/Variant</label>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(selectedSize === size ? null : size)}
+                      className={cn(
+                        "px-4 py-2 rounded-lg border-2 font-medium transition-all text-sm",
+                        selectedSize === size
+                          ? "border-accent bg-accent text-accent-foreground"
+                          : "border-border bg-background text-foreground hover:border-accent/50"
+                      )}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Quantity & Actions */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <div className="flex items-center border border-border rounded-xl">
                 <Button
                   variant="ghost"
@@ -266,6 +301,84 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Product Specifications */}
+        {(product.sizes || product.discount || product.badge) && (
+          <section className="mt-12 border-t border-border pt-8">
+            <h2 className="font-display text-2xl font-bold mb-6">Product Details</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h3 className="font-semibold text-lg text-foreground">Specifications</h3>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  {product.badge && (
+                    <li className="flex justify-between items-center">
+                      <span>Badge</span>
+                      <Badge>{product.badge}</Badge>
+                    </li>
+                  )}
+                  {product.discount && (
+                    <li className="flex justify-between items-center">
+                      <span>Discount</span>
+                      <Badge variant="secondary" className="bg-green-100 text-green-700">{product.discount}% OFF</Badge>
+                    </li>
+                  )}
+                  {product.rating && (
+                    <li className="flex justify-between items-center">
+                      <span>Rating</span>
+                      <span className="flex items-center gap-1">
+                        <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                        {product.rating} ({product.reviews} reviews)
+                      </span>
+                    </li>
+                  )}
+                  {product.inStock !== undefined && (
+                    <li className="flex justify-between items-center">
+                      <span>Availability</span>
+                      <span className={cn(
+                        "font-medium",
+                        product.inStock ? "text-green-600" : "text-red-600"
+                      )}>
+                        {product.inStock ? "In Stock" : "Out of Stock"}
+                      </span>
+                    </li>
+                  )}
+                  {product.sizes && product.sizes.length > 0 && (
+                    <li className="flex justify-between items-start">
+                      <span>Available Sizes</span>
+                      <div className="flex flex-wrap gap-1 justify-end">
+                        {product.sizes.map((size) => (
+                          <Badge key={size} variant="outline">{size}</Badge>
+                        ))}
+                      </div>
+                    </li>
+                  )}
+                </ul>
+              </div>
+              
+              <div className="space-y-4">
+                <h3 className="font-semibold text-lg text-foreground">Why Choose This?</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground">Official product with authentic warranty</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground">Fast and secure delivery across India</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground">30-day easy return policy</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground">24/7 customer support</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
