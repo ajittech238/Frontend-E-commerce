@@ -1,4 +1,5 @@
 export interface Product {
+  subCategoryId?: string;
   id: string;
   name: string;
   price: number;

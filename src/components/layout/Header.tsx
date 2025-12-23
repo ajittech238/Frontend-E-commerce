@@ -398,11 +398,21 @@ const Header = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
+            <li>
+              <Link
+                to="/grocery"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+
+                Grocery
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
 
             {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
-                  to={`/category/${category.id}`}
+                  to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                   className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group"
                 >
                   {category.name}
@@ -500,7 +510,7 @@ const Header = () => {
                 {categories.slice(2).map((category) => (
                   <Link
                     key={category.id}
-                    to={`/category/${category.id}`}
+                    to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                   >

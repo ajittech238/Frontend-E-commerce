@@ -157,3 +157,6 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 };
 
 export default ProductCard;
+
+
+

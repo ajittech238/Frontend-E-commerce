@@ -16,26 +16,29 @@ interface GroupedProducts {
 
 const ElectronicsPage = () => {
   const [priceRange, setPriceRange] = useState(500000);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
+  const mainCategories = Array.from(
+    new Set(electronicsProducts.flatMap((p) => p.subcategory?.[0] || "other"))
+  ).sort();
+
   const filteredProducts = electronicsProducts.filter((p) => {
     const matchesPrice = p.price <= priceRange;
-    const matchesCategory = !selectedCategory || p.subcategory?.includes(selectedCategory);
+    const matchesCategory = 
+      !selectedMainCategory || p.subcategory?.[0] === selectedMainCategory;
     return matchesPrice && matchesCategory;
   });
 
-  const groupedBySubcategory: GroupedProducts = {};
+  const groupedByMainCategory: { [key: string]: typeof electronicsProducts } = {};
   filteredProducts.forEach((product) => {
-    const subcat = product.subcategory?.[0] || "other";
-    if (!groupedBySubcategory[subcat]) {
-      groupedBySubcategory[subcat] = [];
+    const mainCat = product.subcategory?.[0] || "other";
+    if (!groupedByMainCategory[mainCat]) {
+      groupedByMainCategory[mainCat] = [];
     }
-    groupedBySubcategory[subcat].push(product);
+    groupedByMainCategory[mainCat].push(product);
   });
-
-  const categories = Array.from(new Set(electronicsProducts.flatMap((p) => p.subcategory || [])));
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-IN", {
@@ -45,7 +48,7 @@ const ElectronicsPage = () => {
     }).format(price);
   };
 
-  const renderProductCard = (product: any) => {
+  const renderProductCard = (product: typeof electronicsProducts[0]) => {
     const inWishlist = isInWishlist(product.id);
 
     return (
@@ -178,16 +181,16 @@ const ElectronicsPage = () => {
       </div>
 
       <div className="container py-8 flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-1">
-            <div className="sticky top-20 space-y-6 bg-card p-6 rounded-xl border border-border/50">
-              <div>
-                <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                  <Filter className="h-5 w-5" />
-                  Filters
-                </h3>
-              </div>
+        <div className="space-y-8">
+          <div className="bg-card p-6 rounded-xl border border-border/50">
+            <div>
+              <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2">
+                <Filter className="h-5 w-5" />
+                Filters
+              </h3>
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="space-y-3">
                 <label className="text-sm font-semibold text-foreground">Price Range</label>
                 <input
@@ -204,27 +207,27 @@ const ElectronicsPage = () => {
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-3 md:col-span-1 lg:col-span-2">
                 <label className="text-sm font-semibold text-foreground">Category</label>
-                <div className="space-y-2">
+                <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() => setSelectedCategory(null)}
+                    onClick={() => setSelectedMainCategory(null)}
                     className={cn(
-                      "w-full px-3 py-2 rounded border text-sm font-medium transition-all text-left",
-                      !selectedCategory
+                      "px-3 py-2 rounded border text-sm font-medium transition-all whitespace-nowrap",
+                      !selectedMainCategory
                         ? "border-primary bg-primary/10 text-primary"
                         : "border-border/50 text-foreground hover:border-primary/50"
                     )}
                   >
-                    All Categories
+                    All
                   </button>
-                  {categories.map((cat) => (
+                  {mainCategories.map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
+                      onClick={() => setSelectedMainCategory(selectedMainCategory === cat ? null : cat)}
                       className={cn(
-                        "w-full px-3 py-2 rounded border text-sm font-medium transition-all text-left capitalize",
-                        selectedCategory === cat
+                        "px-3 py-2 rounded border text-sm font-medium transition-all capitalize whitespace-nowrap",
+                        selectedMainCategory === cat
                           ? "border-primary bg-primary/10 text-primary"
                           : "border-border/50 text-foreground hover:border-primary/50"
                       )}
@@ -237,10 +240,10 @@ const ElectronicsPage = () => {
 
               <Button
                 variant="outline"
-                className="w-full"
+                className="h-fit"
                 onClick={() => {
                   setPriceRange(500000);
-                  setSelectedCategory(null);
+                  setSelectedMainCategory(null);
                 }}
               >
                 Reset Filters
@@ -248,17 +251,17 @@ const ElectronicsPage = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-4 space-y-12">
-            {Object.entries(groupedBySubcategory).length === 0 ? (
+          <div className="space-y-12">
+            {Object.entries(groupedByMainCategory).length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-xl text-muted-foreground">No products found with the selected filters.</p>
               </div>
             ) : (
-              Object.entries(groupedBySubcategory).map(([subcategory, products]) => (
-                <div key={subcategory} className="space-y-4">
+              Object.entries(groupedByMainCategory).map(([mainCategory, products]) => (
+                <div key={mainCategory} className="space-y-4">
                   <div className="flex items-center gap-3 pb-3 border-b-2 border-blue-500/30">
                     <h2 className="text-2xl md:text-3xl font-bold text-foreground capitalize">
-                      {subcategory.replace(/([A-Z])/g, " $1").replace(/-/g, " ").trim()}
+                      {mainCategory.replace(/([A-Z])/g, " $1").replace(/-/g, " ").trim()}
                     </h2>
                     <Badge className="bg-blue-500/20 text-blue-600">{products.length}</Badge>
                   </div>
