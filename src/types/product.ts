@@ -14,6 +14,7 @@ export interface Product {
   description?: string;
   inStock: boolean;
   discount?: number;
+  images360?: string[];
 }
 
 export interface CartItem extends Product {
@@ -48,7 +49,13 @@ export interface Order {
   };
   paymentMethod: string;
   paymentStatus: "pending" | "completed" | "failed";
-  orderStatus: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
+  orderStatus:
+    | "pending"
+    | "confirmed"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
   sellerId?: string;
   createdAt: string;
   updatedAt: string;

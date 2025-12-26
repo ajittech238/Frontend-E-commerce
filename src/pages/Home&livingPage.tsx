@@ -7,12 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-import { homeLivingProducts, homeLivingCategories } from "@/data/Home&living";
-import { Product } from "@/types/product";
+import { homeLivingProducts, homeLivingCategories, HomeLivingProduct } from "@/data/Home&living";
 
 
 interface GroupedProducts {
-    [key: string]: Product[];
+    [key: string]: HomeLivingProduct[];
 }
 
 export default function HomeLivingPage() {
@@ -90,7 +89,7 @@ export default function HomeLivingPage() {
             <main className="container py-8 flex-1">
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                     {/* Sidebar for Filters */}
-                    <aside className="lg:col-span-1">
+                    <aside className=" lg:col-span-1">
                         <div className="sticky top-24 space-y-6 bg-card p-6 rounded-xl border border-border/50">
                             {/* Filter Header */}
                             <div>
