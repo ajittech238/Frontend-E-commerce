@@ -3,7 +3,7 @@
 ## Overview
 The **FashionCategoryComponent** is a professional, fully-responsive fashion category picker integrated into your Zenith Shopper e-commerce platform. It provides an intuitive interface for browsing Men's, Women's, and Kids fashion items with smooth animations and mobile-responsive design.
 
----
+
 
 ## Features
 
@@ -33,7 +33,7 @@ The **FashionCategoryComponent** is a professional, fully-responsive fashion cat
 - **Lucide Icons**: Modern icon library integration
 - **Performance Optimized**: Efficient rendering with proper React patterns
 
----
+
 
 ## Installation
 
@@ -57,7 +57,7 @@ The component is already integrated into your Header:
 - **Desktop View**: Located in the categories navigation bar
 - **Mobile View**: Included in the mobile menu under "Shop by Category"
 
----
+
 
 ## File Descriptions
 
@@ -108,7 +108,7 @@ export default FashionCategoryComponent
 - Added `subcategory?: string[]` - for filtering products
 - Added `sizes?: string[]` - for displaying available sizes
 
----
+
 
 ## Component Structure
 
@@ -150,7 +150,7 @@ export default FashionCategoryComponent
 └─────────────────────────────┘
 
 
----
+
 
 ## Usage
 
@@ -187,13 +187,13 @@ const menTopsOnly = fashionProducts.filter(p =>
 );
 
 
----
+
 
 ## Product Categories & Subcategories
 
 ### Men's Fashion
 | Subcategory | Products | Available |
-|------------|----------|-----------|
+||-|--|
 | Top Wear | T-Shirts, Shirts, Hoodies, Polos | 6 products |
 | Bottom Wear | Jeans, Trousers, Shorts, Cargo, Sweatpants | 6 products |
 | Ethnic Wear | Kurta, Sherwani, Dhoti, Nehru Jacket, Silk Kurta | 5 products |
@@ -202,7 +202,7 @@ const menTopsOnly = fashionProducts.filter(p =>
 
 ### Women's Fashion
 | Subcategory | Products | Available |
-|------------|----------|-----------|
+||-|--|
 | Dresses | Summer, Maxi, A-Line, Bodycon, Sequin | 5 products |
 | Tops & Kurtis | T-Shirts, Linen Tops, Designer Kurtis, Crop Tops | 5 products |
 | Sarees & Ethnic | Banarasi Silk, Cotton Sarees, Chikankari, Lehenga | 4 products |
@@ -212,7 +212,7 @@ const menTopsOnly = fashionProducts.filter(p =>
 
 ### Kids' Fashion
 | Subcategory | Products | Available |
-|------------|----------|-----------|
+||-|--|
 | Boys Clothing | T-Shirts, Shorts, Jeans, Formal Shirts | 4 products |
 | Girls Clothing | Dresses, Tops, Skirts, Leggings | 4 products |
 | Baby Wear | Rompers, Onesies, Dresses | 3 products |
@@ -221,7 +221,7 @@ const menTopsOnly = fashionProducts.filter(p =>
 
 **Total Products**: 85+ items across all categories
 
----
+
 
 ## Styling & Customization
 
@@ -253,7 +253,7 @@ The component fully supports dark mode using:
 - `dark:text-foreground` - Dark text
 - Automatic theme switching through your theme provider
 
----
+
 
 ## API Integration
 
@@ -285,7 +285,7 @@ if (isInWishlist(product.id)) {
 }
 
 
----
+
 
 ## Performance Considerations
 
@@ -301,7 +301,7 @@ if (isInWishlist(product.id)) {
 - **Data**: ~30.4 KB (fashion.ts with 85+ products)
 - **Total**: ~45.9 KB (compresses to ~10-12 KB gzipped)
 
----
+
 
 ## Browser Support
 - ✅ Chrome/Edge 90+
@@ -310,7 +310,7 @@ if (isInWishlist(product.id)) {
 - ✅ Mobile browsers (iOS Safari, Chrome Mobile)
 - ✅ Tablets (iPad, Android Tablets)
 
----
+
 
 ## Troubleshooting
 
@@ -343,7 +343,7 @@ if (isInWishlist(product.id)) {
 2. Check Context hooks are properly imported in component
 3. Verify toast notifications are displayed correctly
 
----
+
 
 ## Future Enhancement Ideas
 
@@ -359,7 +359,7 @@ if (isInWishlist(product.id)) {
 9. **Analytics**: Track popular categories/products
 10. **Personalization**: Recommendations based on browsing history
 
----
+
 
 ## File Modifications Made
 
@@ -376,7 +376,7 @@ sizes?: string[];         // For size selection
 - Added component to both desktop and mobile navigation
 - Adjusted category layout to accommodate new component
 
----
+
 
 ## Support & Documentation
 
@@ -392,7 +392,7 @@ The component accepts no props currently. All configuration comes from:
 - `renderSubcategorySection()` - Groups and renders subcategory sections
 - `toggleTab()` - Handles tab open/close for accordion
 
----
+
 
 ## Summary
 
