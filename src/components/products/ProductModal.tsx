@@ -143,7 +143,7 @@ export default function ProductModal({
     : 0;
 
   const handleAddToCart = () => {
-    addToCart(product, quantity); 
+    addToCart({ ...product, quantity } as any); 
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
