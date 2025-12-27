@@ -40,7 +40,7 @@ The **FashionCategoryComponent** is a professional, fully-responsive fashion cat
 ### 1. Files Already Added
 The following files have been automatically created in your project:
 
-```
+
 src/
 ├── components/
 │   └── fashion/
@@ -50,7 +50,7 @@ src/
 │   └── fashion.ts                         (85+ fashion products - 5 categories)
 └── types/
     └── product.ts                         (Updated with subcategory & sizes)
-```
+
 
 ### 2. Component Integration
 The component is already integrated into your Header:
@@ -72,9 +72,9 @@ The component is already integrated into your Header:
 - Mobile accordion rendering with click-to-expand
 
 **Main Exports**:
-```typescript
+typescript
 export default FashionCategoryComponent
-```
+
 
 ### `fashion.ts` - Data File
 **Location**: `src/data/fashion.ts`
@@ -82,7 +82,7 @@ export default FashionCategoryComponent
 **Contains**:
 - 85+ fashion products across all categories
 - Product structure:
-  ```typescript
+  typescript
   {
     id: string;
     name: string;
@@ -99,7 +99,7 @@ export default FashionCategoryComponent
     inStock: boolean;
     discount?: number;
   }
-  ```
+  
 
 ### `product.ts` - Updated Types
 **Location**: `src/types/product.ts`
@@ -113,7 +113,7 @@ export default FashionCategoryComponent
 ## Component Structure
 
 ### Desktop View (Hidden on lg breakpoint)
-```
+
 ┌─ Fashion Category Navigation ─┐
 ├─ Men ▼        ├─ Women ▼      ├─ Kids ▼
 │ (On Hover)    │ (On Hover)    │ (On Hover)
@@ -126,10 +126,10 @@ export default FashionCategoryComponent
 │ │ [Product Cards]                     │
 │ └─────────────────────────────────────┘
 └───────────────────────────────────────┘
-```
+
 
 ### Mobile/Tablet View (lg breakpoint and below)
-```
+
 ┌─────────────────────────────┐
 │ Men         ▼               │
 ├─────────────────────────────┤
@@ -148,7 +148,7 @@ export default FashionCategoryComponent
 ├─────────────────────────────┤
 │ [Accordion Content]         │
 └─────────────────────────────┘
-```
+
 
 ---
 
@@ -160,7 +160,7 @@ The component is already integrated in the Header. No additional setup required!
 ### Using in Other Components
 To use the Fashion Category Component in other parts of your application:
 
-```typescript
+typescript
 import FashionCategoryComponent from "@/components/fashion/FashionCategoryComponent";
 
 export default function MyComponent() {
@@ -170,10 +170,10 @@ export default function MyComponent() {
     </div>
   );
 }
-```
+
 
 ### Accessing Fashion Products Data
-```typescript
+typescript
 import { fashionProducts } from "@/data/fashion";
 
 // Get all men's products
@@ -185,7 +185,7 @@ const menProducts = fashionProducts.filter(p =>
 const menTopsOnly = fashionProducts.filter(p => 
   p.subcategory?.includes("men") && p.subcategory?.includes("top")
 );
-```
+
 
 ---
 
@@ -234,7 +234,7 @@ const menTopsOnly = fashionProducts.filter(p =>
 ### Customizing Appearance
 To customize the component styling, edit `FashionCategoryComponent.tsx`:
 
-```typescript
+typescript
 // Desktop dropdown width
 className="w-screen max-w-4xl"  // Change max-w-4xl to your preferred size
 
@@ -245,7 +245,7 @@ className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2"
 // Tab appearance
 className="text-sm font-medium flex items-center gap-1 rounded-lg"
 // Update rounded-lg, text-sm, font-medium as needed
-```
+
 
 ### Dark Mode
 The component fully supports dark mode using:
@@ -258,7 +258,7 @@ The component fully supports dark mode using:
 ## API Integration
 
 ### Adding Products to Cart
-```typescript
+typescript
 import { useCart } from "@/context/CartContext";
 
 const { addToCart } = useCart();
@@ -268,10 +268,10 @@ addToCart(product);
 
 // Shows toast notification automatically
 // "Added to Cart - [Product Name] "
-```
+
 
 ### Wishlist Management
-```typescript
+typescript
 import { useWishlist } from "@/context/WishlistContext";
 
 const { isInWishlist, toggleWishlist } = useWishlist();
@@ -283,7 +283,7 @@ toggleWishlist(product);
 if (isInWishlist(product.id)) {
   // Product is in wishlist
 }
-```
+
 
 ---
 
@@ -321,9 +321,9 @@ if (isInWishlist(product.id)) {
    - Header.tsx has import statement
 
 2. Check Header.tsx imports:
-   ```typescript
+   typescript
    import FashionCategoryComponent from "@/components/fashion/FashionCategoryComponent";
-   ```
+   
 
 3. Ensure CartContext and WishlistContext are available in your app
 
@@ -365,10 +365,10 @@ if (isInWishlist(product.id)) {
 
 ### 1. `src/types/product.ts`
 Added new optional properties:
-```typescript
+typescript
 subcategory?: string[];  // For category filtering
 sizes?: string[];         // For size selection
-```
+
 
 ### 2. `src/components/layout/Header.tsx`
 - Imported FashionCategoryComponent
