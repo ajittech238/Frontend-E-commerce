@@ -19,14 +19,14 @@ const CategorySection = () => {
     <section className="py-16 md:py-24 bg-gradient-to-b from-background via-background to-accent/5 relative overflow-hidden">
       {/* Decorative background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-10 right-10 w-72 h-72 bg-pink-gradient/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-pink-gradient/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container relative z-10">
         {/* Header */}
         <div className="text-center mb-16 animate-in fade-in slide-in-from-top duration-700">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-gradient/10 border border-primary/20 mb-6">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-sm font-semibold text-primary">Explore Collections</span>
           </div>
@@ -57,7 +57,7 @@ const CategorySection = () => {
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                
+
                 {/* Overlay with gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-60 group-hover:opacity-70 transition-opacity duration-300" />
 

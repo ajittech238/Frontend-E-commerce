@@ -38,7 +38,7 @@ export default function EventLogs() {
       header: "Action",
       render: (event: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
             <FileText className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -87,8 +87,8 @@ export default function EventLogs() {
       <div className="flex gap-2">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search events..." 
+          <Input
+            placeholder="Search events..."
             className="pl-9"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -127,7 +127,7 @@ export default function EventLogs() {
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
                   <p className="text-2xl font-bold text-foreground mt-2">{stat.value}</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
                   <stat.icon className="w-6 h-6 text-primary" />
                 </div>
               </div>

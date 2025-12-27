@@ -38,7 +38,7 @@ export function DashboardLayout() {
               <SidebarTrigger className="p-1.5 sm:p-2 hover:bg-accent rounded-lg transition-colors flex-shrink-0">
                 <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
               </SidebarTrigger>
-              
+
               <div className={`relative transition-all duration-300 hidden xs:block min-w-0 ${searchFocused ? 'w-40 sm:w-64 md:w-80' : 'w-24 sm:w-48 md:w-64'}`}>
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
                 <Input
@@ -52,12 +52,12 @@ export function DashboardLayout() {
                 </kbd>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0">
               {/* Theme Toggle */}
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent"
                 onClick={() => setIsDark(!isDark)}
               >
@@ -69,7 +69,7 @@ export function DashboardLayout() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent">
                     <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-primary text-primary-foreground text-[8px] sm:text-[10px] rounded-full flex items-center justify-center font-medium animate-pulse">
+                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-pink-gradient text-primary-foreground text-[8px] sm:text-[10px] rounded-full flex items-center justify-center font-medium animate-pulse">
                       3
                     </span>
                   </Button>
@@ -83,7 +83,7 @@ export function DashboardLayout() {
                   {notifications.map((notification) => (
                     <DropdownMenuItem key={notification.id} className="flex flex-col items-start gap-1 p-2 xs:p-3 cursor-pointer">
                       <div className="flex items-center gap-2 w-full">
-                        {notification.unread && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                        {notification.unread && <div className="w-1.5 h-1.5 rounded-full bg-pink-gradient" />}
                         <span className="font-medium text-xs xs:text-sm">{notification.title}</span>
                       </div>
                       <span className="text-[11px] xs:text-xs text-muted-foreground ml-3.5">{notification.time}</span>

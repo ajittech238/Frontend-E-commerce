@@ -112,9 +112,9 @@ const HeroSection = () => {
 
                   {/* CTA Button */}
                   <Link to={slide.link}>
-                    <Button 
+                    <Button
                       size="lg"
-                      className="bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3 rounded-lg transition-all duration-300 group gap-2 text-base"
+                      className="bg-pink-gradient hover:bg-pink-gradient/90 text-white font-bold px-8 py-3 rounded-lg transition-all duration-300 group gap-2 text-base"
                     >
                       {slide.cta}
                       <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -159,8 +159,8 @@ const HeroSection = () => {
       {/* Featured Categories Strip - Modern Interactive */}
       <div className="bg-gradient-to-r from-background via-primary/5 to-background border-b border-border/50 py-12 md:py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-pink-gradient/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-gradient/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
         </div>
         <div className="container relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">

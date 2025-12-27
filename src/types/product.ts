@@ -13,6 +13,7 @@ export interface Product {
   description?: string;
   inStock: boolean;
   discount?: number;
+  brand?: string;
 }
 
 export interface CartItem extends Product {

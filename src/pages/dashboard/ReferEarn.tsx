@@ -175,7 +175,7 @@ export default function ReferEarn() {
               { step: "3", title: "Earn Reward", desc: "Earn ₹500 when they make purchase" },
             ].map((item) => (
               <div key={item.step} className="p-4 rounded-lg bg-accent/30 space-y-2">
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-primary-foreground">
+                <div className="w-10 h-10 rounded-full bg-pink-gradient flex items-center justify-center font-bold text-primary-foreground">
                   {item.step}
                 </div>
                 <p className="font-semibold text-foreground">{item.title}</p>

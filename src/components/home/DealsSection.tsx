@@ -32,8 +32,8 @@ const DealsSection = () => {
     <section className="py-16 md:py-24 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-20 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-gradient/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-20 right-1/4 w-96 h-96 bg-pink-gradient/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="container relative z-10">

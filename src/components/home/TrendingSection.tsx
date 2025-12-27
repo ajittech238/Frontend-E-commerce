@@ -13,7 +13,7 @@ const TrendingSection = () => {
         {/* Header with badge */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top duration-700">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-gradient/10 border border-primary/20 mb-4">
               <Flame className="h-4 w-4 text-primary animate-pulse" />
               <span className="text-sm font-semibold text-primary">Hot This Week</span>
             </div>
@@ -41,7 +41,7 @@ const TrendingSection = () => {
               <div className="relative group">
                 <ProductCard product={product} index={index} />
                 {/* Trending badge */}
-                <div className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-primary text-white text-xs font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-pink-gradient text-white text-xs font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   🔥 Trending
                 </div>
               </div>
