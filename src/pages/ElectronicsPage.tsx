@@ -85,10 +85,11 @@ const ElectronicsPage = () => {
       <Header />
 
       {/* Hero Section */}
+      {/* hello */}
       <div className="relative w-full overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-indigo-600/10 to-blue-600/10 dark:from-purple-600/20 dark:via-indigo-600/20 dark:to-blue-600/20 blur-3xl" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.1),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.15),transparent_50%)]" />
-        
+
         <div className="relative mx-auto px-4 py-16 md:py-24 text-center z-10">
           <div className="inline-block mb-6">
             <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 text-sm font-semibold rounded-full border-none">
@@ -105,13 +106,13 @@ const ElectronicsPage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
+            <button
               onClick={scrollToProducts}
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple-500/25"
             >
               Shop Now
             </button>
-            <button 
+            <button
               onClick={() => {
                 setSortBy("newest");
                 scrollToProducts();
@@ -642,7 +643,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </div>
               <span className="text-[9px] text-slate-400 font-medium">{product.rating}</span>
             </div>
-            
+
             <div className="flex items-baseline gap-1.5">
               <span className="text-base font-black text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
               {product.originalPrice && (

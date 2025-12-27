@@ -26,6 +26,7 @@ import DashboardSettings from "./pages/dashboard/DashboardSettings";
 import SellerOrders from "./pages/dashboard/SellerOrders";
 import ReferEarn from "./pages/dashboard/ReferEarn";
 import Rewards from "./pages/dashboard/Rewards";
+
 import QA from "./pages/dashboard/QA";
 import Shops from "./pages/dashboard/Shops";
 import Roles from "./pages/dashboard/Roles";
@@ -188,7 +189,7 @@ const App = () => (
             </BrowserRouter>
           </OrderProvider>
         </WishlistProvider>
-        
+
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
