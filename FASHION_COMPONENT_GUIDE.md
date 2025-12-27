@@ -267,7 +267,7 @@ const { addToCart } = useCart();
 addToCart(product);
 
 // Shows toast notification automatically
-// "Added to Cart - [Product Name]"
+// "Added to Cart - [Product Name] "
 ```
 
 ### Wishlist Management

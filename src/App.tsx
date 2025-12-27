@@ -79,6 +79,7 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
+import JewelleryPage from "./pages/JewelleryPage";
 // import BeautyCategory from "./pages/BeautyCatego.ry";
 
 const queryClient = new QueryClient();
@@ -120,6 +121,8 @@ const App = () => (
                 <Route path="/payment-success" element={<PaymentSuccess />} />
                 <Route path="/payment-failed" element={<PaymentFailed />} />
                 <Route path="/payment-history" element={<PaymentHistory />} />
+                <Route path="/jewellery" element={<JewelleryPage />} />
+                
               
               {/* Dashboard Routes */}
               <Route path="/dashboard" element={<DashboardLayout />}>

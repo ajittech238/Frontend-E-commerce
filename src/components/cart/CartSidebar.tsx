@@ -117,7 +117,8 @@ const CartSidebar = () => {
                 <span className="font-bold text-lg">{formatPrice(totalPrice)}</span>
               </div>
               <p className="text-success text-sm">✓ Your order qualifies for FREE Delivery</p>
-              <Link to="/cart" onClick={() => setIsCartOpen(false)}>
+
+              {/* <Link to="/cart" onClick={() => setIsCartOpen(false)}>
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 h-11 text-sm font-medium rounded">
                   View Cart
                 </Button>
@@ -126,7 +127,21 @@ const CartSidebar = () => {
                 <Button className="w-full btn-amazon h-11 text-sm font-medium rounded">
                   Proceed to Checkout
                 </Button>
-              </Link>
+              </Link> */}
+
+              <div className="grid grid-cols-2 gap-4">
+                <Link to="/cart" onClick={() => setIsCartOpen(false)}>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 h-11 text-sm font-medium rounded">
+                    View Cart
+                  </Button>
+                </Link>
+              
+                <Link to="/checkout" onClick={() => setIsCartOpen(false)}>
+                  <Button className="w-full btn-amazon h-11 text-sm font-medium rounded">
+                    Proceed to Checkout
+                  </Button>
+                </Link>
+              </div>
             </div>
           )}
         </div>

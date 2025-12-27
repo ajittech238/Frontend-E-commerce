@@ -111,6 +111,9 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           Artisan Shop
         </p>
 
+
+
+
         {/* Title */}
         <Link to={`/product/${product.id}`}>
           <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
@@ -136,6 +139,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
         </div>
 
+        {/* Description */}
+        {product.description && (
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {product.description}
+          </p>
+        )}
+
         {/* Price */}
         <div className="flex items-baseline gap-2 flex-wrap">
           <span className="text-lg font-bold text-foreground">{formatPrice(product.price)}</span>
@@ -151,7 +161,8 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <Truck className="h-3.5 w-3.5" />
           <span>FREE delivery</span>
         </div>
-      </div>
+
+    </div>
     </div>
   );
 };
