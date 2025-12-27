@@ -85,7 +85,6 @@ const ElectronicsPage = () => {
       <Header />
 
       {/* Hero Section */}
-      {/* hello */}
       <div className="relative w-full overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-indigo-600/10 to-blue-600/10 dark:from-purple-600/20 dark:via-indigo-600/20 dark:to-blue-600/20 blur-3xl" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.1),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.15),transparent_50%)]" />
