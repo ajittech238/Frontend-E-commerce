@@ -381,7 +381,7 @@ export const products: Product[] = [
     discount: 12,
   },
 
-  // Books
+  // Books image chnages
   {
     id: "25",
     name: "Atomic Habits",
