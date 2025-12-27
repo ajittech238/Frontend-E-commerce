@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
-README.md
+zencoder
 dist-ssr
 *.local
 
