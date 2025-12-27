@@ -32,6 +32,7 @@ export const groceryProducts: Product[] = [
     description: "Farm-fresh organic apples, perfect for a healthy snack.",
     inStock: true,
     discount: 17,
+    stock: 0
   },
   {
     id: "g2",
@@ -46,6 +47,7 @@ export const groceryProducts: Product[] = [
     description: "Pure and fresh cow's milk, essential for your daily needs.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g3",
@@ -61,6 +63,7 @@ export const groceryProducts: Product[] = [
     description: "Premium long-grain Basmati rice, ideal for biryani and pulao.",
     inStock: true,
     discount: 10,
+    stock: 0
   },
   {
     id: "g4",
@@ -75,6 +78,7 @@ export const groceryProducts: Product[] = [
     description: "Delicious chocolate chip cookies, perfect with tea or coffee.",
     inStock: true,
     discount: 11,
+    stock: 0
   },
   {
     id: "g5",
@@ -89,6 +93,7 @@ export const groceryProducts: Product[] = [
     description: "Minty fresh toothpaste for complete oral hygiene.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g6",
@@ -103,6 +108,7 @@ export const groceryProducts: Product[] = [
     description: "Powerful dishwashing liquid for sparkling clean dishes.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g7",
@@ -118,6 +124,7 @@ export const groceryProducts: Product[] = [
     description: "Fresh and tender chicken breast, ideal for various recipes.",
     inStock: true,
     discount: 11,
+    stock: 0
   },
   {
     id: "g8",
@@ -132,6 +139,7 @@ export const groceryProducts: Product[] = [
     description: "Convenient frozen green peas, ready to cook.",
     inStock: true,
     discount: 10,
+    stock: 0
   },
   {
     id: "g9",
@@ -146,6 +154,7 @@ export const groceryProducts: Product[] = [
     description: "Extra virgin olive oil, perfect for cooking and salads.",
     inStock: true,
     discount: 11,
+    stock: 0
   },
   {
     id: "g10",
@@ -160,6 +169,7 @@ export const groceryProducts: Product[] = [
     description: "Soft and absorbent baby diapers for your little one.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g11",
@@ -174,6 +184,7 @@ export const groceryProducts: Product[] = [
     description: "Nutritious dry dog food for all breeds.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g12",
@@ -188,6 +199,7 @@ export const groceryProducts: Product[] = [
     description: "Fresh red tomatoes, great for curries and salads.",
     inStock: true,
     discount: 20,
+    stock: 0
   },
   {
     id: "g13",
@@ -202,6 +214,7 @@ export const groceryProducts: Product[] = [
     description: "Soft white sliced bread, perfect for sandwiches.",
     inStock: true,
     discount: 14,
+    stock: 0
   },
   {
     id: "g14",
@@ -216,6 +229,7 @@ export const groceryProducts: Product[] = [
     description: "Fine granulated sugar for all your cooking and baking needs.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g15",
@@ -231,6 +245,7 @@ export const groceryProducts: Product[] = [
     description: "Crispy and savory potato chips, perfect for snacking.",
     inStock: true,
     discount: 10,
+    stock: 0
   },
   {
     id: "g16",
@@ -245,6 +260,7 @@ export const groceryProducts: Product[] = [
     description: "Nourishing shampoo for healthy and shiny hair.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g17",
@@ -259,6 +275,7 @@ export const groceryProducts: Product[] = [
     description: "Powerful laundry detergent for clean and fresh clothes.",
     inStock: true,
     discount: 10,
+    stock: 0
   },
   {
     id: "g18",
@@ -273,6 +290,7 @@ export const groceryProducts: Product[] = [
     description: "Farm-fresh eggs, a rich source of protein.",
     inStock: true,
     discount: 10,
+    stock: 0
   },
   {
     id: "g19",
@@ -287,6 +305,7 @@ export const groceryProducts: Product[] = [
     description: "Delicious frozen pizza, quick and easy to prepare.",
     inStock: true,
     discount: 12,
+    stock: 0
   },
   {
     id: "g20",
@@ -301,6 +320,7 @@ export const groceryProducts: Product[] = [
     description: "Premium roasted coffee beans for a perfect brew.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g21",
@@ -315,6 +335,7 @@ export const groceryProducts: Product[] = [
     description: "Gentle and soft baby wipes for sensitive skin.",
     inStock: true,
     discount: 6,
+    stock: 0
   },
   {
     id: "g22",
@@ -329,6 +350,7 @@ export const groceryProducts: Product[] = [
     description: "Complete and balanced nutrition for adult cats.",
     inStock: true,
     discount: 6,
+    stock: 0
   },
   {
     id: "g23",
@@ -343,6 +365,7 @@ export const groceryProducts: Product[] = [
     description: "Fresh onions, a staple for every kitchen.",
     inStock: true,
     discount: 25,
+    stock: 0
   },
   {
     id: "g24",
@@ -357,6 +380,7 @@ export const groceryProducts: Product[] = [
     description: "Creamy and delicious plain yogurt.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g25",
@@ -371,6 +395,7 @@ export const groceryProducts: Product[] = [
     description: "High-quality wheat flour for baking and cooking.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g26",
@@ -385,6 +410,7 @@ export const groceryProducts: Product[] = [
     description: "Refreshing soft drink, perfect for parties.",
     inStock: true,
     discount: 10,
+    stock: 0
   },
   {
     id: "g27",
@@ -399,6 +425,7 @@ export const groceryProducts: Product[] = [
     description: "Gentle and fragrant soap bars for daily use.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g28",
@@ -413,6 +440,7 @@ export const groceryProducts: Product[] = [
     description: "Soft and strong toilet paper rolls.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g29",
@@ -427,6 +455,7 @@ export const groceryProducts: Product[] = [
     description: "Fresh and boneless fish fillets.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g30",
@@ -441,6 +470,7 @@ export const groceryProducts: Product[] = [
     description: "Creamy vanilla ice cream, a perfect dessert.",
     inStock: true,
     discount: 5,
+    stock: 0
   },
   {
     id: "g31",
@@ -455,6 +485,7 @@ export const groceryProducts: Product[] = [
     description: "Authentic Italian pasta, quick and easy to cook.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g32",
@@ -469,6 +500,7 @@ export const groceryProducts: Product[] = [
     description: "Nutritious baby food cereal for growing infants.",
     inStock: true,
     discount: 5,
+    stock: 0
   },
   {
     id: "g33",
@@ -483,6 +515,7 @@ export const groceryProducts: Product[] = [
     description: "High-quality bird food for all types of birds.",
     inStock: true,
     discount: 6,
+    stock: 0
   },
   {
     id: "g34",
@@ -497,6 +530,7 @@ export const groceryProducts: Product[] = [
     description: "Fresh potatoes, versatile for many dishes.",
     inStock: true,
     discount: 17,
+    stock: 0
   },
   {
     id: "g35",
@@ -511,6 +545,7 @@ export const groceryProducts: Product[] = [
     description: "Rich and creamy cheese block.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g36",
@@ -525,6 +560,7 @@ export const groceryProducts: Product[] = [
     description: "High-quality Toor Dal, essential for Indian cuisine.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g37",
@@ -540,6 +576,7 @@ export const groceryProducts: Product[] = [
     description: "Natural and refreshing fruit juice.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g38",
@@ -554,6 +591,7 @@ export const groceryProducts: Product[] = [
     description: "Gentle hand wash for germ protection.",
     inStock: true,
     discount: 11,
+    stock: 0
   },
   {
     id: "g39",
@@ -568,6 +606,7 @@ export const groceryProducts: Product[] = [
     description: "Effective floor cleaner for a sparkling home.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g40",
@@ -582,6 +621,7 @@ export const groceryProducts: Product[] = [
     description: "Delicious pork sausages, perfect for breakfast.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g41",
@@ -596,6 +636,7 @@ export const groceryProducts: Product[] = [
     description: "Mixed frozen vegetables, convenient for quick meals.",
     inStock: true,
     discount: 6,
+    stock: 0
   },
   {
     id: "g42",
@@ -610,6 +651,7 @@ export const groceryProducts: Product[] = [
     description: "Imported exotic cheese, a delightful treat.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g43",
@@ -624,6 +666,7 @@ export const groceryProducts: Product[] = [
     description: "Gentle baby oil for sensitive skin.",
     inStock: true,
     discount: 5,
+    stock: 0
   },
   {
     id: "g44",
@@ -638,6 +681,7 @@ export const groceryProducts: Product[] = [
     description: "Nutritious fish food for all aquarium fish.",
     inStock: true,
     discount: 7,
+    stock: 0
   },
   {
     id: "g45",
@@ -653,6 +697,7 @@ export const groceryProducts: Product[] = [
     description: "Fresh and juicy grapes.",
     inStock: true,
     discount: 11,
+    stock: 0
   },
   {
     id: "g46",
@@ -667,6 +712,7 @@ export const groceryProducts: Product[] = [
     description: "Creamy butter, essential for cooking and breakfast.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g47",
@@ -681,6 +727,7 @@ export const groceryProducts: Product[] = [
     description: "Healthy and wholesome wheat bread.",
     inStock: true,
     discount: 11,
+    stock: 0
   },
   {
     id: "g48",
@@ -695,6 +742,7 @@ export const groceryProducts: Product[] = [
     description: "Rich and moist brown sugar.",
     inStock: true,
     discount: 8,
+    stock: 0
   },
   {
     id: "g49",
@@ -709,6 +757,7 @@ export const groceryProducts: Product[] = [
     description: "Crunchy corn flakes for a healthy breakfast.",
     inStock: true,
     discount: 6,
+    stock: 0
   },
   {
     id: "g50",
@@ -723,6 +772,7 @@ export const groceryProducts: Product[] = [
     description: "Moisturizing body lotion for soft skin.",
     inStock: true,
     discount: 6,
+    stock: 0
   },
   {
     id: "g51",
@@ -737,6 +787,7 @@ export const groceryProducts: Product[] = [
     description: "Absorbent kitchen towels for everyday cleaning.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
   {
     id: "g52",
@@ -751,5 +802,6 @@ export const groceryProducts: Product[] = [
     description: "Fresh prawns, great for stir-fries and curries.",
     inStock: true,
     discount: 9,
+    stock: 0
   },
 ];
