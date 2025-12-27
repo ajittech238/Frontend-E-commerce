@@ -16,6 +16,7 @@ export const electronicsProducts: Product[] = [
     badge: "Premium",
     description: "Latest iPhone with advanced camera system and A17 Pro chip",
     inStock: true,
+    stock: 50,
     discount: 12,
   },
   {
@@ -32,6 +33,7 @@ export const electronicsProducts: Product[] = [
     badge: "Bestseller",
     description: "Flagship Samsung with dynamic AMOLED display and powerful processor",
     inStock: true,
+    stock: 50,
     discount: 13,
   },
   {
@@ -47,6 +49,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1567,
     description: "Google flagship with amazing computational photography",
     inStock: true,
+    stock: 50,
     discount: 14,
   },
   {
@@ -63,6 +66,7 @@ export const electronicsProducts: Product[] = [
     badge: "Value for Money",
     description: "Fast performance with 120Hz display and quick charging",
     inStock: true,
+    stock: 50,
     discount: 18,
   },
   {
@@ -78,6 +82,7 @@ export const electronicsProducts: Product[] = [
     reviews: 890,
     description: "Excellent performance and camera at affordable price",
     inStock: true,
+    stock: 50,
     discount: 21,
   },
   {
@@ -93,6 +98,7 @@ export const electronicsProducts: Product[] = [
     reviews: 567,
     description: "Budget-friendly smartphone with decent performance",
     inStock: true,
+    stock: 50,
     discount: 20,
   },
 
@@ -111,6 +117,7 @@ export const electronicsProducts: Product[] = [
     badge: "Premium",
     description: "Powerful MacBook with exceptional performance for professionals",
     inStock: true,
+    stock: 50,
     discount: 14,
   },
   {
@@ -126,6 +133,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1890,
     description: "Premium Windows laptop with stunning OLED display",
     inStock: true,
+    stock: 50,
     discount: 18,
   },
   {
@@ -141,6 +149,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1234,
     description: "Great all-rounder laptop for students and professionals",
     inStock: true,
+    stock: 50,
     discount: 23,
   },
   {
@@ -157,6 +166,7 @@ export const electronicsProducts: Product[] = [
     badge: "Value for Money",
     description: "Reliable budget laptop for everyday computing",
     inStock: true,
+    stock: 50,
     discount: 22,
   },
   {
@@ -172,6 +182,7 @@ export const electronicsProducts: Product[] = [
     reviews: 723,
     description: "Excellent business laptop with great keyboard",
     inStock: true,
+    stock: 50,
     discount: 20,
   },
 
@@ -190,6 +201,7 @@ export const electronicsProducts: Product[] = [
     badge: "Premium",
     description: "Powerful iPad for creative professionals and power users",
     inStock: true,
+    stock: 50,
     discount: 13,
   },
   {
@@ -205,6 +217,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1567,
     description: "Large AMOLED display with S Pen for productivity",
     inStock: true,
+    stock: 50,
     discount: 18,
   },
   {
@@ -220,6 +233,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1234,
     description: "Mid-range iPad with great performance",
     inStock: true,
+    stock: 50,
     discount: 12,
   },
 
@@ -238,6 +252,7 @@ export const electronicsProducts: Product[] = [
     badge: "Best Seller",
     description: "Best-in-class noise cancelling headphones",
     inStock: true,
+    stock: 50,
     discount: 22,
   },
   {
@@ -253,6 +268,7 @@ export const electronicsProducts: Product[] = [
     reviews: 2234,
     description: "Premium comfort with excellent noise cancellation",
     inStock: true,
+    stock: 50,
     discount: 20,
   },
   {
@@ -268,6 +284,7 @@ export const electronicsProducts: Product[] = [
     reviews: 4123,
     description: "Wireless earbuds with active noise cancellation",
     inStock: true,
+    stock: 50,
     discount: 14,
   },
   {
@@ -283,6 +300,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1567,
     description: "Budget-friendly with decent noise cancellation",
     inStock: true,
+    stock: 50,
     discount: 25,
   },
 
@@ -301,6 +319,7 @@ export const electronicsProducts: Product[] = [
     badge: "Premium",
     description: "Premium smartwatch for fitness and health tracking",
     inStock: true,
+    stock: 50,
     discount: 11,
   },
   {
@@ -316,6 +335,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1890,
     description: "Classic design with rotating bezel",
     inStock: true,
+    stock: 50,
     discount: 22,
   },
   {
@@ -331,6 +351,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1234,
     description: "Great fitness tracking with health features",
     inStock: true,
+    stock: 50,
     discount: 28,
   },
 
@@ -349,6 +370,7 @@ export const electronicsProducts: Product[] = [
     badge: "Professional",
     description: "Professional 61MP mirrorless camera",
     inStock: true,
+    stock: 50,
     discount: 10,
   },
   {
@@ -364,6 +386,7 @@ export const electronicsProducts: Product[] = [
     reviews: 567,
     description: "Full-frame mirrorless with excellent autofocus",
     inStock: true,
+    stock: 50,
     discount: 11,
   },
   {
@@ -380,6 +403,7 @@ export const electronicsProducts: Product[] = [
     badge: "Best Seller",
     description: "4K action camera for adventure enthusiasts",
     inStock: true,
+    stock: 50,
     discount: 18,
   },
 
@@ -398,6 +422,7 @@ export const electronicsProducts: Product[] = [
     badge: "Bestseller",
     description: "Next-gen gaming console with exclusive titles",
     inStock: false,
+    stock: 0,
     discount: 15,
   },
   {
@@ -413,6 +438,7 @@ export const electronicsProducts: Product[] = [
     reviews: 3456,
     description: "Powerful console with Game Pass",
     inStock: true,
+    stock: 50,
     discount: 16,
   },
   {
@@ -428,6 +454,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1234,
     description: "Portable gaming with Steam compatibility",
     inStock: true,
+    stock: 50,
     discount: 19,
   },
 
@@ -445,6 +472,7 @@ export const electronicsProducts: Product[] = [
     reviews: 2123,
     description: "Premium soundbar for immersive audio",
     inStock: true,
+    stock: 50,
     discount: 19,
   },
   {
@@ -460,6 +488,7 @@ export const electronicsProducts: Product[] = [
     reviews: 1567,
     description: "Vintage-styled portable Bluetooth speaker",
     inStock: true,
+    stock: 50,
     discount: 22,
   },
   {
@@ -476,6 +505,7 @@ export const electronicsProducts: Product[] = [
     badge: "Value for Money",
     description: "Compact waterproof Bluetooth speaker",
     inStock: true,
+    stock: 50,
     discount: 23,
   },
 ];
