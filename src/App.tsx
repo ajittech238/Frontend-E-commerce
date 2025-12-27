@@ -65,15 +65,15 @@ import RazorpayIntegration from "./pages/admin/integrations/RazorpayIntegration"
 import WhatsAppIntegration from "./pages/admin/integrations/WhatsAppIntegration";
 import FashionCategoryPage from "./pages/FashionCategoryPage";
 import ElectronicsPage from "./pages/ElectronicsPage";
-import MenTopWear from "./pages/fashion/MenTopWear";
-import MenBottomWear from "./pages/fashion/MenBottomWear";
-import MenFootwear from "./pages/fashion/MenFootwear";
-import WomenDresses from "./pages/fashion/WomenDresses";
-import WomenEthnic from "./pages/fashion/WomenEthnic";
-import WomenWestern from "./pages/fashion/WomenWestern";
-import WomenFootwear from "./pages/fashion/WomenFootwear";
-import KidsWear from "./pages/fashion/KidsWear";
-import Accessories from "./pages/fashion/Accessories";
+// import MenTopWear from "./pages/fashion/MenTopWear";
+// import MenBottomWear from "./pages/fashion/MenBottomWear";
+// import MenFootwear from "./pages/fashion/MenFootwear";
+// import WomenDresses from "./pages/fashion/WomenDresses";
+// import WomenEthnic from "./pages/fashion/WomenEthnic";
+// import WomenWestern from "./pages/fashion/WomenWestern";
+// import WomenFootwear from "./pages/fashion/WomenFootwear";
+// import KidsWear from "./pages/fashion/KidsWear";
+// import Accessories from "./pages/fashion/Accessories";
 import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
@@ -96,15 +96,15 @@ const App = () => (
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/category/:id" element={<Category />} />
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
-                <Route path="/fashion/men-top-wear" element={<MenTopWear />} />
-                <Route path="/fashion/men-bottom-wear" element={<MenBottomWear />} />
-                <Route path="/fashion/men-footwear" element={<MenFootwear />} />
-                <Route path="/fashion/women-dresses" element={<WomenDresses />} />
-                <Route path="/fashion/women-ethnic" element={<WomenEthnic />} />
-                <Route path="/fashion/women-western" element={<WomenWestern />} />
-                <Route path="/fashion/women-footwear" element={<WomenFootwear />} />
-                <Route path="/fashion/kids" element={<KidsWear />} />
-                <Route path="/fashion/accessories" element={<Accessories />} />
+                {/* <Route path="/fashion/men-top-wear" element={<MenTopWear />} /> */}
+                {/* <Route path="/fashion/men-bottom-wear" element={<MenBottomWear />} /> */}
+                {/* <Route path="/fashion/men-footwear" element={<MenFootwear />} /> */}
+                {/* <Route path="/fashion/women-dresses" element={<WomenDresses />} /> */}
+                {/* <Route path="/fashion/women-ethnic" element={<WomenEthnic />} /> */}
+                {/* <Route path="/fashion/women-western" element={<WomenWestern />} /> */}
+                {/* <Route path="/fashion/women-footwear" element={<WomenFootwear />} /> */}
+                {/* <Route path="/fashion/kids" element={<KidsWear />} /> */}
+                {/* <Route path="/fashion/accessories" element={<Accessories />} /> */}
                 <Route path="/electronics" element={<ElectronicsPage />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
