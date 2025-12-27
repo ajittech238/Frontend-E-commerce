@@ -25,6 +25,7 @@ export const products: Product[] = [
     badge: "Bestseller",
     description: "The most powerful iPhone ever with A17 Pro chip, titanium design, and advanced camera system.",
     inStock: true,
+    stock: 50,
     discount: 13,
   },
   {
@@ -39,6 +40,7 @@ export const products: Product[] = [
     badge: "New",
     description: "Galaxy AI is here. With the most powerful Galaxy Ultra yet.",
     inStock: true,
+    stock: 50,
     discount: 11,
   },
   {
@@ -53,6 +55,7 @@ export const products: Product[] = [
     badge: "Premium",
     description: "Supercharged by M3 Max chip. Built for pros who need ultimate performance.",
     inStock: true,
+    stock: 50,
     discount: 12,
   },
   {
@@ -67,6 +70,7 @@ export const products: Product[] = [
     badge: "Top Rated",
     description: "Industry-leading noise cancellation with exceptional sound quality.",
     inStock: true,
+    stock: 50,
     discount: 14,
   },
   {
@@ -80,6 +84,7 @@ export const products: Product[] = [
     reviews: 1245,
     description: "Supercharged by M2 chip. Next-level Apple Pencil hover experience.",
     inStock: true,
+    stock: 50,
     discount: 13,
   },
   {
@@ -94,6 +99,7 @@ export const products: Product[] = [
     badge: "New",
     description: "Compact drone with professional-grade camera capabilities.",
     inStock: true,
+    stock: 50,
     discount: 10,
   },
 
@@ -110,6 +116,7 @@ export const products: Product[] = [
     badge: "Trending",
     description: "Genuine leather jacket with premium craftsmanship.",
     inStock: true,
+    stock: 50,
     discount: 28,
   },
   {
@@ -124,6 +131,7 @@ export const products: Product[] = [
     badge: "Handcrafted",
     description: "Exquisite Banarasi silk saree with intricate zari work.",
     inStock: true,
+    stock: 50,
     discount: 31,
   },
   {
@@ -138,6 +146,7 @@ export const products: Product[] = [
     badge: "Limited Edition",
     description: "Iconic basketball sneakers with legendary design.",
     inStock: true,
+    stock: 50,
     discount: 15,
   },
   {
@@ -151,6 +160,7 @@ export const products: Product[] = [
     reviews: 678,
     description: "Luxuriously soft 100% cashmere sweater.",
     inStock: true,
+    stock: 50,
     discount: 27,
   },
   {
@@ -165,6 +175,7 @@ export const products: Product[] = [
     badge: "Classic",
     description: "Timeless aviator sunglasses with polarized lenses.",
     inStock: true,
+    stock: 50,
     discount: 17,
   },
   {
@@ -178,6 +189,7 @@ export const products: Product[] = [
     reviews: 1234,
     description: "Premium smartwatch with health tracking features.",
     inStock: true,
+    stock: 50,
     discount: 17,
   },
 
@@ -194,6 +206,7 @@ export const products: Product[] = [
     badge: "Top Seller",
     description: "Premium ergonomic chair with lumbar support and adjustable armrests.",
     inStock: true,
+    stock: 50,
     discount: 22,
   },
   {
@@ -208,6 +221,7 @@ export const products: Product[] = [
     badge: "Smart Home",
     description: "HEPA air purifier with smart controls and air quality monitoring.",
     inStock: true,
+    stock: 50,
     discount: 20,
   },
   {
@@ -222,6 +236,7 @@ export const products: Product[] = [
     badge: "Best Value",
     description: "Premium memory foam mattress for ultimate comfort.",
     inStock: true,
+    stock: 50,
     discount: 23,
   },
   {
@@ -235,6 +250,7 @@ export const products: Product[] = [
     reviews: 1567,
     description: "Smart robot vacuum with mapping and auto-empty station.",
     inStock: true,
+    stock: 50,
     discount: 25,
   },
 
@@ -251,6 +267,7 @@ export const products: Product[] = [
     badge: "Award Winner",
     description: "Revolutionary hair styling tool powered by Coanda effect.",
     inStock: true,
+    stock: 50,
     discount: 16,
   },
   {
@@ -265,6 +282,7 @@ export const products: Product[] = [
     badge: "Luxury",
     description: "Legendary moisturizer with Miracle Broth.",
     inStock: true,
+    stock: 50,
     discount: 12,
   },
   {
@@ -279,6 +297,7 @@ export const products: Product[] = [
     badge: "Trending",
     description: "Iconic eyeshadow palette for stunning looks.",
     inStock: true,
+    stock: 50,
     discount: 20,
   },
   {
@@ -292,6 +311,7 @@ export const products: Product[] = [
     reviews: 3456,
     description: "Award-winning essence with over 90% PITERA.",
     inStock: true,
+    stock: 50,
     discount: 15,
   },
 
@@ -308,6 +328,7 @@ export const products: Product[] = [
     badge: "Premium",
     description: "Ultimate home fitness experience with live classes.",
     inStock: true,
+    stock: 50,
     discount: 11,
   },
   {
@@ -322,6 +343,7 @@ export const products: Product[] = [
     badge: "Pro Series",
     description: "Professional-grade badminton racket for competitive play.",
     inStock: true,
+    stock: 50,
     discount: 25,
   },
   {
@@ -335,6 +357,7 @@ export const products: Product[] = [
     reviews: 2567,
     description: "Extra thick yoga mat with non-slip surface.",
     inStock: true,
+    stock: 50,
     discount: 25,
   },
   {
@@ -349,6 +372,7 @@ export const products: Product[] = [
     badge: "GPS Premium",
     description: "Advanced multisport GPS watch with health monitoring.",
     inStock: true,
+    stock: 50,
     discount: 12,
   },
 
@@ -365,6 +389,7 @@ export const products: Product[] = [
     badge: "#1 Bestseller",
     description: "Transform your life with the power of small habits.",
     inStock: true,
+    stock: 50,
     discount: 37,
   },
   {
@@ -379,6 +404,7 @@ export const products: Product[] = [
     badge: "Must Read",
     description: "Timeless lessons on wealth, greed, and happiness.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
   {
@@ -393,6 +419,7 @@ export const products: Product[] = [
     badge: "Bestseller",
     description: "The best Kindle for reading with warm light.",
     inStock: true,
+    stock: 50,
     discount: 18,
   },
 
@@ -409,6 +436,7 @@ export const products: Product[] = [
     badge: "Collector's Item",
     description: "1:8 scale Ferrari Daytona SP3 with authentic details.",
     inStock: true,
+    stock: 50,
     discount: 17,
   },
   {
@@ -423,6 +451,7 @@ export const products: Product[] = [
     badge: "Hot",
     description: "Next-gen gaming console with ultra-fast SSD.",
     inStock: true,
+    stock: 50,
     discount: 9,
   },
   {
@@ -436,6 +465,7 @@ export const products: Product[] = [
     reviews: 5432,
     description: "Handheld gaming with vibrant OLED display.",
     inStock: true,
+    stock: 50,
     discount: 12,
   },
 
@@ -452,6 +482,7 @@ export const products: Product[] = [
     badge: "Organic",
     description: "Premium single-origin Arabica coffee beans.",
     inStock: true,
+    stock: 50,
     discount: 19,
   },
   {
@@ -466,6 +497,7 @@ export const products: Product[] = [
     badge: "Gourmet",
     description: "Belgian dark chocolate assortment box.",
     inStock: true,
+    stock: 50,
     discount: 20,
   },
   {
@@ -480,6 +512,7 @@ export const products: Product[] = [
     badge: "Premium",
     description: "Authentic New Zealand Manuka honey.",
     inStock: true,
+    stock: 50,
     discount: 19,
   },
   {
@@ -493,6 +526,7 @@ export const products: Product[] = [
     reviews: 4567,
     description: "Cold-pressed Italian extra virgin olive oil.",
     inStock: true,
+    stock: 50,
     discount: 25,
   },
 ];

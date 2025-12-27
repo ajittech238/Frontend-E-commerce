@@ -16,6 +16,8 @@ export interface Product {
   discount?: number;
   images360?: string[];
   stock:number
+  brand?: string;
+  
 }
 
 export interface CartItem extends Product {

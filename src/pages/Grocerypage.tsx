@@ -11,7 +11,7 @@ import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 
 // Import data for the page.
-import { groceryCategories,groceryProducts } from "@/data/Grocery";
+import { groceryCategories, groceryProducts } from "@/data/Grocery";
 import { Product } from "@/types/product";
 
 // Define an interface for the object that will hold products grouped by sub-category.
@@ -77,10 +77,10 @@ export default function Grocerypage() {
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold text-foreground flex items-center gap-3">
                                 <Home className="h-10 w-10 text-green-700" />
-                                Home & Living
+                                Groceries
                             </h1>
                             <p className="text-muted-foreground mt-2 text-lg">
-                                Everything to make your home a better place.
+                                Daily Fresh Produce at Your Doorstep!
                             </p>
                         </div>
                         <Badge className="text-base px-4 py-2 bg-green-600 text-white">
