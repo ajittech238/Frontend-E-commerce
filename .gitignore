@@ -23,9 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+
+
 # Markdown files
-*.md
-!README.md
 
-
-Fashion_COMPONENT_GUIDE.md
+Fashion_Component_guide.md
