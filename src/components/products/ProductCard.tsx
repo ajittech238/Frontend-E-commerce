@@ -52,7 +52,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
     : "";
 
   return (
-    <>
+    
       <div
         className={cn(
           "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300",
@@ -144,10 +144,12 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </div>
         </div>
 
-        <div className="p-4">
-          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-            Artisan Shop
-          </p>
+      {/* Content */}
+      <div className="p-4 space-y-2.5">
+        {/* Shop Name */}
+        <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+          Artisan Shop
+        </p>
 
           <Link to={`/product/${product.id}`} className="block mt-1.5">
             <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
@@ -155,28 +157,23 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             </h3>
           </Link>
 
-          {shortDescription && (
-            <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 mt-0.5">
-              {shortDescription}
-            </p>
-          )}
-
-          <div className="flex items-center gap-1.5 mt-1.5">
-            <div className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={cn(
-                    "h-3 w-3",
-                    i < Math.floor(product.rating)
-                      ? "fill-primary text-primary"
-                      : "text-muted-foreground"
-                  )}
-                />
-              ))}
-            </div>
-            <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
+        {/* Rating */}
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={cn(
+                  "h-3 w-3",
+                  i < Math.floor(product.rating)
+                    ? "fill-primary text-primary"
+                    : "fill-muted text-muted"
+                )}
+              />
+            ))}
           </div>
+          <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
+        </div>
 
           <div className="flex items-baseline gap-2 flex-wrap mt-1.5">
             <span className="text-lg font-bold text-foreground">{formatPrice(product.price)}</span>
@@ -187,18 +184,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-accent font-medium mt-1.5">
-            <Truck className="h-3.5 w-3.5" />
-            <span>FREE delivery</span>
-          </div>
+        {/* Delivery Info */}
+        <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
+          <Truck className="h-3.5 w-3.5" />
+          <span>FREE delivery</span>
         </div>
       </div>
-      {!isMobile && isDetailModalOpen && <ProductModal 
-        product={product}
-        isOpen={isDetailModalOpen}
-        onOpenChange={setIsDetailModalOpen}
-      />}
-    </>
+    </div>
   );
 };
 

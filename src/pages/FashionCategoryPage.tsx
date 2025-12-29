@@ -166,7 +166,7 @@ const FashionCategoryPage = () => {
             onClick={() => addToCart(product)}
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
-            Add to Cart
+            Add to Cart nandani
           </Button>
         </div>
       </div>

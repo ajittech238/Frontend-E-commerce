@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { beautyProducts } from "@/data/beauty";
+import { beautyProducts } from "@/data/Jewellery";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
@@ -17,7 +17,7 @@ interface GroupedProducts {
   [key: string]: typeof beautyProducts;
 }
 
-const BeautyPage = () => {
+const JewelleryPage = () => {
   const [priceRange, setPriceRange] = useState(3000);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
     null
@@ -572,4 +572,4 @@ const BeautyPage = () => {
   );
 };
 
-export default BeautyPage;
+export default JewelleryPage;
