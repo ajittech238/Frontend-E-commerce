@@ -89,6 +89,7 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import SportsPage from "./pages/SportsPage";
+import SBIPayment from "./pages/payment/SBIPayment";
 
 
 const queryClient = new QueryClient();
@@ -131,6 +132,7 @@ const App = () => (
                 <Route path="/payment-success" element={<PaymentSuccess />} />
                 <Route path="/payment-failed" element={<PaymentFailed />} />
                 <Route path="/payment-history" element={<PaymentHistory />} />
+                <Route path="/payment" element={<SBIPayment/>}/>
 
               {/* Dashboard Routes */}
               <Route path="/dashboard" element={<DashboardLayout />}>
