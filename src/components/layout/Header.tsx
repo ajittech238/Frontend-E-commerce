@@ -433,6 +433,32 @@ const Header = () => {
               </Link>
             </li>
 
+            {/* Jewellery */}
+            <li>
+              <Link
+                to="/jewellery"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>📿</span>
+                Jewellery
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
+            {/* Perfumes */}
+            <li>
+              <Link
+                to="/perfumes"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                {/* <span></span> */}
+                Perfumes
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
+
+
             {/* {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
