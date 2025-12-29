@@ -13,49 +13,49 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const questions = [
-  { 
-    id: "Q001", 
-    product: "Wireless Headphones", 
-    user: "Rahul Kumar", 
-    avatar: "", 
-    question: "What is the battery life?", 
-    answers: 3, 
-    helpful: 45, 
-    date: "2024-01-25", 
-    status: "answered" 
+  {
+    id: "Q001",
+    product: "Wireless Headphones",
+    user: "Rahul Kumar",
+    avatar: "",
+    question: "What is the battery life?",
+    answers: 3,
+    helpful: 45,
+    date: "2024-01-25",
+    status: "answered"
   },
-  { 
-    id: "Q002", 
-    product: "Smart Watch", 
-    user: "Priya Singh", 
-    avatar: "", 
-    question: "Is it water resistant?", 
-    answers: 2, 
-    helpful: 32, 
-    date: "2024-01-24", 
-    status: "answered" 
+  {
+    id: "Q002",
+    product: "Smart Watch",
+    user: "Priya Singh",
+    avatar: "",
+    question: "Is it water resistant?",
+    answers: 2,
+    helpful: 32,
+    date: "2024-01-24",
+    status: "answered"
   },
-  { 
-    id: "Q003", 
-    product: "Phone Case", 
-    user: "Amit Patel", 
-    avatar: "", 
-    question: "What colors are available?", 
-    answers: 0, 
-    helpful: 0, 
-    date: "2024-01-23", 
-    status: "unanswered" 
+  {
+    id: "Q003",
+    product: "Phone Case",
+    user: "Amit Patel",
+    avatar: "",
+    question: "What colors are available?",
+    answers: 0,
+    helpful: 0,
+    date: "2024-01-23",
+    status: "unanswered"
   },
-  { 
-    id: "Q004", 
-    product: "USB Cable", 
-    user: "Neha Verma", 
-    avatar: "", 
-    question: "Compatible with iPhone?", 
-    answers: 1, 
-    helpful: 18, 
-    date: "2024-01-22", 
-    status: "answered" 
+  {
+    id: "Q004",
+    product: "USB Cable",
+    user: "Neha Verma",
+    avatar: "",
+    question: "Compatible with iPhone?",
+    answers: 1,
+    helpful: 18,
+    date: "2024-01-22",
+    status: "answered"
   },
 ];
 
@@ -63,7 +63,7 @@ export default function QA() {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const filteredQuestions = questions.filter(q => 
+  const filteredQuestions = questions.filter(q =>
     q.question.toLowerCase().includes(search.toLowerCase()) ||
     q.product.toLowerCase().includes(search.toLowerCase())
   );
@@ -91,7 +91,7 @@ export default function QA() {
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
                   <p className="text-2xl font-bold text-foreground mt-2">{stat.value}</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
                   <stat.icon className="w-6 h-6 text-primary" />
                 </div>
               </div>
@@ -104,8 +104,8 @@ export default function QA() {
       <div className="flex gap-2">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search questions..." 
+          <Input
+            placeholder="Search questions..."
             className="pl-9"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -126,12 +126,12 @@ export default function QA() {
           </CardHeader>
           <CardContent className="space-y-4">
             {filteredQuestions.map((question) => (
-              <div 
-                key={question.id} 
+              <div
+                key={question.id}
                 onClick={() => setSelectedId(question.id)}
                 className={`p-4 rounded-lg border transition-all cursor-pointer ${
-                  selectedId === question.id 
-                    ? "border-primary bg-primary/5" 
+                  selectedId === question.id
+                    ? "border-primary bg-pink-gradient/5"
                     : "border-border hover:border-primary/50"
                 }`}
               >
@@ -139,7 +139,7 @@ export default function QA() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <Avatar className="w-8 h-8">
-                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                        <AvatarFallback className="bg-pink-gradient/10 text-primary text-xs font-bold">
                           {question.user.split(" ").map(n => n[0]).join("")}
                         </AvatarFallback>
                       </Avatar>

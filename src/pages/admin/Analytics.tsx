@@ -296,7 +296,7 @@ export default function Analytics() {
               {topProducts.map((product, index) => (
                 <div key={product.id} className="flex items-center justify-between p-3 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors">
                   <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-semibold text-primary">
+                    <span className="w-8 h-8 rounded-full bg-pink-gradient/20 flex items-center justify-center text-sm font-semibold text-primary">
                       #{index + 1}
                     </span>
                     <div>
@@ -352,7 +352,7 @@ export default function Analytics() {
               const percentage = (item.value / conversionData[0].value) * 100;
               const prevPercentage = index > 0 ? (conversionData[index - 1].value / conversionData[0].value) * 100 : 100;
               const drop = prevPercentage - percentage;
-              
+
               return (
                 <div key={item.stage} className="space-y-2">
                   <div className="flex items-center justify-between">

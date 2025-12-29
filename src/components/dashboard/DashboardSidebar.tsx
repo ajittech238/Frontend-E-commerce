@@ -139,7 +139,7 @@ export function DashboardSidebar() {
                             className={cn(
                               "flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm",
                               isActive
-                                ? "bg-primary text-primary-foreground shadow-sm"
+                                ? "bg-pink-gradient text-primary-foreground shadow-sm"
                                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
                             )}
                           >

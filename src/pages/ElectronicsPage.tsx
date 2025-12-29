@@ -1,15 +1,17 @@
 import { useState, useRef } from "react";
-import { Heart, ShoppingCart, Filter, Eye, X, Truck, Shield, RotateCcw, Star, ChevronRight, ChevronLeft, Smartphone, Laptop, Tv, Headphones, Watch, Zap, Package, Check, Tablet, Camera, Speaker, Monitor, Cpu } from "lucide-react";
+import { Heart, ShoppingCart, Filter, Eye, X, Truck, Shield, RotateCcw, Star, Smartphone, Laptop, Headphones, Watch, Zap, Package, Check, Tablet, Camera, Speaker, Monitor, Maximize2, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { electronicsProducts } from "@/data/electronics";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const ElectronicsPage = () => {
+  const navigate = useNavigate();
   const [priceRange, setPriceRange] = useState([10000, 500000]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -17,7 +19,6 @@ const ElectronicsPage = () => {
   const [sortBy, setSortBy] = useState("popularity");
   const [quickViewProduct, setQuickViewProduct] = useState<typeof electronicsProducts[0] | null>(null);
   const [isFilterMobileOpen, setIsFilterMobileOpen] = useState(false);
-  const categoryScrollRef = useRef<HTMLDivElement>(null);
   const productsSectionRef = useRef<HTMLDivElement>(null);
 
   const { addToCart } = useCart();
@@ -39,7 +40,7 @@ const ElectronicsPage = () => {
     { id: "monitors", name: "Monitors", icon: Monitor },
   ];
 
-  const brands = Array.from(new Set(electronicsProducts.map((p) => p.brand))).filter(Boolean);
+  const brands = Array.from(new Set(electronicsProducts.map((p) => p.brand))).filter(Boolean) as string[];
 
   const filteredProducts = electronicsProducts.filter((p) => {
     const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
@@ -70,14 +71,120 @@ const ElectronicsPage = () => {
     }).format(price);
   };
 
-  const scroll = (ref: React.RefObject<HTMLDivElement>, direction: "left" | "right") => {
-    if (ref.current) {
-      const scrollAmount = 400;
-      ref.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+  const renderProductCard = (product: typeof electronicsProducts[0]) => {
+    const inWishlist = isInWishlist(product.id);
+
+    return (
+      <div
+        key={product.id}
+        className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full relative cursor-pointer"
+        onClick={() => navigate(`/product/${product.id}`)}
+      >
+        <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-950">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500"
+          />
+
+          {/* Action Buttons Stack */}
+          <div className="absolute top-3 right-3 flex flex-col gap-2 translate-x-12 group-hover:translate-x-0 transition-transform duration-300 z-30">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md dark:bg-slate-900/90"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleWishlist(product);
+              }}
+            >
+              <Heart
+                className={cn(
+                  "h-4 w-4 transition-colors",
+                  inWishlist ? "fill-pink-600 text-pink-600" : "text-muted-foreground"
+                )}
+              />
+            </Button>
+            
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md dark:bg-slate-900/90"
+              onClick={(e) => {
+                e.stopPropagation();
+                setQuickViewProduct(product);
+              }}
+            >
+              <Maximize2 className="h-4 w-4 text-muted-foreground" />
+            </Button>
+          </div>
+
+          {product.discount && (
+            <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
+              -{product.discount}%
+            </div>
+          )}
+
+          {product.badge && (
+            <div className="absolute bottom-3 left-3 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
+              {product.badge}
+            </div>
+          )}
+
+          {/* Hover Add to Cart Button on Image */}
+          <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-40">
+            <Button
+              className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs h-10 shadow-xl shadow-pink-900/20 rounded-xl backdrop-blur-sm border-none"
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(product);
+              }}
+              disabled={!product.inStock}
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              {product.inStock ? "Add to Cart" : "Out of Stock"}
+            </Button>
+          </div>
+        </div>
+
+        <div className="p-4 flex flex-col flex-grow space-y-2 relative">
+          <div className="flex flex-col">
+            <span className="text-[10px] text-purple-600 dark:text-purple-400 font-bold uppercase tracking-wider">{product.brand}</span>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-purple-600 transition-colors">
+              {product.name}
+            </h3>
+          </div>
+
+          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
+            {product.description}
+          </p>
+
+          <div className="flex items-center gap-2">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={10}
+                  className={cn(
+                    i < Math.floor(product.rating) ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700"
+                  )}
+                />
+              ))}
+            </div>
+            <span className="text-[10px] text-slate-400 font-medium">({product.reviews})</span>
+          </div>
+
+          <div className="flex items-baseline gap-2 pt-1 mt-auto">
+            <span className="text-base font-black text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
+            {product.originalPrice && (
+              <span className="text-xs text-slate-400 line-through decoration-red-500/50">
+                {formatPrice(product.originalPrice)}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -87,7 +194,6 @@ const ElectronicsPage = () => {
       {/* Hero Section */}
       <div className="relative w-full overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-indigo-600/10 to-blue-600/10 dark:from-purple-600/20 dark:via-indigo-600/20 dark:to-blue-600/20 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.1),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.15),transparent_50%)]" />
         
         <div className="relative mx-auto px-4 py-16 md:py-24 text-center z-10">
           <div className="inline-block mb-6">
@@ -105,13 +211,13 @@ const ElectronicsPage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
+            <button
               onClick={scrollToProducts}
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple-500/25"
             >
               Shop Now
             </button>
-            <button 
+            <button
               onClick={() => {
                 setSortBy("newest");
                 scrollToProducts();
@@ -122,247 +228,302 @@ const ElectronicsPage = () => {
             </button>
           </div>
         </div>
-
-        {/* Floating Icons Animation */}
-        <div className="relative h-32 md:h-40 flex items-center justify-center gap-12 mt-8 mb-8">
-          {[Smartphone, Laptop, Headphones].map((Icon, idx) => (
-            <div
-              key={idx}
-              className="text-purple-500/30 dark:text-purple-400/40 hover:text-purple-500/60 dark:hover:text-purple-400/80 transition-all duration-300"
-              style={{
-                animation: `float ${3 + idx * 0.5}s ease-in-out infinite`,
-              }}
-            >
-              <Icon size={40} />
-            </div>
-          ))}
-        </div>
-
-        <style>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-          }
-        `}</style>
       </div>
 
-      {/* Category Navigation */}
-      <div className="sticky top-20 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-purple-500/20 py-4">
-        <div className="mx-auto px-4 text-center">
-          <p className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">
-            Expertly Curated Tech Selection
-          </p>
-        </div>
-      </div>
-
-      <div ref={productsSectionRef} className="flex min-h-screen">
-        {/* Desktop Filter Panel */}
-        <div className="hidden lg:flex w-80 flex-col bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border-r border-slate-200 dark:border-purple-500/20 p-6 gap-8 overflow-y-auto sticky top-32 h-[calc(100vh-8rem)] custom-scrollbar">
-          <div>
-            <h3 className="text-slate-900 dark:text-white font-bold text-xl mb-6 flex items-center gap-2">
-              <Filter size={22} className="text-purple-600 dark:text-purple-400" />
-              Explore Gear
-            </h3>
-          </div>
-
-          {/* Categories / Subcategories */}
-          <div>
-            <label className="text-slate-900 dark:text-white font-bold text-sm mb-4 block uppercase tracking-wider">Categories</label>
-            <div className="space-y-1">
-              {categories.map((cat) => {
-                const Icon = cat.icon;
-                const isSelected = selectedCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(isSelected ? null : cat.id)}
-                    className={cn(
-                      "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300",
-                      isSelected
-                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30"
-                        : "text-slate-600 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-purple-600 dark:hover:text-purple-400"
-                    )}
-                  >
-                    <Icon size={18} className={cn(isSelected ? "text-white" : "text-slate-400")} />
-                    {cat.name}
-                    {isSelected && <div className="ml-auto w-2 h-2 rounded-full bg-white shadow-sm" />}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Price Range */}
-          <div>
-            <label className="text-slate-900 dark:text-white font-bold text-sm mb-4 block uppercase tracking-wider">Price Range</label>
-            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 space-y-4 border border-slate-100 dark:border-slate-800">
-              <div className="flex justify-between items-center text-purple-600 dark:text-purple-400 font-bold text-lg">
-                <span>₹{(priceRange[0] / 1000).toFixed(0)}k</span>
-                <span>₹{(priceRange[1] / 1000).toFixed(0)}k</span>
+      <div ref={productsSectionRef} className="container py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filters Sidebar */}
+          <div className="hidden lg:block w-72 shrink-0">
+            <div className="sticky top-24 space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                  <Filter className="h-5 w-5 text-purple-600" />
+                  Explore Gear
+                </h3>
               </div>
-              <input
-                type="range"
-                min="10000"
-                max="500000"
-                step="10000"
-                value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-600"
-              />
-              <div className="text-xs text-slate-500 dark:text-slate-400 text-center italic">
-                Showing gear up to {formatPrice(priceRange[1])}
-              </div>
-            </div>
-          </div>
 
-          {/* Brands */}
-          <div>
-            <label className="text-slate-900 dark:text-white font-bold text-sm mb-4 block uppercase tracking-wider">Top Brands</label>
-            <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-2">
-              {brands.map((brand) => (
-                <button
-                  key={brand}
-                  onClick={() =>
-                    setSelectedBrands(
-                      selectedBrands.includes(brand)
-                        ? selectedBrands.filter((b) => b !== brand)
-                        : [...selectedBrands, brand]
-                    )
-                  }
-                  className={cn(
-                    "w-full text-left px-3 py-2 rounded-xl text-sm transition-all flex items-center justify-between group",
-                    selectedBrands.includes(brand)
-                      ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-800"
-                      : "text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-slate-800/50"
-                  )}
-                >
-                  <span>{brand}</span>
-                  <div className={cn(
-                    "w-5 h-5 rounded-md border flex items-center justify-center transition-all",
-                    selectedBrands.includes(brand) ? "bg-purple-600 border-purple-600" : "border-slate-300 dark:border-slate-700 group-hover:border-purple-400"
-                  )}>
-                    {selectedBrands.includes(brand) && <Check size={12} className="text-white" />}
+              {/* Categories */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Categories</label>
+                <div className="space-y-1">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(selectedCategory === cat.id ? null : cat.id)}
+                      className={cn(
+                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all",
+                        selectedCategory === cat.id
+                          ? "bg-purple-600 text-white font-bold shadow-lg shadow-purple-500/20"
+                          : "text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                      )}
+                    >
+                      <cat.icon size={18} />
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Price Range */}
+              <div className="space-y-4">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Price Range</label>
+                <div className="space-y-4">
+                  <input
+                    type="range"
+                    min="10000"
+                    max="500000"
+                    step="10000"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                    className="w-full accent-purple-600"
+                  />
+                  <div className="flex justify-between items-center text-sm font-bold">
+                    <span className="text-slate-400">Up to</span>
+                    <span className="text-purple-600 dark:text-purple-400">{formatPrice(priceRange[1])}</span>
                   </div>
-                </button>
-              ))}
-            </div>
-          </div>
+                </div>
+              </div>
 
-          {/* Rating Filter */}
-          <div>
-            <label className="text-slate-700 dark:text-gray-300 font-semibold text-sm mb-3 block">Min Rating</label>
-            <div className="space-y-2">
-              {[0, 3, 4, 4.5].map((rating) => (
-                <button
-                  key={rating}
-                  onClick={() => setMinRating(rating)}
-                  className={cn(
-                    "w-full text-left px-3 py-2 rounded-lg text-sm transition-all flex items-center gap-2",
-                    minRating === rating
-                      ? "bg-purple-100 dark:bg-purple-600/30 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-500"
-                      : "bg-slate-100 dark:bg-slate-700/30 text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-700/50"
-                  )}
-                >
-                  {rating === 0 ? "All Products" : (
-                    <div className="flex items-center gap-1">
-                      {rating} <Star size={12} className="fill-amber-400 text-amber-400" /> & Above
-                    </div>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Reset Button */}
-          <button
-            onClick={() => {
-              setPriceRange([10000, 500000]);
-              setSelectedBrands([]);
-              setMinRating(0);
-              setSelectedCategory(null);
-            }}
-            className="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white py-3 rounded-lg font-bold transition-all border border-slate-200 dark:border-slate-700"
-          >
-            Reset Filters
-          </button>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 bg-transparent p-4 md:p-8">
-          {/* Sort & View Options */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
-            <div>
-              <p className="text-slate-600 dark:text-gray-300 font-semibold">
-                Showing <span className="text-purple-600 dark:text-purple-400">{sortedProducts.length}</span> products
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white dark:bg-slate-700/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-600 rounded-lg px-4 py-2 font-semibold focus:outline-none focus:border-purple-500 cursor-pointer"
-              >
-                <option value="popularity">Sort by: Popularity</option>
-                <option value="newest">Sort by: Newest</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </select>
+              {/* Brands */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Top Brands</label>
+                <div className="flex flex-wrap gap-2">
+                  {brands.map((brand) => (
+                    <button
+                      key={brand}
+                      onClick={() =>
+                        setSelectedBrands(
+                          selectedBrands.includes(brand)
+                            ? selectedBrands.filter((b) => b !== brand)
+                            : [...selectedBrands, brand]
+                        )
+                      }
+                      className={cn(
+                        "px-3 py-1.5 rounded-lg text-xs font-bold border transition-all",
+                        selectedBrands.includes(brand)
+                          ? "bg-purple-600 text-white border-purple-600"
+                          : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-gray-400 hover:border-purple-400"
+                      )}
+                    >
+                      {brand}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <button
-                onClick={() => setIsFilterMobileOpen(true)}
-                className="lg:hidden flex-1 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2"
+                onClick={() => {
+                  setPriceRange([10000, 500000]);
+                  setSelectedBrands([]);
+                  setMinRating(0);
+                  setSelectedCategory(null);
+                }}
+                className="w-full text-xs font-bold text-slate-400 hover:text-purple-600 transition-colors pt-4 border-t border-slate-100 dark:border-slate-800"
               >
-                <Filter size={18} />
-                Filters
+                Reset All Filters
               </button>
             </div>
           </div>
 
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
-            {sortedProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                inWishlist={isInWishlist(product.id)}
-                onWishlist={() => toggleWishlist(product)}
-                onQuickView={() => setQuickViewProduct(product)}
-                onAddCart={() => addToCart(product)}
-                formatPrice={formatPrice}
-              />
-            ))}
-          </div>
+          {/* Main Content */}
+          <div className="flex-1">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                Discover <span className="text-purple-600">Electronics</span> ({sortedProducts.length})
+              </h2>
 
-          {sortedProducts.length === 0 && (
-            <div className="text-center py-24 bg-white/50 dark:bg-slate-900/50 rounded-3xl border border-slate-200 dark:border-slate-800">
-              <Package size={64} className="mx-auto text-slate-300 dark:text-slate-700 mb-4" />
-              <p className="text-2xl font-bold text-slate-900 dark:text-white mb-2">No products found</p>
-              <p className="text-slate-500 dark:text-slate-400">Try adjusting your filters or category</p>
+              <div className="flex items-center gap-3">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-purple-600/20"
+                >
+                  <option value="popularity">Popularity</option>
+                  <option value="newest">Newest First</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                </select>
+
+                <button
+                  onClick={() => setIsFilterMobileOpen(true)}
+                  className="lg:hidden p-2 bg-purple-600 text-white rounded-xl"
+                >
+                  <Filter size={20} />
+                </button>
+              </div>
             </div>
-          )}
+
+            {sortedProducts.length === 0 ? (
+              <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+                <Package size={64} className="mx-auto text-slate-200 dark:text-slate-700 mb-4" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">No gear found</h3>
+                <p className="text-slate-500 dark:text-slate-400 mt-2">Try adjusting your filters to find what you're looking for.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {sortedProducts.map((product) => renderProductCard(product))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Mobile Filter Drawer */}
+      {/* Benefits Section */}
+      <div className="bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800 py-16 mt-12">
+        <div className="container">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: Truck, title: "Free Shipping", desc: "On orders above ₹999", color: "text-purple-600" },
+              { icon: Shield, title: "Secure Payment", desc: "100% secure transactions", color: "text-blue-600" },
+              { icon: RotateCcw, title: "Easy Returns", desc: "30-day return policy", color: "text-pink-600" },
+              { icon: Zap, title: "Fast Delivery", desc: "24-48 hours delivery", color: "text-amber-600" },
+            ].map((benefit, idx) => (
+              <div key={idx} className="flex flex-col items-center text-center p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:scale-105 transition-transform">
+                <div className="h-14 w-14 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm mb-4">
+                  <benefit.icon className={cn("h-7 w-7", benefit.color)} />
+                </div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-2">{benefit.title}</h4>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{benefit.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-in zoom-in-95 duration-300">
+            <button
+              onClick={() => setQuickViewProduct(null)}
+              className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition-colors z-10"
+            >
+              <X size={20} />
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+              <div className="bg-slate-50 dark:bg-slate-950 p-8 md:p-12 flex items-center justify-center relative group">
+                <img
+                  src={quickViewProduct.image}
+                  alt={quickViewProduct.name}
+                  className="w-full h-auto object-contain max-h-[400px] drop-shadow-2xl group-hover:scale-105 transition-transform duration-700"
+                />
+                {quickViewProduct.discount && (
+                  <div className="absolute top-8 left-8 bg-red-600 text-white font-black px-4 py-2 rounded-2xl shadow-xl -rotate-12 animate-pulse">
+                    SAVE {quickViewProduct.discount}%
+                  </div>
+                )}
+              </div>
+
+              <div className="p-8 md:p-12 space-y-8 flex flex-col justify-center">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline" className="text-purple-600 border-purple-600/20 bg-purple-600/5 px-3 py-1 text-xs font-bold uppercase tracking-widest">
+                      {quickViewProduct.brand}
+                    </Badge>
+                    <div className="flex items-center gap-1 text-green-600 bg-green-50 dark:bg-green-950/30 px-3 py-1 rounded-full text-xs font-bold">
+                      <CheckCircle2 size={14} />
+                      {quickViewProduct.inStock ? "In Stock" : "Limited Stock"}
+                    </div>
+                  </div>
+                  
+                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight">
+                    {quickViewProduct.name}
+                  </h2>
+                  
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={18} className={cn(i < Math.floor(quickViewProduct.rating) ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700")} />
+                      ))}
+                      <span className="ml-2 text-sm font-bold text-slate-900 dark:text-white">{quickViewProduct.rating}</span>
+                    </div>
+                    <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800" />
+                    <span className="text-sm text-slate-500 font-medium">{quickViewProduct.reviews} Reviews</span>
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-4">
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">
+                      {formatPrice(quickViewProduct.price)}
+                    </span>
+                    {quickViewProduct.originalPrice && (
+                      <span className="text-xl text-slate-400 line-through decoration-red-500/40">
+                        {formatPrice(quickViewProduct.originalPrice)}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                    {quickViewProduct.description}. High-performance device with cutting-edge technology from {quickViewProduct.brand}.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div className="h-10 w-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
+                      <Truck className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold">Express Delivery</p>
+                      <p className="text-[10px] text-slate-500">Ships in 24h</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div className="h-10 w-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+                      <Shield className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold">Warranty</p>
+                      <p className="text-[10px] text-slate-500">1 Year Brand</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 pt-2">
+                  <Button
+                    className="flex-1 h-14 bg-pink-600 hover:bg-pink-700 text-white font-black text-lg rounded-2xl shadow-lg shadow-pink-600/20 hover:scale-[1.02] transition-transform border-none"
+                    onClick={() => {
+                      addToCart(quickViewProduct);
+                      setQuickViewProduct(null);
+                    }}
+                  >
+                    <ShoppingCart className="h-5 w-5 mr-3" />
+                    ADD TO CART
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-14 w-14 rounded-2xl border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
+                    onClick={() => toggleWishlist(quickViewProduct)}
+                  >
+                    <Heart className={cn("h-6 w-6", isInWishlist(quickViewProduct.id) && "fill-pink-600 text-pink-600")} />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Filter Overlay */}
       {isFilterMobileOpen && (
-        <div className="fixed inset-0 z-[100] lg:hidden">
+        <div className="fixed inset-0 z-[110] lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsFilterMobileOpen(false)} />
           <div className="absolute right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white dark:bg-slate-900 p-6 shadow-2xl overflow-y-auto animate-in slide-in-from-right duration-300">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold flex items-center gap-2">
                 <Filter size={20} className="text-purple-600" />
                 Filters
               </h2>
-              <button onClick={() => setIsFilterMobileOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-                <X size={24} className="text-slate-500" />
+              <button onClick={() => setIsFilterMobileOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                <X size={24} />
               </button>
             </div>
 
             <div className="space-y-8">
               {/* Categories */}
               <div>
-                <label className="text-slate-900 dark:text-white font-bold mb-4 block uppercase tracking-wider text-xs">Category</label>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-4">Categories</label>
                 <div className="grid grid-cols-2 gap-2">
                   {categories.map((cat) => (
                     <button
@@ -371,8 +532,8 @@ const ElectronicsPage = () => {
                       className={cn(
                         "flex items-center gap-2 px-3 py-3 rounded-xl text-xs font-bold transition-all border",
                         selectedCategory === cat.id
-                          ? "bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-500/30"
-                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-slate-700"
+                          ? "bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-500/20"
+                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 border-transparent"
                       )}
                     >
                       <cat.icon size={14} />
@@ -384,11 +545,9 @@ const ElectronicsPage = () => {
 
               {/* Price Range */}
               <div>
-                <label className="text-slate-900 dark:text-white font-bold mb-4 block uppercase tracking-wider text-xs">Price Range</label>
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-4">
-                  <div className="text-purple-600 font-bold text-xl">
-                    ₹{(priceRange[0] / 100000).toFixed(1)}L - ₹{(priceRange[1] / 100000).toFixed(1)}L
-                  </div>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-4">Price Range</label>
+                <div className="space-y-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                  <div className="text-purple-600 font-bold text-lg">Up to {formatPrice(priceRange[1])}</div>
                   <input
                     type="range"
                     min="10000"
@@ -401,59 +560,10 @@ const ElectronicsPage = () => {
                 </div>
               </div>
 
-              {/* Brands */}
-              <div>
-                <label className="text-slate-900 dark:text-white font-bold mb-4 block">Brands</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {brands.map((brand) => (
-                    <button
-                      key={brand}
-                      onClick={() =>
-                        setSelectedBrands(
-                          selectedBrands.includes(brand)
-                            ? selectedBrands.filter((b) => b !== brand)
-                            : [...selectedBrands, brand]
-                        )
-                      }
-                      className={cn(
-                        "text-left px-3 py-2 rounded-lg text-xs transition-all border",
-                        selectedBrands.includes(brand)
-                          ? "bg-purple-600 text-white border-purple-600"
-                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-slate-700"
-                      )}
-                    >
-                      {brand}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Rating */}
-              <div>
-                <label className="text-slate-900 dark:text-white font-bold mb-4 block">Min Rating</label>
-                <div className="space-y-2">
-                  {[0, 3, 4, 4.5].map((rating) => (
-                    <button
-                      key={rating}
-                      onClick={() => setMinRating(rating)}
-                      className={cn(
-                        "w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center justify-between border",
-                        minRating === rating
-                          ? "bg-purple-600 text-white border-purple-600"
-                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-slate-700"
-                      )}
-                    >
-                      <span>{rating === 0 ? "All Products" : `${rating}★ & Above`}</span>
-                      {minRating === rating && <Check size={16} />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-6 space-y-3">
+              <div className="pt-8 border-t border-slate-100 dark:border-slate-800">
                 <button
                   onClick={() => setIsFilterMobileOpen(false)}
-                  className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-4 rounded-xl font-bold"
+                  className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-4 rounded-xl font-bold shadow-lg"
                 >
                   Apply Filters
                 </button>
@@ -461,10 +571,9 @@ const ElectronicsPage = () => {
                   onClick={() => {
                     setPriceRange([10000, 500000]);
                     setSelectedBrands([]);
-                    setMinRating(0);
                     setSelectedCategory(null);
                   }}
-                  className="w-full text-slate-500 font-bold py-2"
+                  className="w-full py-3 text-slate-400 text-sm font-bold mt-2"
                 >
                   Reset All
                 </button>
@@ -474,335 +583,7 @@ const ElectronicsPage = () => {
         </div>
       )}
 
-      {/* Trust Section */}
-      <div className="bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-purple-500/20 py-16 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          {[
-            { icon: Check, title: "Original Products", desc: "100% authentic gadgets" },
-            { icon: Zap, title: "Fast Delivery", desc: "Express 24h shipping" },
-            { icon: RotateCcw, title: "Easy Returns", desc: "30-day money back" },
-            { icon: Shield, title: "Secure Payment", desc: "Encrypted transactions" },
-          ].map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <div key={idx} className="flex flex-col items-center text-center group">
-                <div className="bg-purple-100 dark:bg-purple-900/20 w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transform transition-transform group-hover:rotate-12 group-hover:scale-110">
-                  <Icon size={36} className="text-purple-600 dark:text-purple-400" />
-                </div>
-                <h3 className="text-slate-900 dark:text-white font-bold text-xl mb-2">{item.title}</h3>
-                <p className="text-slate-500 dark:text-gray-400">{item.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Quick View Modal */}
-      {quickViewProduct && (
-        <QuickViewModal
-          product={quickViewProduct}
-          onClose={() => setQuickViewProduct(null)}
-          inWishlist={isInWishlist(quickViewProduct.id)}
-          onWishlist={() => toggleWishlist(quickViewProduct)}
-          onAddCart={() => addToCart(quickViewProduct)}
-          formatPrice={formatPrice}
-        />
-      )}
-
       <Footer />
-    </div>
-  );
-};
-
-interface ProductCardProps {
-  product: typeof electronicsProducts[0];
-  inWishlist: boolean;
-  onWishlist: () => void;
-  onQuickView: () => void;
-  onAddCart: () => void;
-  formatPrice: (price: number) => string;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  inWishlist,
-  onWishlist,
-  onQuickView,
-  onAddCart,
-  formatPrice,
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative h-full"
-    >
-      {/* Product Card */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 hover:border-purple-400/50 flex flex-col h-full"
-        style={{
-          transform: isHovered ? "translateY(-8px)" : "translateY(0)",
-        }}
-      >
-        {/* Image Container */}
-        <div className="relative aspect-[16/10] overflow-hidden bg-slate-50 dark:bg-slate-950">
-          <Link to={`/product/${product.id}`} className="block w-full h-full">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-contain p-3 transition-transform duration-700 group-hover:scale-110"
-            />
-          </Link>
-
-          {/* Overlay Actions */}
-          <div className={cn(
-            "absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-all duration-300 flex items-center justify-center gap-3",
-            isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}>
-            <button
-              onClick={onQuickView}
-              className="bg-white text-slate-900 p-3 rounded-full hover:bg-purple-600 hover:text-white transition-all transform hover:scale-110"
-              title="Quick View"
-            >
-              <Eye size={20} />
-            </button>
-            <button
-              onClick={onWishlist}
-              className="bg-white text-slate-900 p-3 rounded-full hover:bg-purple-600 hover:text-white transition-all transform hover:scale-110"
-              title="Add to Wishlist"
-            >
-              <Heart
-                size={20}
-                className={inWishlist ? "fill-red-500 text-red-500" : ""}
-              />
-            </button>
-          </div>
-
-          {/* Badges */}
-          <div className="absolute top-3 left-3 space-y-2 z-10">
-            {product.discount && (
-              <Badge className="bg-red-600 text-white border-none font-bold">
-                -{product.discount}%
-              </Badge>
-            )}
-            {product.badge && (
-              <Badge className="bg-purple-600 text-white border-none font-bold">
-                {product.badge}
-              </Badge>
-            )}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 p-3 flex flex-col gap-1">
-          <div className="flex justify-between items-start gap-2">
-            <div>
-              <p className="text-[9px] text-purple-600 dark:text-purple-400 uppercase font-bold tracking-widest mb-0">{product.brand}</p>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 transition-colors group-hover:text-purple-600 dark:group-hover:text-purple-400">
-                {product.name}
-              </h3>
-              {product.description && (
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0 leading-relaxed">
-                  {product.description}
-                </p>
-              )}
-            </div>
-            {product.badge && (
-              <Badge className="bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 border-none text-[8px] px-1.5 py-0 shrink-0">
-                {product.badge}
-              </Badge>
-            )}
-          </div>
-
-          {/* Specs / Details */}
-          <div className="flex flex-wrap gap-1">
-            {product.sizes?.slice(0, 1).map((size, idx) => (
-              <span key={idx} className="text-[8px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1 py-0 rounded font-medium">
-                {size}
-              </span>
-            ))}
-          </div>
-
-          {/* Rating & Price */}
-          <div className="flex items-center justify-between mt-auto pt-1 border-t border-slate-50 dark:border-slate-800/50">
-            <div className="flex items-center gap-1.5">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={8}
-                    className={cn(
-                      i < Math.floor(product.rating)
-                        ? "fill-amber-400 text-amber-400"
-                        : "text-slate-200 dark:text-slate-700"
-                    )}
-                  />
-                ))}
-              </div>
-              <span className="text-[9px] text-slate-400 font-medium">{product.rating}</span>
-            </div>
-            
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-base font-black text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
-              {product.originalPrice && (
-                <span className="text-[9px] text-slate-400 line-through">
-                  {formatPrice(product.originalPrice)}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Animated Add to Cart Button */}
-          <div className={cn(
-            "transition-all duration-300 overflow-hidden",
-            isHovered ? "max-h-10 mt-1 opacity-100" : "max-h-0 opacity-0"
-          )}>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                onAddCart();
-              }}
-              disabled={!product.inStock}
-              className={cn(
-                "w-full h-8 rounded-lg font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-purple-500/40",
-                product.inStock
-                  ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-purple-600 dark:hover:bg-purple-500 hover:text-white"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
-              )}
-            >
-              <ShoppingCart size={14} />
-              {product.inStock ? "Add to Cart" : "Out of Stock"}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-interface QuickViewModalProps {
-  product: typeof electronicsProducts[0];
-  onClose: () => void;
-  inWishlist: boolean;
-  onWishlist: () => void;
-  onAddCart: () => void;
-  formatPrice: (price: number) => string;
-}
-
-const QuickViewModal: React.FC<QuickViewModalProps> = ({
-  product,
-  onClose,
-  inWishlist,
-  onWishlist,
-  onAddCart,
-  formatPrice,
-}) => {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
-      <div
-        className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-gray-400 transition-all z-20"
-        >
-          <X size={20} />
-        </button>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
-          {/* Image */}
-          <div className="flex items-center justify-center bg-slate-50 dark:bg-slate-950 rounded-2xl aspect-square overflow-hidden">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-contain p-8 transform transition-transform duration-500 hover:scale-110"
-            />
-          </div>
-
-          {/* Details */}
-          <div className="space-y-6 flex flex-col justify-center">
-            <div>
-              <p className="text-purple-600 dark:text-purple-400 text-xs uppercase font-bold tracking-widest mb-2">{product.brand}</p>
-              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{product.name}</h1>
-              {product.description && (
-                <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-                  {product.description}
-                </p>
-              )}
-              <div className="flex items-center gap-3">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={16}
-                      className={i < Math.floor(product.rating) ? "fill-amber-400 text-amber-400" : "text-slate-300 dark:text-slate-700"}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-slate-500 dark:text-slate-400">({product.reviews} reviews)</span>
-              </div>
-            </div>
-
-            {/* Price */}
-            <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl">
-              <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
-                {product.originalPrice && (
-                  <span className="text-lg text-slate-500 line-through">{formatPrice(product.originalPrice)}</span>
-                )}
-              </div>
-              {product.originalPrice && (
-                <p className="text-green-600 dark:text-green-400 font-bold mt-2 flex items-center gap-2">
-                  <Badge className="bg-green-100 text-green-700 border-none">Save {Math.round((1 - product.price / product.originalPrice) * 100)}%</Badge>
-                  <span>Off on this item</span>
-                </p>
-              )}
-            </div>
-
-            {/* Benefits */}
-            <div className="grid grid-cols-1 gap-4 py-4 border-y border-slate-100 dark:border-slate-800">
-              {[
-                { icon: Truck, text: "Free express delivery" },
-                { icon: Shield, text: "1 year manufacturer warranty" },
-                { icon: RotateCcw, text: "30-day easy returns policy" },
-              ].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div key={idx} className="flex items-center gap-3 text-slate-600 dark:text-slate-300 text-sm">
-                    <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center">
-                      <Icon size={16} className="text-purple-600 dark:text-purple-400" />
-                    </div>
-                    <span>{item.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Buttons */}
-            <div className="flex gap-4 pt-4">
-              <button
-                onClick={() => {
-                  onAddCart();
-                  onClose();
-                }}
-                disabled={!product.inStock}
-                className="flex-1 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-purple-600 dark:hover:bg-purple-500 hover:text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-xl shadow-slate-900/10 dark:shadow-white/5"
-              >
-                <ShoppingCart size={20} />
-                Add to Cart
-              </button>
-              <button
-                onClick={onWishlist}
-                className="px-6 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white py-4 rounded-xl font-bold transition-all"
-              >
-                <Heart size={20} className={inWishlist ? "fill-red-500 text-red-500" : ""} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
