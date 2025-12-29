@@ -26,7 +26,6 @@ import DashboardSettings from "./pages/dashboard/DashboardSettings";
 import SellerOrders from "./pages/dashboard/SellerOrders";
 import ReferEarn from "./pages/dashboard/ReferEarn";
 import Rewards from "./pages/dashboard/Rewards";
-
 import QA from "./pages/dashboard/QA";
 import Shops from "./pages/dashboard/Shops";
 import Roles from "./pages/dashboard/Roles";
@@ -77,7 +76,6 @@ import ElectronicsPage from "./pages/ElectronicsPage";
 import BeautyPage from "./pages/BeautyPage";
 import GroceryPage from "./pages/Grocerypage";
 import HomeLivingPage from "./pages/Home&livingPage";
-
 import MenTopWear from "./pages/fashion/MenTopWear";
 import MenBottomWear from "./pages/fashion/MenBottomWear";
 import MenFootwear from "./pages/fashion/MenFootwear";
