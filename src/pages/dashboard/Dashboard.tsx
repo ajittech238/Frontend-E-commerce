@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { 
-  TrendingUp, 
-  ShoppingCart, 
-  Users, 
+import {
+  TrendingUp,
+  ShoppingCart,
+  Users,
   DollarSign,
   Package,
   ArrowUpRight,
@@ -113,16 +113,16 @@ export default function Dashboard() {
               <SelectItem value="90d">Last 90 days</SelectItem>
             </SelectContent>
           </Select>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             className="h-9"
             onClick={handleRefresh}
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
-          <Button size="sm" className="h-9 bg-primary">
+          <Button size="sm" className="h-9 bg-pink-gradient">
             <Download className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
@@ -132,7 +132,7 @@ export default function Dashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         {stats.map((stat, index) => (
-          <Card 
+          <Card
             key={stat.title}
             className={`relative overflow-hidden border-0 bg-gradient-to-br ${stat.bgGradient} hover:shadow-lg transition-all duration-300 group cursor-pointer`}
             style={{ animationDelay: `${index * 100}ms` }}
@@ -203,12 +203,12 @@ export default function Dashboard() {
           <CardContent className="p-0">
             <div className="divide-y divide-border/50">
               {recentOrders.map((order) => (
-                <div 
+                <div
                   key={order.id}
                   className="flex items-center justify-between p-3 sm:p-4 hover:bg-accent/30 transition-colors"
                 >
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-pink-gradient/10 flex items-center justify-center flex-shrink-0">
                       <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
                     <div className="min-w-0">

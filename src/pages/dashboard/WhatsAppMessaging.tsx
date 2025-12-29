@@ -83,7 +83,7 @@ export default function WhatsAppMessaging() {
                 onClick={() => setSelectedChat(conv.id)}
                 className={`p-3 cursor-pointer transition-colors border-l-4 ${
                   selectedChat === conv.id
-                    ? "bg-primary/10 border-l-primary"
+                    ? "bg-pink-gradient/10 border-l-primary"
                     : "border-l-transparent hover:bg-accent"
                 }`}
               >

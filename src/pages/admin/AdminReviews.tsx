@@ -59,7 +59,7 @@ export default function AdminReviews() {
       render: (item: any) => (
         <div className="flex items-center gap-2">
           <Avatar className="w-7 h-7">
-            <AvatarFallback className="text-xs bg-primary/10 text-primary">
+            <AvatarFallback className="text-xs bg-pink-gradient/10 text-primary">
               {item.customer.split(" ").map((n: string) => n[0]).join("")}
             </AvatarFallback>
           </Avatar>

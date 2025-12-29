@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { 
-  Search, 
+import {
+  Search,
   Filter,
   Eye,
   MoreHorizontal,
@@ -66,7 +66,7 @@ export default function DashboardOrders() {
 
   const filteredOrders = useMemo(() => {
     return orders.filter(order => {
-      const matchesSearch = 
+      const matchesSearch =
         order.id.toLowerCase().includes(search.toLowerCase()) ||
         order.customerName.toLowerCase().includes(search.toLowerCase()) ||
         order.email.toLowerCase().includes(search.toLowerCase());
@@ -99,9 +99,9 @@ export default function DashboardOrders() {
           <p className="text-sm text-muted-foreground mt-1">Track and manage customer orders</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             className="h-9"
             onClick={handleRefresh}
           >
@@ -124,8 +124,8 @@ export default function DashboardOrders() {
           </CardContent>
         </Card>
         {Object.entries(statusConfig).map(([key, config]) => (
-          <Card 
-            key={key} 
+          <Card
+            key={key}
             className={`border-border/50 cursor-pointer transition-all hover:shadow-md ${status === key ? 'ring-2 ring-primary' : ''}`}
             onClick={() => setStatus(status === key ? "all" : key)}
           >
@@ -292,7 +292,7 @@ export default function DashboardOrders() {
                 <TabsTrigger value="items">Items</TabsTrigger>
                 <TabsTrigger value="timeline">Timeline</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="details" className="space-y-4 mt-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <Card className="border-border/50">
@@ -301,7 +301,7 @@ export default function DashboardOrders() {
                     </CardHeader>
                     <CardContent className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-pink-gradient/10 flex items-center justify-center">
                           <span className="text-primary font-semibold">
                             {selectedOrder.customerName.charAt(0)}
                           </span>
@@ -317,7 +317,7 @@ export default function DashboardOrders() {
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm">Shipping Address</CardTitle>
@@ -384,7 +384,7 @@ export default function DashboardOrders() {
                   ].map((step, index) => (
                     <div key={index} className="flex items-start gap-4">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        step.completed ? 'bg-primary text-primary-foreground' : 'bg-accent text-muted-foreground'
+                        step.completed ? 'bg-pink-gradient text-primary-foreground' : 'bg-accent text-muted-foreground'
                       }`}>
                         {step.completed ? <CheckCircle className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                       </div>

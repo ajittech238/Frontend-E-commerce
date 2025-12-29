@@ -5,6 +5,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-1",
     name: "iPhone 15 Pro Max",
+    brand: "Apple",
     price: 139999,
     originalPrice: 159999,
     image: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bW9iaWxlc3xlbnwwfHwwfHx8MA%3D%3D",
@@ -22,6 +23,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-2",
     name: "Samsung Galaxy S24 Ultra",
+    brand: "Samsung",
     price: 129999,
     originalPrice: 149999,
     image: "https://images.unsplash.com/photo-1706372124814-417e2f0c3fe0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW9iaWxlc3xlbnwwfHwwfHx8MA%3D%3D",
@@ -39,6 +41,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-3",
     name: "Google Pixel 8 Pro",
+    brand: "Google",
     price: 119999,
     originalPrice: 139999,
     image: "https://images.unsplash.com/photo-1591636293132-1761271fcce2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1vYmlsZXN8ZW58MHx8MHx8fDA%3D",
@@ -55,6 +58,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-4",
     name: "OnePlus 12",
+    brand: "OnePlus",
     price: 64999,
     originalPrice: 79999,
     image: "https://images.unsplash.com/photo-1598327106026-d9521da673d1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fG1vYmlsZXN8ZW58MHx8MHx8fDA%3D",
@@ -72,6 +76,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-5",
     name: "Xiaomi 14",
+    brand: "Xiaomi",
     price: 54999,
     originalPrice: 69999,
     image: "https://images.unsplash.com/photo-1674111920345-6491746014e6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fG1vYmlsZXN8ZW58MHx8MHx8fDA%3D",
@@ -88,6 +93,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-6",
     name: "Realme 12 Pro",
+    brand: "Realme",
     price: 39999,
     originalPrice: 49999,
     image: "https://images.unsplash.com/photo-1741061964153-288c00cad0a8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fG1vYmlsZXN8ZW58MHx8MHx8fDA%3D",
@@ -106,6 +112,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-7",
     name: "MacBook Pro 16\" M3 Max",
+    brand: "Apple",
     price: 239999,
     originalPrice: 279999,
     image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500",
@@ -123,6 +130,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-8",
     name: "Dell XPS 15",
+    brand: "Dell",
     price: 179999,
     originalPrice: 219999,
     image: "https://plus.unsplash.com/premium_photo-1711051475117-f3a4d3ff6778?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wfGVufDB8fDB8fHww",
@@ -139,6 +147,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-9",
     name: "ASUS VivoBook 16",
+    brand: "ASUS",
     price: 99999,
     originalPrice: 129999,
     image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500",
@@ -155,6 +164,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-10",
     name: "HP Pavilion 15",
+    brand: "HP",
     price: 69999,
     originalPrice: 89999,
     image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGFwdG9wfGVufDB8fDB8fHww",
@@ -172,6 +182,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-11",
     name: "Lenovo ThinkBook 16",
+    brand: "Lenovo",
     price: 79999,
     originalPrice: 99999,
     image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGFwdG9wfGVufDB8fDB8fHww",
@@ -190,6 +201,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-12",
     name: "iPad Pro 12.9\" M2",
+    brand: "Apple",
     price: 129999,
     originalPrice: 149999,
     image: "https://images.unsplash.com/photo-1648737966636-2fc3a5fffc8a?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8dGFibGV0fGVufDB8fDB8fHwwhttps://images.unsplash.com/photo-1648737966636-2fc3a5fffc8a?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8dGFibGV0fGVufDB8fDB8fHww",
@@ -207,6 +219,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-13",
     name: "Samsung Galaxy Tab S9 Ultra",
+    brand: "Samsung",
     price: 89999,
     originalPrice: 109999,
     image: "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGFibGV0fGVufDB8fDB8fHww",
@@ -223,6 +236,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-14",
     name: "iPad Air",
+    brand: "Apple",
     price: 69999,
     originalPrice: 79999,
     image: "https://images.unsplash.com/photo-1527698266440-12104e498b76?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dGFibGV0fGVufDB8fDB8fHww",
@@ -241,6 +255,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-15",
     name: "Sony WH-1000XM5",
+    brand: "Sony",
     price: 34999,
     originalPrice: 44999,
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
@@ -258,6 +273,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-16",
     name: "Bose QuietComfort Ultra",
+    brand: "Bose",
     price: 39999,
     originalPrice: 49999,
     image: "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=500",
@@ -274,6 +290,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-17",
     name: "Apple AirPods Pro 2",
+    brand: "Apple",
     price: 29999,
     originalPrice: 34999,
     image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500",
@@ -290,6 +307,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-18",
     name: "JBL Tune 770NC",
+    brand: "JBL",
     price: 14999,
     originalPrice: 19999,
     image: "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=500",
@@ -308,6 +326,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-19",
     name: "Apple Watch Ultra 2",
+    brand: "Apple",
     price: 79999,
     originalPrice: 89999,
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
@@ -325,6 +344,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-20",
     name: "Samsung Galaxy Watch 6 Classic",
+    brand: "Samsung",
     price: 34999,
     originalPrice: 44999,
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
@@ -341,6 +361,7 @@ export const electronicsProducts: Product[] = [
   {
     id: "e-21",
     name: "Fitbit Sense 2",
+    brand: "Fitbit",
     price: 24999,
     originalPrice: 34999,
     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
@@ -508,4 +529,41 @@ export const electronicsProducts: Product[] = [
     stock: 50,
     discount: 23,
   },
+
+  // MONITORS
+  {
+    id: "e-33",
+    name: "LG UltraGear 27\" 2K 165Hz Gaming Monitor",
+    price: 27999,
+    originalPrice: 34999,
+    image: "https://plus.unsplash.com/premium_photo-1661329862740-f82f5299214d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bW9uaXRvcnxlbnwwfHwwfHx8MA%3D%3D",
+    category: "electronics",
+    subcategory: ["monitors", "gaming"],
+    sizes: ["27-inch"],
+    rating: 4.7,
+    reviews: 1345,
+    badge: "Gamer's Choice",
+    description: "QHD IPS gaming monitor with 165Hz refresh rate and 1ms response",
+    inStock: true,
+    discount: 20,
+  },
+
+  // PRINTERS
+  {
+    id: "e-34",
+    name: "HP Smart Tank 589 All-in-One Printer",
+    price: 18999,
+    originalPrice: 22999,
+    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJpbnRlcnxlbnwwfHwwfHx8MA%3D%3D",
+    category: "electronics",
+    subcategory: ["printers", "ink-tank"],
+    sizes: ["Free"],
+    rating: 4.3,
+    reviews: 876,
+    description: "All-in-one color printer with low-cost ink tank system",
+    inStock: true,
+    discount: 17,
+  },
+
+
 ];

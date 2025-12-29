@@ -235,7 +235,7 @@ const Header = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-primary/5 font-semibold text-sm transition-all duration-300"
+                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 font-semibold text-sm transition-all duration-300"
                 >
                   Sign In
                 </Button>
@@ -260,7 +260,7 @@ const Header = () => {
                 >
                   <Heart className="h-5 w-5" />
                   {wishlistItems.length > 0 && (
-                    <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                    <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-pink-gradient text-primary-foreground text-xs font-bold">
                       {wishlistItems.length}
                     </Badge>
                   )}
@@ -473,7 +473,7 @@ const Header = () => {
             <li className="ml-auto">
               <Link
                 to="/products"
-                className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1 bg-primary/10 px-4 py-2 rounded-lg"
+                className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1 bg-pink-gradient/10 px-4 py-2 rounded-lg"
               >
                 Explore All
                 <ChevronDown className="h-4 w-4" />
@@ -495,7 +495,7 @@ const Header = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-primary/10 to-transparent transition-colors"
               >
-                <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                <div className="h-10 w-10 rounded-lg bg-pink-gradient/20 flex items-center justify-center">
                   <User className="h-5 w-5 text-primary" />
                 </div>
                 <div>
@@ -621,7 +621,7 @@ const Header = () => {
                   className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors"
                 >
                   <span className="font-medium">Wishlist</span>
-                  {wishlistItems.length > 0 && <Badge className="bg-primary">{wishlistItems.length}</Badge>}
+                  {wishlistItems.length > 0 && <Badge className="bg-pink-gradient">{wishlistItems.length}</Badge>}
                 </Link>
               </div>
             </div>

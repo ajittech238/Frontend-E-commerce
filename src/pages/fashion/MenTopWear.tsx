@@ -72,7 +72,7 @@ const MenTopWear = () => {
           )}
 
           {product.badge && (
-            <div className="absolute bottom-3 left-3 bg-primary/90 text-white text-xs font-bold px-2.5 py-1 rounded-lg">
+            <div className="absolute bottom-3 left-3 bg-pink-gradient/90 text-white text-xs font-bold px-2.5 py-1 rounded-lg">
               {product.badge}
             </div>
           )}
@@ -145,7 +145,7 @@ const MenTopWear = () => {
                 Discover latest trends in men's shirts, t-shirts, hoodies, and more
               </p>
             </div>
-            <Badge className="text-base px-4 py-2 bg-primary text-primary-foreground">
+            <Badge className="text-base px-4 py-2 bg-pink-gradient text-primary-foreground">
               {filteredProducts.length} Products
             </Badge>
           </div>
