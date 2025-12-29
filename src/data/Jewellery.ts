@@ -4,7 +4,7 @@ export const beautyProducts: Product[] = [
   // OXIDISED JHUMKA / EARINGS
   {
     id: "b-1",
-    name: "Pastel Stones Detailing Jhumki ",
+    name: "Pastel Stones Detailing Jhumki",
     price: 899,
     originalPrice: 1299,
     image: "a/earings1.png",
@@ -12,10 +12,10 @@ export const beautyProducts: Product[] = [
     subcategory: ["Oxidised Jhumka / Earings", "Earings"],
     rating: 4.7,
     reviews: 1245,
-    // badge: "Bestseller",
     description: "Krishaz offers premium quality [Oxidized/Silver Earrings] tailored to meet your everyday,",
     inStock: true,
     discount: 31,
+    stock:10
   },
   {
     id: "b-2",
@@ -31,6 +31,7 @@ export const beautyProducts: Product[] = [
     description: "timeless elegance with this oxidised jhumka earring — a blend of tradition & trend. Lightweight, skin-safe & perfect for Indian outfits.",
     inStock: true,
     discount: 32,
+    stock:10
   },
   {
     id: "b-3",
@@ -46,6 +47,7 @@ export const beautyProducts: Product[] = [
     description: "Elevate your ethnic look with our Heritage Green Stone Oxidised Earrings, featuring a striking green stone center, delicate pearl accents, and intricate temple-inspired motifs. Perfect to pair with sarees, kurtas, or Indo-fusion wear.",
     inStock: true,
     discount: 31,
+    stock:10
   },
   {
     id: "b-4",
@@ -60,6 +62,7 @@ export const beautyProducts: Product[] = [
     description: " the set of three jhumki danglers offer a sophisticated aesthetic that will make you stand out from the crowd. ",
     inStock: true,
     discount: 36,
+    stock:10
   },
   {
     id: "b-5",
@@ -75,6 +78,7 @@ export const beautyProducts: Product[] = [
     description: "The perfect blend of tradition and trend — crafted with premium polish and available in stunning colours",
     inStock: true,
     discount: 33,
+    stock:10
   },
   {
     id: "b-6",
@@ -89,6 +93,7 @@ export const beautyProducts: Product[] = [
     description: "A delicately feminine pair of long jhumkas the stud features dainty translucent stones arranged in a floral design from the stud emerges a long ornate chain connecting it to the dome this chain is adorned with cascading pearls the jhumka dome is ornately crafted to hold small circular clear stones and is rimmed by a cluster of dainty pearls",
     inStock: true,
     discount: 35,
+    stock:10
   },
   {
     id: "b-6",
@@ -103,6 +108,7 @@ export const beautyProducts: Product[] = [
     description: "silver jhumkas with carvings, kemp stone and pearl embellishment.",
     inStock: true,
     discount: 35,
+    stock:10
   },
   {
     id: "b-6",
@@ -117,6 +123,7 @@ export const beautyProducts: Product[] = [
     description: "Overview These stylish Jhumki Earrings set from JewelryTrack will certainly leave you spellbound. These Jhumki Earrings set have an excellent finish and gives out an exquisite sense of style. If you are looking for an amazing Fashion Jewelry set for special occasions such as Anniversary, Engagement, Party, Wedding or for gifting , then your search ends here",
     inStock: true,
     discount: 35,
+    stock:10
   },
 
   // OXIDISED RINGS
@@ -134,6 +141,7 @@ export const beautyProducts: Product[] = [
     description: "The Urmila Oxidised Ring is the perfect staple piece for your oxidised jewellery collection. Its detailed design adds a beautiful touch to any look. Crafted from high-grade metals, the Urmila Ring is sure to become an instant favourite.",
     inStock: true,
     discount: 31,
+    stock:10
   },
   {
     id: "b-8",
@@ -149,6 +157,7 @@ export const beautyProducts: Product[] = [
     description: "Perfect for those who love elegance with a touch of tradition — a masterpiece that completes every look. 💍",
     inStock: true,
     discount: 30,
+    stock:10
   },
   {
     id: "b-9",
@@ -164,6 +173,7 @@ export const beautyProducts: Product[] = [
     description: "This piece of art is absolutely extraordinary and requires long involvement with metal handling, and individual devotion for magnificent finishing.",
     inStock: true,
     discount: 32,
+    stock:10
   },
   {
     id: "b-10",
@@ -178,6 +188,7 @@ export const beautyProducts: Product[] = [
     description: "Introducing Women Tribal Oxidized Silver Silver Adjustable made of the finest Silver.This exquisite piece of craftsmanship comes from our Chakrika collection.Bring home a piece of modern Indian aesthetic, reflecting Tribal crafts.Explore more artisanal finds from our Rings range.",
     inStock: true,
     discount: 31,
+    stock:10
   },
   {
     id: "b-11",
@@ -192,6 +203,7 @@ export const beautyProducts: Product[] = [
     description: "Introducing Women Tribal Silver Adjustable made of the finest Silver.This exquisite piece of craftsmanship comes from our Chakrika collection.Bring home a piece of modern Indian aesthetic, reflecting Tribal crafts.Explore more artisanal finds from our Rings range.",
     inStock: true,
     discount: 33,
+    stock:10
   },
   {
     id: "b-12",
@@ -207,6 +219,7 @@ export const beautyProducts: Product[] = [
     description: "Double Finger Ring, Stylish finger rings, Fashionable ring designs, Statement rings, Boho ring collection, Minimalist ring jewelry, Stackable ring sets, Unique ring styles, Gemstone rings, Vintage-inspired rings, Ring gift ideas, Customizable ring options, Affordable ring collection, Handcrafted rings, Ring trends, Ring for weddings, Ring for engagements, Ring for everyday wear",
     inStock: true,
     discount: 32,
+    stock: 10
   },
   {
     id: "b-12",
@@ -222,6 +235,7 @@ export const beautyProducts: Product[] = [
     description: "Boho Silver Ring Set, Mandala Silver Ring, Mandala Jewelry, Bohemian Stack Ring Set, Boho Ring, Silver Ring Gift, Armenian Jewelry Ring Gift",
     inStock: true,
     discount: 32,
+    stock: 10
   },
   {
     id: "b-12",
@@ -237,6 +251,7 @@ export const beautyProducts: Product[] = [
     description: "A Retro And Unique Pure Silver Square Flower Blackened Ring, A Perfect Gift For Ladies For Date Or Party Valentines Antique Silver Casual 925 Sterling Silver Fine Jewelry.",
     inStock: true,
     discount: 32,
+    stock: 10
   },
 
   // OXIDISED NECKLACES
@@ -254,6 +269,7 @@ export const beautyProducts: Product[] = [
     description: "Most Gorgeous Indian Traditional Oxidised Choker Necklace Set This listing comprises of a high quality beautiful Imitation Jewellery Set! ",
     inStock: true,
     discount: 36,
+    stock: 10
   },
   {
     id: "b-14",
@@ -268,6 +284,7 @@ export const beautyProducts: Product[] = [
     description: "Product Description: Elevate your style with this stunning german silver oxidised necklace featuring alternating flower and Monalisa stone motifs. The leaf-like petals on the floral pattern beautifully complement the round Monalisa stone motifs. Crafted from brass with an oxidized silver finish, this trendy necklace is perfect for both traditional and fancy ensembles. The matching earrings feature a top flower motif and a bottom Monalisa round stone, creating a cohesive look. The Monalisa stones add a touch of glamour, making it an ideal accessory for party sarees and traditional costumes. Versatile and eye-catching, this necklace is a must-have in your collection or a thoughtful gift for your loved ones.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-15",
@@ -282,6 +299,7 @@ export const beautyProducts: Product[] = [
     description: "This classic oxidised silver necklace set adds a traditional touch to your look. Perfect for festivals, weddings, and cultural events.",
     inStock: true,
     discount: 35,
+    stock: 10
   },
   {
     id: "b-16",
@@ -297,6 +315,7 @@ export const beautyProducts: Product[] = [
     description: "Add charm and charisma to your beautiful personality with this exquisitely designed and handcrafted black polish necklace Pair it up with any casual, semi formal or, formal attire and gather compliments for your unique and classy choice.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
 
   // OXIDISED BRACELETS
@@ -314,6 +333,7 @@ export const beautyProducts: Product[] = [
     description: "Silver-toned and gold-toned oxidized bangle-style bracelet Material and stone type: German silver with artificial stones and beads Plating: silver-plated Closure: screw Size & Fit Length-8 cm ,Width-8 cm Material & Care Material: German Silver Plating: Silver-Plated Material: Brass Stone: Cubic Zirconia Plating: Rose Gold-plated Care Instructions: Wipe your jewelry with a soft cloth after every use Always store your jewellery in a flat box to avoid accidental scratches Keep sprays and perfumes.",
     inStock: true,
     discount: 34,
+    stock: 10
   },
   {
     id: "b-18",
@@ -328,6 +348,7 @@ export const beautyProducts: Product[] = [
     description: "Discover your favorite oxidized bangles from Laura Designs! Elegant, classy, and budget-friendly.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
    {
     id: "b-18",
@@ -342,6 +363,7 @@ export const beautyProducts: Product[] = [
     description: "Adorn your wrists with this stylish bracelet, that boasts of intricate rava work and impeccable details. Crafted in german silver and finished with silver oxidised, the bracelet is an extremely wearable piece of jewellery you’d want to dress your wrists with on daily basis. This kolhapuri bracelet is interconnected with each element and surrounded by the ghungroos which adds its beauty and makes it an easy, to style piece that looks wonderful by itself and gives a statement look.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-18",
@@ -356,6 +378,7 @@ export const beautyProducts: Product[] = [
     description: "Introducing our collection of Traditional Silver Replica Oxidised Square Bangles / Kada With Free Size Openable Facilities.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
 
   // OXIDISED BANGLES
@@ -373,6 +396,7 @@ export const beautyProducts: Product[] = [
     description: "Adorn your hands by wearing oxidized silver bangles. Vintage tribal boho details and intricate patterns combine to create a masterpiece in this exquisite piece. It is perfect for weddings, festivals, traditional occasions and parties. Pair it beautifully with a kurti, saree or any Indo-Western wear to enhance your look. They are made from skin safe materials. It can be worn for a long time without the bother of itching and swelling.",
     inStock: true,
     discount: 36,
+    stock: 10
   },
   {
     id: "b-20",
@@ -388,6 +412,7 @@ export const beautyProducts: Product[] = [
     description: "Oxidised Jewellery from India brings a touch of vintage charm by darkening silver, giving it that antique flair we adore. With intricate designs inspired by traditional Indian motifs, it's the perfect match for any outfit, whether it's ethnic glam or bohemian chic. Loved worldwide by cultures from India to Afghanistan.",
     inStock: true,
     discount: 38,
+    stock: 10
   },
   {
     id: "b-20",
@@ -403,6 +428,7 @@ export const beautyProducts: Product[] = [
     description: "Oxidised bangles with red kundan stones and indian vintage detailing that enhance its look on hands and make them elegant and pretty",
     inStock: true,
     discount: 38,
+    stock: 10
   },
   {
     id: "b-20",
@@ -418,6 +444,7 @@ export const beautyProducts: Product[] = [
     description: "Textured Everyday wear silver bangles crafted in 92.5 silver. Works great when stacked with other bangles or even just by itself.",
     inStock: true,
     discount: 38,
+    stock: 10
   },
   
 
@@ -435,6 +462,7 @@ export const beautyProducts: Product[] = [
     description: "Long-lasting herbal deodorant with natural ingredients.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-22",
@@ -450,6 +478,7 @@ export const beautyProducts: Product[] = [
     description: "Whitening toothpaste with fresh mint flavor for bright, healthy teeth.",
     inStock: true,
     discount: 43,
+    stock: 10
   },
   {
     id: "b-22",
@@ -465,6 +494,7 @@ export const beautyProducts: Product[] = [
     description: "Whitening toothpaste with fresh mint flavor for bright, healthy teeth.",
     inStock: true,
     discount: 43,
+    stock: 10
   },
   {
     id: "b-22",
@@ -480,6 +510,7 @@ export const beautyProducts: Product[] = [
     description: "Whitening toothpaste with fresh mint flavor for bright, healthy teeth.",
     inStock: true,
     discount: 43,
+    stock: 10
   },
 
   // NATURAL / HERBAL BEAUTY
@@ -497,6 +528,7 @@ export const beautyProducts: Product[] = [
     description: "Pure organic aloe vera gel for skin healing and hydration.",
     inStock: true,
     discount: 40,
+    stock: 10
   },
   {
     id: "b-24",
@@ -511,6 +543,7 @@ export const beautyProducts: Product[] = [
     description: "Natural turmeric face pack with antibacterial properties.",
     inStock: true,
     discount: 36,
+    stock: 10
   },
 
    {
@@ -526,6 +559,7 @@ export const beautyProducts: Product[] = [
     description: "Natural turmeric face pack with antibacterial properties.",
     inStock: true,
     discount: 36,
+    stock: 10
   },
    {
     id: "b-24",
@@ -540,6 +574,7 @@ export const beautyProducts: Product[] = [
     description: "Natural turmeric face pack with antibacterial properties.",
     inStock: true,
     discount: 36,
+    stock: 10
   },
 
   // BEAUTY TOOLS & ACCESSORIES
@@ -557,6 +592,7 @@ export const beautyProducts: Product[] = [
     description: "Jade facial massage roller for improved skin circulation.",
     inStock: true,
     discount: 37,
+    stock: 10
   },
   {
     id: "b-26",
@@ -572,6 +608,7 @@ export const beautyProducts: Product[] = [
     description: "Set of 12 professional makeup brushes with soft synthetic bristles.",
     inStock: true,
     discount: 40,
+    stock: 10
   },
   {
     id: "b-26",
@@ -587,6 +624,7 @@ export const beautyProducts: Product[] = [
     description: "Set of 12 professional makeup brushes with soft synthetic bristles.",
     inStock: true,
     discount: 40,
+    stock: 10
   },
   {
     id: "b-26",
@@ -602,6 +640,7 @@ export const beautyProducts: Product[] = [
     description: "Set of 12 professional makeup brushes with soft synthetic bristles.",
     inStock: true,
     discount: 40,
+    stock: 10
   },
 
   // MEN'S BEAUTY
@@ -619,6 +658,7 @@ export const beautyProducts: Product[] = [
     description: "Powerful face wash for men designed to remove dirt and oil.",
     inStock: true,
     discount: 40,
+    stock: 10
   },
   {
     id: "b-28",
@@ -633,6 +673,7 @@ export const beautyProducts: Product[] = [
     description: "Organic beard growth oil with essential nutrients for thick, healthy beard.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-28",
@@ -647,6 +688,7 @@ export const beautyProducts: Product[] = [
     description: "Organic beard growth oil with essential nutrients for thick, healthy beard.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-28",
@@ -661,6 +703,7 @@ export const beautyProducts: Product[] = [
     description: "Organic beard growth oil with essential nutrients for thick, healthy beard.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
 
   // BABY CARE
@@ -678,6 +721,7 @@ export const beautyProducts: Product[] = [
     description: "Mild and gentle bath foam perfect for baby's delicate skin.",
     inStock: true,
     discount: 36,
+    stock: 10
   },
   {
     id: "b-30",
@@ -693,6 +737,7 @@ export const beautyProducts: Product[] = [
     description: "Soft, hypoallergenic lotion for baby's sensitive skin.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-30",
@@ -708,6 +753,7 @@ export const beautyProducts: Product[] = [
     description: "Soft, hypoallergenic lotion for baby's sensitive skin.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
   {
     id: "b-30",
@@ -723,5 +769,6 @@ export const beautyProducts: Product[] = [
     description: "Soft, hypoallergenic lotion for baby's sensitive skin.",
     inStock: true,
     discount: 33,
+    stock: 10
   },
 ];

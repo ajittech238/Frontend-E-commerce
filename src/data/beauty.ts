@@ -15,6 +15,7 @@ export const beautyProducts: Product[] = [
     // badge: "Bestseller",
     description: "Deeply moisturizing cream with vitamin C and hyaluronic acid for glowing skin.",
     inStock: true,
+    stock: 50,
     discount: 31,
   },
   {
@@ -30,6 +31,7 @@ export const beautyProducts: Product[] = [
     // badge: "Premium",
     description: "Lightweight serum with retinol and peptides to reduce fine lines and wrinkles.",
     inStock: true,
+    stock: 50,
     discount: 32,
   },
   {
@@ -45,6 +47,7 @@ export const beautyProducts: Product[] = [
     // badge: "Daily Essential",
     description: "pH-balanced cleanser for all skin types, removes impurities without drying.",
     inStock: true,
+    stock: 50,
     discount: 31,
   },
   {
@@ -59,6 +62,7 @@ export const beautyProducts: Product[] = [
     reviews: 1567,
     description: "Brightening face mask with vitamin C and turmeric for radiant skin.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
   {
@@ -74,6 +78,7 @@ export const beautyProducts: Product[] = [
     // badge: "Trending",
     description: "Refreshing rose water spray to keep skin hydrated throughout the day.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -88,6 +93,7 @@ export const beautyProducts: Product[] = [
     reviews: 945,
     description: "Gentle exfoliating scrub with natural sugar crystals for smooth skin.",
     inStock: true,
+    stock: 50,
     discount: 35,
   },
 
@@ -105,6 +111,7 @@ export const beautyProducts: Product[] = [
     // badge: "Bestseller",
     description: "Lightweight, long-wearing foundation with SPF 30 for perfect coverage.",
     inStock: true,
+    stock: 50,
     discount: 31,
   },
   {
@@ -120,6 +127,7 @@ export const beautyProducts: Product[] = [
     // badge: "Color Range",
     description: "Creamy matte lipstick with rich colors and long-lasting formula.",
     inStock: true,
+    stock: 50,
     discount: 30,
   },
   {
@@ -135,6 +143,7 @@ export const beautyProducts: Product[] = [
     // badge: "Premium",
     description: "12-color eyeshadow palette with buttery textures and stunning pigments.",
     inStock: true,
+    stock: 50,
     discount: 32,
   },
   {
@@ -149,6 +158,7 @@ export const beautyProducts: Product[] = [
     reviews: 1678,
     description: "Volumizing mascara for bold, dramatic lashes that last all day.",
     inStock: true,
+    stock: 50,
     discount: 31,
   },
   {
@@ -163,6 +173,7 @@ export const beautyProducts: Product[] = [
     reviews: 1345,
     description: "Beautiful blush and highlight duo for a natural, glowing finish.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -178,6 +189,7 @@ export const beautyProducts: Product[] = [
     // badge: "Full Coverage",
     description: "High-definition concealer with buildable coverage for all skin tones.",
     inStock: true,
+    stock: 50,
     discount: 32,
   },
 
@@ -195,6 +207,7 @@ export const beautyProducts: Product[] = [
     // badge: "Best Seller",
     description: "Moisturizing shampoo with coconut oil for soft, shiny hair.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
   {
@@ -209,6 +222,7 @@ export const beautyProducts: Product[] = [
     reviews: 1567,
     description: "Strengthening conditioner with keratin to repair damaged hair.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -223,6 +237,7 @@ export const beautyProducts: Product[] = [
     reviews: 890,
     description: "Effective anti-dandruff treatment that soothes scalp irritation.",
     inStock: true,
+    stock: 50,
     discount: 35,
   },
   {
@@ -238,6 +253,7 @@ export const beautyProducts: Product[] = [
     // badge: "Popular",
     description: "Natural hair growth serum with biotin and herbal ingredients.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
 
@@ -255,6 +271,7 @@ export const beautyProducts: Product[] = [
     // badge: "Luxury",
     description: "Long-lasting premium eau de parfum with floral and woody notes.",
     inStock: true,
+    stock: 50,
     discount: 34,
   },
   {
@@ -269,6 +286,7 @@ export const beautyProducts: Product[] = [
     reviews: 1234,
     description: "Refreshing body mist with citrus and aquatic scents.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
    {
@@ -283,6 +301,7 @@ export const beautyProducts: Product[] = [
     reviews: 1234,
     description: "Refreshing body mist with citrus and aquatic scents.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -297,6 +316,7 @@ export const beautyProducts: Product[] = [
     reviews: 1234,
     description: "Refreshing body mist with citrus and aquatic scents.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
 
@@ -314,6 +334,7 @@ export const beautyProducts: Product[] = [
     // badge: "Daily Essential",
     description: "Rich body lotion with shea butter and almond oil for soft, smooth skin.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
   {
@@ -329,6 +350,7 @@ export const beautyProducts: Product[] = [
     // badge: "Bestseller",
     description: "Set of 5 colorful bath bombs with relaxing essential oils.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
   {
@@ -344,6 +366,7 @@ export const beautyProducts: Product[] = [
     // badge: "Bestseller",
     description: "Set of 5 colorful bath bombs with relaxing essential oils.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
   {
@@ -359,6 +382,7 @@ export const beautyProducts: Product[] = [
     // badge: "Bestseller",
     description: "Set of 5 colorful bath bombs with relaxing essential oils.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
   
@@ -376,6 +400,7 @@ export const beautyProducts: Product[] = [
     reviews: 1123,
     description: "Long-lasting herbal deodorant with natural ingredients.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -391,6 +416,7 @@ export const beautyProducts: Product[] = [
     // badge: "Fresh Mint",
     description: "Whitening toothpaste with fresh mint flavor for bright, healthy teeth.",
     inStock: true,
+    stock: 50,
     discount: 43,
   },
   {
@@ -406,6 +432,7 @@ export const beautyProducts: Product[] = [
     // badge: "Fresh Mint",
     description: "Whitening toothpaste with fresh mint flavor for bright, healthy teeth.",
     inStock: true,
+    stock: 50,
     discount: 43,
   },
   {
@@ -421,6 +448,7 @@ export const beautyProducts: Product[] = [
     // badge: "Fresh Mint",
     description: "Whitening toothpaste with fresh mint flavor for bright, healthy teeth.",
     inStock: true,
+    stock: 50,
     discount: 43,
   },
 
@@ -438,6 +466,7 @@ export const beautyProducts: Product[] = [
     // badge: "100% Organic",
     description: "Pure organic aloe vera gel for skin healing and hydration.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -452,6 +481,7 @@ export const beautyProducts: Product[] = [
     reviews: 1890,
     description: "Natural turmeric face pack with antibacterial properties.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
 
@@ -467,6 +497,7 @@ export const beautyProducts: Product[] = [
     reviews: 1890,
     description: "Natural turmeric face pack with antibacterial properties.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
    {
@@ -481,6 +512,7 @@ export const beautyProducts: Product[] = [
     reviews: 1890,
     description: "Natural turmeric face pack with antibacterial properties.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
 
@@ -498,6 +530,7 @@ export const beautyProducts: Product[] = [
     // badge: "Anti-Aging",
     description: "Jade facial massage roller for improved skin circulation.",
     inStock: true,
+    stock: 50,
     discount: 37,
   },
   {
@@ -513,6 +546,7 @@ export const beautyProducts: Product[] = [
     // badge: "Professional",
     description: "Set of 12 professional makeup brushes with soft synthetic bristles.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -528,6 +562,7 @@ export const beautyProducts: Product[] = [
     // badge: "Professional",
     description: "Set of 12 professional makeup brushes with soft synthetic bristles.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -543,6 +578,7 @@ export const beautyProducts: Product[] = [
     // badge: "Professional",
     description: "Set of 12 professional makeup brushes with soft synthetic bristles.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
 
@@ -560,6 +596,7 @@ export const beautyProducts: Product[] = [
     // badge: "For Men",
     description: "Powerful face wash for men designed to remove dirt and oil.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -574,6 +611,7 @@ export const beautyProducts: Product[] = [
     reviews: 1234,
     description: "Organic beard growth oil with essential nutrients for thick, healthy beard.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -588,6 +626,7 @@ export const beautyProducts: Product[] = [
     reviews: 1234,
     description: "Organic beard growth oil with essential nutrients for thick, healthy beard.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -602,6 +641,7 @@ export const beautyProducts: Product[] = [
     reviews: 1234,
     description: "Organic beard growth oil with essential nutrients for thick, healthy beard.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
 
@@ -619,6 +659,7 @@ export const beautyProducts: Product[] = [
     // badge: "Gentle Formula",
     description: "Mild and gentle bath foam perfect for baby's delicate skin.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
   {
@@ -634,6 +675,7 @@ export const beautyProducts: Product[] = [
     // badge: "Hypoallergenic",
     description: "Soft, hypoallergenic lotion for baby's sensitive skin.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -649,6 +691,7 @@ export const beautyProducts: Product[] = [
     // badge: "Hypoallergenic",
     description: "Soft, hypoallergenic lotion for baby's sensitive skin.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -664,6 +707,7 @@ export const beautyProducts: Product[] = [
     // badge: "Hypoallergenic",
     description: "Soft, hypoallergenic lotion for baby's sensitive skin.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
 ];
