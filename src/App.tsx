@@ -26,7 +26,6 @@ import DashboardSettings from "./pages/dashboard/DashboardSettings";
 import SellerOrders from "./pages/dashboard/SellerOrders";
 import ReferEarn from "./pages/dashboard/ReferEarn";
 import Rewards from "./pages/dashboard/Rewards";
-
 import QA from "./pages/dashboard/QA";
 import Shops from "./pages/dashboard/Shops";
 import Roles from "./pages/dashboard/Roles";
@@ -90,8 +89,9 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
-import JewelleryPage from "./pages/JewelleryPage";
-// import BeautyCategory from "./pages/BeautyCatego.ry";
+import SportsPage from "./pages/SportsPage";
+
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -136,6 +136,7 @@ const App = () => (
                 <Route path="/electronics" element={<ElectronicsPage />} />
                 <Route path="/grocery" element={<GroceryPage />} />
                 <Route path="/homeliving" element={<HomeLivingPage />} />
+                <Route path="/sports" element={<SportsPage />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
                 <Route path="/login" element={<Login />} />
