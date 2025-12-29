@@ -47,7 +47,13 @@ export interface Order {
   };
   paymentMethod: string;
   paymentStatus: "pending" | "completed" | "failed";
-  orderStatus: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
+  orderStatus:
+    | "pending"
+    | "confirmed"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
   sellerId?: string;
   createdAt: string;
   updatedAt: string;

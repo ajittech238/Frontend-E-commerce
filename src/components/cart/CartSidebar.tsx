@@ -15,20 +15,19 @@ const CartSidebar = () => {
     totalItems,
   } = useCart();
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-IN", {
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
       maximumFractionDigits: 0,
     }).format(price);
-  };
 
   return (
     <>
       {/* Overlay */}
       {isCartOpen && (
         <div
-          className="fixed inset-0 bg-foreground/40 backdrop-blur-sm z-40"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
           onClick={() => setIsCartOpen(false)}
         />
       )}
@@ -36,18 +35,16 @@ const CartSidebar = () => {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-full w-full max-w-md bg-card z-50 shadow-2xl transition-transform duration-300 ease-out",
+          "fixed top-0 right-0 h-full w-full max-w-md bg-card z-50 shadow-2xl transition-transform duration-300 ease-in-out",
           isCartOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-border bg-header text-header-foreground">
+          <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">
               <ShoppingBag className="h-5 w-5" />
-              <h2 className="font-display font-bold text-lg">
-                Shopping Cart
-              </h2>
+              <h2 className="font-bold text-lg">Shopping Cart</h2>
               <span className="bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded">
                 {totalItems}
               </span>
@@ -56,18 +53,17 @@ const CartSidebar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="hover:bg-white/10"
               onClick={() => setIsCartOpen(false)}
             >
               <X className="h-5 w-5" />
             </Button>
           </div>
 
-          {/* Cart Items */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {/* Items */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <ShoppingBag className="h-16 w-16 text-muted-foreground/30 mb-4" />
+                <ShoppingBag className="h-16 w-16 text-muted-foreground/40 mb-4" />
                 <h3 className="font-bold text-lg mb-2">
                   Your cart is empty
                 </h3>
@@ -85,7 +81,7 @@ const CartSidebar = () => {
               items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex gap-3 p-3 rounded-lg bg-secondary/50 border border-border"
+                  className="flex gap-3 p-3 rounded-lg border bg-secondary/50"
                 >
                   <img
                     src={item.image}
@@ -103,12 +99,12 @@ const CartSidebar = () => {
                     </p>
 
                     <div className="flex items-center gap-2 mt-2">
-                      <div className="flex items-center border border-border rounded">
+                      <div className="flex items-center border rounded">
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 rounded-none"
-                          disabled={item.quantity === 1}
+                          className="h-7 w-7"
+                          disabled={item.quantity <= 1}
                           onClick={() =>
                             updateQuantity(
                               item.id,
@@ -126,7 +122,7 @@ const CartSidebar = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 rounded-none"
+                          className="h-7 w-7"
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
@@ -152,10 +148,10 @@ const CartSidebar = () => {
 
           {/* Footer */}
           {items.length > 0 && (
-            <div className="border-t border-border p-4 space-y-3 bg-secondary/30">
-              <div className="flex justify-between items-center">
+            <div className="border-t p-4 space-y-3 bg-secondary/30">
+              <div className="flex justify-between">
                 <span className="text-lg">
-                  Subtotal ({totalItems} items):
+                  Subtotal ({totalItems} items)
                 </span>
                 <span className="font-bold text-lg">
                   {formatPrice(totalPrice)}
@@ -167,21 +163,15 @@ const CartSidebar = () => {
               </p>
 
               <div className="grid grid-cols-2 gap-4">
-                <Link
-                  to="/cart"
-                  onClick={() => setIsCartOpen(false)}
-                >
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 h-11 text-sm font-medium rounded">
+                <Link to="/cart" onClick={() => setIsCartOpen(false)}>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 h-11">
                     View Cart
                   </Button>
                 </Link>
 
-                <Link
-                  to="/checkout"
-                  onClick={() => setIsCartOpen(false)}
-                >
-                  <Button className="w-full btn-amazon h-11 text-sm font-medium rounded">
-                    Proceed to Checkout
+                <Link to="/checkout" onClick={() => setIsCartOpen(false)}>
+                  <Button className="w-full btn-amazon h-11">
+                    Checkout
                   </Button>
                 </Link>
               </div>
