@@ -38,7 +38,7 @@ const CartSidebar = () => {
             <div className="flex items-center gap-2">
               <ShoppingBag className="h-5 w-5" />
               <h2 className="font-display font-bold text-lg">Shopping Cart</h2>
-              <span className="bg-pink-gradient text-primary-foreground text-xs font-bold px-2 py-0.5 rounded">
+              <span className="bg-pink-600 text-primary-foreground text-xs font-bold px-2 py-0.5 rounded">
                 {totalItems}
               </span>
             </div>

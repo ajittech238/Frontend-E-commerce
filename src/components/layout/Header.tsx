@@ -398,18 +398,52 @@ const Header = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
+            <li>
+              <Link
+                to="/grocery"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>🛒</span>
+                Grocery
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
 
-            {categories.slice(2, 6).map((category) => (
+            {/* Home & Living */}
+            <li>
+              <Link
+                to="/homeliving"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>🏠</span>
+                Home & Living
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
+            {/* Beauty */}
+            <li>
+              <Link
+                to="/beauty"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>💄</span>
+                Beauty
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
+            {/* {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
-                  to={`/category/${category.id}`}
+                  to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                   className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group"
                 >
                   {category.name}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
                 </Link>
               </li>
-            ))}
+            ))} */}
             <li className="ml-auto">
               <Link
                 to="/products"
@@ -496,11 +530,41 @@ const Header = () => {
                   <span className="font-medium text-foreground hover:text-primary transition-colors">Electronics</span>
                 </Link>
 
+                {/* Grocery */}
+                <Link
+                  to="/grocery"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                >
+                  <span className="text-lg">🛒</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">Grocery</span>
+                </Link>
+
+                {/* Home & Living */}
+                <Link
+                  to="/homeliving"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                >
+                  <span className="text-lg">🏠</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">Home & Living</span>
+                </Link>
+
+                {/* Beauty */}
+                <Link
+                  to="/beauty"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                >
+                  <span className="text-lg">💄</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">Beauty</span>
+                </Link>
+
                 {/* Other Categories */}
                 {categories.slice(2).map((category) => (
                   <Link
                     key={category.id}
-                    to={`/category/${category.id}`}
+                    to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                   >

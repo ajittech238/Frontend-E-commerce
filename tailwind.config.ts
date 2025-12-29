@@ -99,6 +99,7 @@ export default {
         glow: "var(--shadow-glow)",
         "card-hover": "var(--shadow-card-hover)",
       },
+      
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -137,3 +138,5 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
+
