@@ -85,11 +85,11 @@ import WomenWestern from "./pages/fashion/WomenWestern";
 import WomenFootwear from "./pages/fashion/WomenFootwear";
 import KidsWear from "./pages/fashion/KidsWear";
 import Accessories from "./pages/fashion/Accessories";
+import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import SportsPage from "./pages/SportsPage";
-import SBIPayment from "./pages/payment/SBIPayment";
 
 
 const queryClient = new QueryClient();
@@ -129,10 +129,10 @@ const App = () => (
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
+                <Route path="/payment/sbi" element={<SBIPayment />} />
                 <Route path="/payment-success" element={<PaymentSuccess />} />
                 <Route path="/payment-failed" element={<PaymentFailed />} />
                 <Route path="/payment-history" element={<PaymentHistory />} />
-                <Route path="/payment" element={<SBIPayment/>}/>
 
               {/* Dashboard Routes */}
               <Route path="/dashboard" element={<DashboardLayout />}>
