@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+ import { useState, useRef } from "react";
 import { Heart, ShoppingCart, Filter, Eye, X, Truck, Shield, RotateCcw, Star, Smartphone, Laptop, Headphones, Watch, Zap, Package, Check, Tablet, Camera, Speaker, Monitor, Maximize2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
