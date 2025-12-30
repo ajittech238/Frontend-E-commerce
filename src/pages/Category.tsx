@@ -30,7 +30,7 @@ const Category = () => {
             <h1 className="text-5xl text-[#6f4327] text-center pb-6">Fashion Categories..</h1>
             <div className="flex gap-4 mt-6 items-center justify-center">
               <div className="w-[30%] mt-4 ">
-                <img src={image} className="object-cover w-[90%] rounded-full" />
+                <img src={image} className="object-cover w-[95%] h-[200px] rounded-full" />
               </div>
 
               <div className="w-[70%]">

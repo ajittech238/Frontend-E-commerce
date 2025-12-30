@@ -1,14 +1,55 @@
 import { Product, Category } from "@/types/product";
 
 export const categories: Category[] = [
-  { id: "electronics", name: "Electronics", icon: "Smartphone", image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400" },
-  { id: "fashion", name: "Fashion", icon: "Shirt", image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400" },
-  { id: "home", name: "Home & Living", icon: "Home", image: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400" },
-  { id: "beauty", name: "Beauty", icon: "Sparkles", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" },
-  { id: "sports", name: "Sports", icon: "Dumbbell", image: "https://images.unsplash.com/photo-1461896836934- voices08cba5a?w=400" },
-  { id: "books", name: "Books", icon: "BookOpen", image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400" },
-  { id: "toys", name: "Toys & Games", icon: "Gamepad2", image: "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=400" },
-  { id: "grocery", name: "Grocery", icon: "ShoppingBasket", image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" },
+  {
+    id: "electronics",
+    name: "Electronics",
+    icon: "Smartphone",
+    image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400",
+  },
+  {
+    id: "fashion",
+    name: "Fashion",
+    icon: "Shirt",
+    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400",
+  },
+  {
+    id: "home",
+    name: "Home & Living",
+    icon: "Home",
+    image: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400",
+  },
+  {
+    id: "beauty",
+    name: "Beauty",
+    icon: "Sparkles",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400",
+  },
+  {
+    id: "sports",
+    name: "Sports",
+    icon: "Dumbbell",
+    image:
+      "https://images.unsplash.com/photo-1461896836934- voices08cba5a?w=400",
+  },
+  {
+    id: "books",
+    name: "Books",
+    icon: "BookOpen",
+    image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400",
+  },
+  {
+    id: "toys",
+    name: "Toys & Games",
+    icon: "Gamepad2",
+    image: "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=400",
+  },
+  {
+    id: "grocery",
+    name: "Grocery",
+    icon: "ShoppingBasket",
+    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400",
+  },
 ];
 
 export const products: Product[] = [
@@ -18,12 +59,13 @@ export const products: Product[] = [
     name: "iPhone 15 Pro Max",
     price: 129999,
     originalPrice: 149999,
-    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500",
+    image: "/a/iphone15promax.png",
     category: "electronics",
     rating: 4.8,
     reviews: 2456,
     badge: "Bestseller",
-    description: "The most powerful iPhone ever with A17 Pro chip, titanium design, and advanced camera system.",
+    description:
+      "The most powerful iPhone ever with A17 Pro chip, titanium design, and advanced camera system.",
     inStock: true,
     discount: 13,
   },
@@ -43,7 +85,7 @@ export const products: Product[] = [
   },
   {
     id: "3",
-    name: "MacBook Pro 16\" M3 Max",
+    name: 'MacBook Pro 16" M3 Max',
     price: 349999,
     originalPrice: 399999,
     image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500",
@@ -51,7 +93,8 @@ export const products: Product[] = [
     rating: 4.9,
     reviews: 876,
     badge: "Premium",
-    description: "Supercharged by M3 Max chip. Built for pros who need ultimate performance.",
+    description:
+      "Supercharged by M3 Max chip. Built for pros who need ultimate performance.",
     inStock: true,
     discount: 12,
   },
@@ -65,20 +108,22 @@ export const products: Product[] = [
     rating: 4.8,
     reviews: 3421,
     badge: "Top Rated",
-    description: "Industry-leading noise cancellation with exceptional sound quality.",
+    description:
+      "Industry-leading noise cancellation with exceptional sound quality.",
     inStock: true,
     discount: 14,
   },
   {
     id: "5",
-    name: "iPad Pro 12.9\" M2",
+    name: 'iPad Pro 12.9" M2',
     price: 112999,
     originalPrice: 129999,
     image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500",
     category: "electronics",
     rating: 4.7,
     reviews: 1245,
-    description: "Supercharged by M2 chip. Next-level Apple Pencil hover experience.",
+    description:
+      "Supercharged by M2 chip. Next-level Apple Pencil hover experience.",
     inStock: true,
     discount: 13,
   },
@@ -192,7 +237,8 @@ export const products: Product[] = [
     rating: 4.7,
     reviews: 2134,
     badge: "Top Seller",
-    description: "Premium ergonomic chair with lumbar support and adjustable armrests.",
+    description:
+      "Premium ergonomic chair with lumbar support and adjustable armrests.",
     inStock: true,
     discount: 22,
   },
@@ -206,7 +252,8 @@ export const products: Product[] = [
     rating: 4.6,
     reviews: 987,
     badge: "Smart Home",
-    description: "HEPA air purifier with smart controls and air quality monitoring.",
+    description:
+      "HEPA air purifier with smart controls and air quality monitoring.",
     inStock: true,
     discount: 20,
   },
@@ -497,6 +544,10 @@ export const products: Product[] = [
   },
 ];
 
-export const deals = products.filter(p => p.discount && p.discount >= 20);
-export const trending = products.filter(p => p.badge === "Trending" || p.badge === "Hot" || p.badge === "Bestseller");
-export const newArrivals = products.filter(p => p.badge === "New" || p.badge === "Limited Edition");
+export const deals = products.filter((p) => p.discount && p.discount >= 20);
+export const trending = products.filter(
+  (p) => p.badge === "Trending" || p.badge === "Hot" || p.badge === "Bestseller"
+);
+export const newArrivals = products.filter(
+  (p) => p.badge === "New" || p.badge === "Limited Edition"
+);
