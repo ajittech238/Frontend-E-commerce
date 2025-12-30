@@ -54,7 +54,7 @@ export default function AdminCategories() {
       header: "Category",
       render: (item: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
             <FolderTree className="w-5 h-5 text-primary" />
           </div>
           <div>

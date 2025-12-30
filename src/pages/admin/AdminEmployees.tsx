@@ -152,7 +152,7 @@ export default function AdminEmployees() {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9">
-                        <AvatarFallback className="bg-primary/10 text-primary">{employee.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                        <AvatarFallback className="bg-pink-gradient/10 text-primary">{employee.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="font-medium">{employee.name}</div>

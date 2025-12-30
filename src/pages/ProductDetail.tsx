@@ -1107,7 +1107,7 @@ const ProductDetail = () => {
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border   ">
               {[
                 { icon: Truck, title: "Free Delivery", desc: "On orders above ₹499" },
                 { icon: Shield, title: "1 Year Warranty", desc: "Official warranty" },

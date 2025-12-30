@@ -51,9 +51,9 @@ export function DashboardLayout() {
             
             <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0 ml-auto">
               {/* Theme Toggle */}
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent"
                 onClick={() => setIsDark(!isDark)}
               >
@@ -65,7 +65,7 @@ export function DashboardLayout() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent">
                     <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-primary text-primary-foreground text-[8px] sm:text-[10px] rounded-full flex items-center justify-center font-medium animate-pulse">
+                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-pink-gradient text-primary-foreground text-[8px] sm:text-[10px] rounded-full flex items-center justify-center font-medium animate-pulse">
                       3
                     </span>
                   </Button>
@@ -79,7 +79,7 @@ export function DashboardLayout() {
                   {notifications.map((notification) => (
                     <DropdownMenuItem key={notification.id} className="flex flex-col items-start gap-1 p-2 xs:p-3 cursor-pointer">
                       <div className="flex items-center gap-2 w-full">
-                        {notification.unread && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                        {notification.unread && <div className="w-1.5 h-1.5 rounded-full bg-pink-gradient" />}
                         <span className="font-medium text-xs xs:text-sm">{notification.title}</span>
                       </div>
                       <span className="text-[11px] xs:text-xs text-muted-foreground ml-3.5">{notification.time}</span>
