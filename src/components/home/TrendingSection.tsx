@@ -103,7 +103,7 @@ const TrendingSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top duration-700">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-gradient/10 border border-primary/20 mb-4">
               <Flame className="h-4 w-4 text-primary animate-pulse" />
               <span className="text-sm font-semibold text-primary">
                 Hot This Week

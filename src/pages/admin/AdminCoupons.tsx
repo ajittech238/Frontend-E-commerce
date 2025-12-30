@@ -53,7 +53,7 @@ export default function AdminCoupons() {
       header: "Coupon Code",
       render: (item: any) => (
         <div className="flex items-center gap-2">
-          <code className="px-2 py-1 bg-primary/10 text-primary rounded font-mono text-sm">{item.code}</code>
+          <code className="px-2 py-1 bg-pink-gradient/10 text-primary rounded font-mono text-sm">{item.code}</code>
           <Button variant="ghost" size="icon" className="w-6 h-6">
             <Copy className="w-3 h-3" />
           </Button>

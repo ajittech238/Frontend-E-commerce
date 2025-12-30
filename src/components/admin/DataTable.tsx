@@ -120,7 +120,7 @@ export function DataTable<T>({
                     checked={allSelected}
                     onCheckedChange={handleSelectAll}
                     aria-label="Select all"
-                    className={someSelected && !allSelected ? "data-[state=checked]:bg-primary/50" : ""}
+                    className={someSelected && !allSelected ? "data-[state=checked]:bg-pink-gradient/50" : ""}
                   />
                 </TableHead>
               )}
@@ -152,7 +152,7 @@ export function DataTable<T>({
                 return (
                   <TableRow
                     key={id}
-                    className={`transition-colors ${isSelected ? 'bg-primary/5' : ''} ${onRowClick ? 'cursor-pointer' : ''}`}
+                    className={`transition-colors ${isSelected ? 'bg-pink-gradient/5' : ''} ${onRowClick ? 'cursor-pointer' : ''}`}
                     onClick={() => onRowClick?.(item)}
                   >
                     {selectable && (

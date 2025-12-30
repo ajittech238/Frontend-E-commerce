@@ -29,7 +29,7 @@ const NewArrivalsSection = () => {
     <section className="py-16 md:py-24 bg-gradient-to-r from-background via-accent/5 to-background relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-gradient/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container relative z-10">
