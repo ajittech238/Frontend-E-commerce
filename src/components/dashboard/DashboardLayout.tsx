@@ -33,27 +33,23 @@ export function DashboardLayout() {
         <DashboardSidebar />
         <SidebarInset className="flex-1 flex flex-col">
           {/* Top Header */}
-          <header className="h-12 sm:h-14 md:h-16 border-b border-border/50 flex items-center justify-between px-2 xs:px-3 sm:px-4 md:px-6 bg-card/80 backdrop-blur-md sticky top-0 z-50 gap-2">
-            <div className="flex items-center gap-1 sm:gap-2 md:gap-4 flex-1 min-w-0">
-              <SidebarTrigger className="p-1.5 sm:p-2 hover:bg-accent rounded-lg transition-colors flex-shrink-0">
-                <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
-              </SidebarTrigger>
-              
+          <header className="h-12 sm:h-14 md:h-16 border-b border-border/50 flex items-center px-2 xs:px-3 sm:px-4 md:px-6 bg-card/80 backdrop-blur-md sticky top-0 z-50 gap-2">
+            <div>
               <div className={`relative transition-all duration-300 hidden xs:block min-w-0 ${searchFocused ? 'w-40 sm:w-64 md:w-80' : 'w-24 sm:w-48 md:w-64'}`}>
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search..."
-                  className="pl-8 pr-3 py-1.5 sm:py-2 h-8 sm:h-9 md:h-10 bg-accent/50 border-transparent focus:border-primary/50 focus:bg-background transition-all text-xs sm:text-sm"
-                  onFocus={() => setSearchFocused(true)}
-                  onBlur={() => setSearchFocused(false)}
-                />
-                <kbd className="hidden lg:inline-flex absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[9px] font-medium text-muted-foreground">
-                  ⌘K
-                </kbd>
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search..."
+                    className="pl-8 pr-3 py-1.5 sm:py-2 h-8 sm:h-9 md:h-10 bg-accent/50 border-transparent focus:border-primary/50 focus:bg-background transition-all text-xs sm:text-sm"
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setSearchFocused(false)}
+                  />
+                  <kbd className="hidden lg:inline-flex absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[9px] font-medium text-muted-foreground">
+                    ⌘K
+                  </kbd>
               </div>
             </div>
             
-            <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0 ml-auto">
               {/* Theme Toggle */}
               <Button 
                 variant="ghost" 
