@@ -34,6 +34,11 @@ export function DashboardLayout() {
         <SidebarInset className="flex-1 flex flex-col">
           {/* Top Header */}
           <header className="h-12 sm:h-14 md:h-16 border-b border-border/50 flex items-center px-2 xs:px-3 sm:px-4 md:px-6 bg-card/80 backdrop-blur-md sticky top-0 z-50 gap-2">
+            <div className="sm:hidden">
+              <SidebarTrigger className="h-8 w-8">
+                <Menu className="h-4 w-4" />
+              </SidebarTrigger>
+            </div>
             <div>
               <div className={`relative transition-all duration-300 hidden xs:block min-w-0 ${searchFocused ? 'w-40 sm:w-64 md:w-80' : 'w-24 sm:w-48 md:w-64'}`}>
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
