@@ -13,6 +13,11 @@ import {
   RefreshCw,
   Download,
   Filter,
+  User,
+  Mail,
+  MapPin,
+  Truck,
+  Hash,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +30,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -32,7 +44,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { products } from "@/data/products";
-import { orders } from "@/data/orders";
+import { orders, Order } from "@/data/orders";
+import { Separator } from "@/components/ui/separator";
 
 const stats = [
   {
@@ -79,6 +92,7 @@ const topProducts = products.slice(0, 5);
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState("7d");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -91,6 +105,21 @@ export default function Dashboard() {
     shipped: orders.filter(o => o.status === "shipped").length,
     delivered: orders.filter(o => o.status === "delivered").length,
   }), []);
+
+  const OrderStatusBadge = ({ status }: { status: Order['status'] }) => {
+    const statusStyles = {
+      delivered: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+      shipped: 'bg-purple-500/10 text-purple-600 border-purple-500/20',
+      processing: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+      pending: 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+      cancelled: 'bg-destructive/10 text-destructive border-destructive/20',
+    };
+    return (
+      <Badge className={`text-xs whitespace-nowrap border ${statusStyles[status]}`}>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </Badge>
+    );
+  };
 
   return (
     <div className="space-y-4 sm:space-y-6 animate-fade-in">
@@ -221,15 +250,7 @@ export default function Dashboard() {
                       <p className="font-semibold text-foreground text-sm">₹{order.total.toLocaleString()}</p>
                       <p className="text-xs text-muted-foreground">{new Date(order.date).toLocaleDateString()}</p>
                     </div>
-                    <Badge className={`text-[10px] sm:text-xs whitespace-nowrap ${
-                      order.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20' :
-                      order.status === 'shipped' ? 'bg-purple-500/10 text-purple-600 hover:bg-purple-500/20' :
-                      order.status === 'processing' ? 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20' :
-                      order.status === 'cancelled' ? 'bg-destructive/10 text-destructive hover:bg-destructive/20' :
-                      'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20'
-                    }`}>
-                      {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                    </Badge>
+                    <OrderStatusBadge status={order.status} />
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="w-8 h-8 flex-shrink-0">
@@ -237,7 +258,9 @@ export default function Dashboard() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem><Eye className="w-4 h-4 mr-2" /> View Details</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => setSelectedOrder(order)}>
+                          <Eye className="w-4 h-4 mr-2" /> View Details
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -318,6 +341,103 @@ export default function Dashboard() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Order Details Dialog */}
+      <Dialog open={selectedOrder !== null} onOpenChange={(isOpen) => !isOpen && setSelectedOrder(null)}>
+        <DialogContent className="sm:max-w-2xl md:max-w-3xl max-h-[90vh] overflow-y-auto">
+          {selectedOrder && (
+            <>
+              <DialogHeader className="p-4 sm:p-6 pb-0">
+                <DialogTitle className="text-xl sm:text-2xl font-bold flex items-center">
+                  <Hash className="w-6 h-6 mr-2 text-primary" />
+                  Order Details: {selectedOrder.id}
+                </DialogTitle>
+                <DialogDescription>
+                  {new Date(selectedOrder.date).toLocaleString()}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="px-4 sm:px-6 py-2 sm:py-4 space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  {/* Customer Details */}
+                  <Card className="bg-accent/50 border-border/50">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base sm:text-lg flex items-center">
+                        <User className="w-5 h-5 mr-2 text-primary" />
+                        Customer
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <div className="flex items-center">
+                        <strong className="w-16">Name:</strong>
+                        <span className="text-muted-foreground">{selectedOrder.customerName}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
+                        <span className="text-muted-foreground">{selectedOrder.email}</span>
+                      </div>
+                      <div className="flex items-start">
+                        <MapPin className="w-4 h-4 mr-2 mt-1 text-muted-foreground" />
+                        <span className="text-muted-foreground">{selectedOrder.address}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Order Summary */}
+                  <Card className="bg-accent/50 border-border/50">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base sm:text-lg flex items-center">
+                        <ShoppingCart className="w-5 h-5 mr-2 text-primary" />
+                        Order Summary
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm space-y-2">
+                      <div className="flex justify-between items-center">
+                        <strong>Status:</strong>
+                        <OrderStatusBadge status={selectedOrder.status} />
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <strong>Total:</strong>
+                        <span className="font-bold text-lg text-foreground">₹{selectedOrder.total.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <strong>Items:</strong>
+                        <span className="text-muted-foreground">{selectedOrder.items.length}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Items List */}
+                <div>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 flex items-center">
+                    <Package className="w-5 h-5 mr-2 text-primary" />
+                    Items Ordered
+                  </h3>
+                  <div className="border rounded-lg overflow-hidden border-border/50">
+                    {selectedOrder.items.map((item, index) => (
+                      <div key={item.productId} className={`flex items-center justify-between p-3 ${index !== selectedOrder.items.length - 1 ? 'border-b border-border/50' : ''} hover:bg-accent/30`}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center text-primary font-bold">
+                            {item.quantity}x
+                          </div>
+                          <div>
+                            <p className="font-medium text-foreground text-sm">{item.name}</p>
+                            <p className="text-xs text-muted-foreground">Product ID: {item.productId}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold text-foreground text-sm">₹{item.price.toLocaleString()}</p>
+                          <p className="text-xs text-muted-foreground">Subtotal: ₹{(item.quantity * item.price).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
