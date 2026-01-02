@@ -13,6 +13,12 @@ export interface Product {
   description?: string;
   inStock: boolean;
   discount?: number;
+  author?: string;
+  publisher?: string;
+  pages?: number;
+  language?: string;
+  isbn?: string;
+  publicationYear?: number;
 }
 
 export interface CartItem extends Product {
