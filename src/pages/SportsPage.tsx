@@ -96,7 +96,7 @@ export default function SportsPage() {
                 <label className="text-sm font-semibold">Category</label>
                 <div className={cn("space-y-2", isExpanded && "max-h-48 overflow-y-auto")}>
                   {sportsCategories.map((cat, i) =>
-                    !isExpanded && i >= 5 ? null : (
+                    !isExpanded && i >= 6 ? null : (
                       <button
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.id)}
@@ -113,7 +113,7 @@ export default function SportsPage() {
                   )}
                 </div>
 
-                {sportsCategories.length > 5 && (
+                {sportsCategories.length > 6 && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-primary text-sm flex items-center gap-1 mt-2"
