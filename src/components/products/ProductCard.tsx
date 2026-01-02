@@ -43,6 +43,10 @@
 //     }
 //   };
 
+//   const handleCardClick = () => {
+//     navigate(`/product/${product.id}`);
+//   };
+
 //   const discountPercent = product.originalPrice
 //     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
 //     : 0;
@@ -52,28 +56,27 @@
 //     : "";
 
 //   return (
-//     <>
+    
 //       <div
 //         className={cn(
-//           "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300",
+//           "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 cursor-pointer",
 //           "hover:shadow-card-hover hover:border-primary/20",
 //           "animate-fade-in opacity-0"
 //         )}
 //         style={{ animationDelay: `${index * 0.05}s`, animationFillMode: "forwards" }}
 //         onMouseEnter={() => setIsHovered(true)}
 //         onMouseLeave={() => setIsHovered(false)}
+//         onClick={handleCardClick}
 //       >
 //         <div className="relative aspect-square overflow-hidden bg-secondary/30">
-//           <Link to={`/product/${product.id}`} className="block h-full">
-//             <img
-//               src={product.image}
-//               alt={product.name}
-//               className={cn(
-//                 "w-full h-full object-cover transition-transform duration-500",
-//                 isHovered && "scale-105"
-//               )}
-//             />
-//           </Link>
+//           <img
+//             src={product.image}
+//             alt={product.name}
+//             className={cn(
+//               "w-full h-full object-cover transition-transform duration-500",
+//               isHovered && "scale-105"
+//             )}
+//           />
 
 //           <div className="absolute top-3 left-3 flex flex-col gap-2">
 //             {product.badge && (
@@ -144,39 +147,36 @@
 //           </div>
 //         </div>
 
-//         <div className="p-4">
-//           <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-//             Artisan Shop
-//           </p>
+//       {/* Content */}
+//       <div className="p-4 space-y-2.5">
+//         {/* Shop Name */}
+//         <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+//           Artisan Shop
+//         </p>
 
-//           <Link to={`/product/${product.id}`} className="block mt-1.5">
+//           <div className="block mt-1.5">
 //             <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
 //               {product.name}
 //             </h3>
-//           </Link>
-
-//           {shortDescription && (
-//             <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 mt-0.5">
-//               {shortDescription}
-//             </p>
-//           )}
-
-//           <div className="flex items-center gap-1.5 mt-1.5">
-//             <div className="flex items-center gap-0.5">
-//               {[...Array(5)].map((_, i) => (
-//                 <Star
-//                   key={i}
-//                   className={cn(
-//                     "h-3 w-3",
-//                     i < Math.floor(product.rating)
-//                       ? "fill-primary text-primary"
-//                       : "text-muted-foreground"
-//                   )}
-//                 />
-//               ))}
-//             </div>
-//             <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
 //           </div>
+
+//         {/* Rating */}
+//         <div className="flex items-center gap-1.5">
+//           <div className="flex items-center gap-0.5">
+//             {[...Array(5)].map((_, i) => (
+//               <Star
+//                 key={i}
+//                 className={cn(
+//                   "h-3 w-3",
+//                   i < Math.floor(product.rating)
+//                     ? "fill-primary text-primary"
+//                     : "fill-muted text-muted"
+//                 )}
+//               />
+//             ))}
+//           </div>
+//           <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
+//         </div>
 
 //           <div className="flex items-baseline gap-2 flex-wrap mt-1.5">
 //             <span className="text-lg font-bold text-foreground">{formatPrice(product.price)}</span>
@@ -187,20 +187,27 @@
 //             )}
 //           </div>
 
-//           <div className="flex items-center gap-1.5 text-xs text-accent font-medium mt-1.5">
-//             <Truck className="h-3.5 w-3.5" />
-//             <span>FREE delivery</span>
-//           </div>
+//         {/* Delivery Info */}
+//         <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
+//           <Truck className="h-3.5 w-3.5" />
+//           <span>FREE delivery</span>
 //         </div>
 //       </div>
-//       {!isMobile && isDetailModalOpen && <ProductModal 
-//         product={product}
-//         isOpen={isDetailModalOpen}
-//         onOpenChange={setIsDetailModalOpen}
-//       />}
-//     </>
+//     </div>
 //   );
 // };
+
+// export default ProductCard;
+
+
+
+
+
+
+
+
+
+
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -214,7 +221,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { HomeLivingProduct } from "@/data/Home&living";
 
 interface ProductCardProps {
-  product: HomeLivingProduct;
+  product: any;
   index?: number;
 }
 
@@ -247,10 +254,6 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
     }
   };
 
-  const handleCardClick = () => {
-    navigate(`/product/${product.id}`);
-  };
-
   const discountPercent = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -260,28 +263,31 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
     : "";
 
   return (
-    
+    <>
       <div
         className={cn(
-          "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 cursor-pointer",
+          "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300",
           "hover:shadow-card-hover hover:border-primary/20",
           "animate-fade-in opacity-0"
         )}
         style={{ animationDelay: `${index * 0.05}s`, animationFillMode: "forwards" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={handleCardClick}
       >
         <div className="relative aspect-square overflow-hidden bg-secondary/30">
-          <img
-            src={product.image}
-            alt={product.name}
-            className={cn(
-              "w-full h-full object-cover transition-transform duration-500",
-              isHovered && "scale-105"
-            )}
-          />
+          {/* Image with Link */}
+          <Link to={`/product/${product.id}`} className="block h-full">
+            <img
+              src={product.image}
+              alt={product.name}
+              className={cn(
+                "w-full h-full object-cover transition-transform duration-500",
+                isHovered && "scale-105"
+              )}
+            />
+          </Link>
 
+          {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {product.badge && (
               <span className="badge-handmade flex items-center gap-1">
@@ -296,6 +302,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             )}
           </div>
 
+          {/* Wishlist Button */}
           <Button
             size="icon"
             variant="ghost"
@@ -317,6 +324,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             />
           </Button>
 
+          {/* Quick View (Eye) Button */}
           <Button
             size="icon"
             variant="ghost"
@@ -331,6 +339,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 "text-muted-foreground")}/>
           </Button>
 
+          {/* Add to Cart Button */}
           <div
             className={cn(
               "absolute bottom-3 left-3 right-3 transition-all duration-300",
@@ -351,37 +360,39 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </div>
         </div>
 
-      {/* Content */}
-      <div className="p-4 space-y-2.5">
-        {/* Shop Name */}
-        <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-          Artisan Shop
-        </p>
+        {/* Content Section */}
+        <div className="p-4 space-y-2.5">
+          {/* Shop Name */}
+          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+            Artisan Shop
+          </p>
 
-          <div className="block mt-1.5">
+          {/* Product Name with Link */}
+          <Link to={`/product/${product.id}`} className="block mt-1.5">
             <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
               {product.name}
             </h3>
+          </Link>
+
+          {/* Rating */}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={cn(
+                    "h-3 w-3",
+                    i < Math.floor(product.rating)
+                      ? "fill-primary text-primary"
+                      : "fill-muted text-muted"
+                  )}
+                />
+              ))}
+            </div>
+            <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
           </div>
 
-        {/* Rating */}
-        <div className="flex items-center gap-1.5">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={cn(
-                  "h-3 w-3",
-                  i < Math.floor(product.rating)
-                    ? "fill-primary text-primary"
-                    : "fill-muted text-muted"
-                )}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
-        </div>
-
+          {/* Price */}
           <div className="flex items-baseline gap-2 flex-wrap mt-1.5">
             <span className="text-lg font-bold text-foreground">{formatPrice(product.price)}</span>
             {product.originalPrice && (
@@ -391,13 +402,23 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             )}
           </div>
 
-        {/* Delivery Info */}
-        <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
-          <Truck className="h-3.5 w-3.5" />
-          <span>FREE delivery</span>
+          {/* Delivery Info */}
+          <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
+            <Truck className="h-3.5 w-3.5" />
+            <span>FREE delivery</span>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Product Modal - Dialog for Quick View */}
+      {!isMobile && (
+        <ProductModal 
+          product={product}
+          isOpen={isDetailModalOpen}
+          onOpenChange={setIsDetailModalOpen}
+        />
+      )}
+    </>
   );
 };
 

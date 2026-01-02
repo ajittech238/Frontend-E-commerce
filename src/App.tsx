@@ -89,6 +89,7 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
+import BooksPage from "./pages/BooksPage";
 
 import { CustomerAuthProvider } from "./customer/context/CustomerAuthContext";
 import CustomerRoutes from "./customer/routes/CustomerRoutes";

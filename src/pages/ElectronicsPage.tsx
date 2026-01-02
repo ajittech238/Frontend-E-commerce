@@ -17,7 +17,7 @@ const ElectronicsPage = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("popularity");
-  const [quickViewProduct, setQuickViewProduct] = useState<typeof electronicsProducts[0] | null>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
   const [quickViewQuantity, setQuickViewQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("Black");
   const [selectedSize, setSelectedSize] = useState("");

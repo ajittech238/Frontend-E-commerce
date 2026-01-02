@@ -409,68 +409,19 @@ const Header = () => {
               </Link>
             </li>
 
-            {/* Home & Living */}
+            {/* Books */}
             <li>
               <Link
-                to="/homeliving"
+                to="/books"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span>🏠</span>
-                Home & Living
+                <span>📚</span>
+                Books
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
 
-            {/* Beauty */}
-            <li>
-              <Link
-                to="/beauty"
-                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
-              >
-                <span>💄</span>
-                Beauty
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
-              </Link>
-            </li>
-            {/* Sports */}
-             <li>
-              <Link
-                to="/sports"
-                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
-              >
-                <span>⚽</span>
-                Sports
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
-              </Link>
-            </li>
-
-            {/* Jewellery */}
-            <li>
-              <Link
-                to="/jewellery"
-                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
-              >
-                <span>📿</span>
-                Jewellery
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
-              </Link>
-            </li>
-
-            {/* Perfumes */}
-            <li>
-              <Link
-                to="/perfumes"
-                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
-              >
-                {/* <span></span> */}
-                Perfumes
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
-              </Link>
-            </li>
-
-
-
-            {/* {categories.slice(2, 6).map((category) => (
+            {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
                   to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
@@ -567,34 +518,14 @@ const Header = () => {
                   <span className="font-medium text-foreground hover:text-primary transition-colors">Electronics</span>
                 </Link>
 
-                {/* Grocery */}
+                {/* Books */}
                 <Link
-                  to="/grocery"
+                  to="/books"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
                 >
-                  <span className="text-lg">🛒</span>
-                  <span className="font-medium text-foreground hover:text-primary transition-colors">Grocery</span>
-                </Link>
-
-                {/* Home & Living */}
-                <Link
-                  to="/homeliving"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-                >
-                  <span className="text-lg">🏠</span>
-                  <span className="font-medium text-foreground hover:text-primary transition-colors">Home & Living</span>
-                </Link>
-
-                {/* Beauty */}
-                <Link
-                  to="/beauty"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-                >
-                  <span className="text-lg">💄</span>
-                  <span className="font-medium text-foreground hover:text-primary transition-colors">Beauty</span>
+                  <span className="text-lg">📚</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">Books</span>
                 </Link>
 
                 {/* Other Categories */}

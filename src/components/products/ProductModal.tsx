@@ -22,7 +22,7 @@ import { HomeLivingProduct } from "@/data/Home&living";
 import { useWishlist } from "@/context/WishlistContext";
 
 interface ProductModalProps {
-  product: HomeLivingProduct;
+  product: any;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }

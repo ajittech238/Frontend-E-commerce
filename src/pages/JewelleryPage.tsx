@@ -22,7 +22,7 @@ const JewelleryPage = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
     null
   );
-  const [selectedProductModal, setSelectedProductModal] = useState<typeof beautyProducts[0] | null>(null);
+  const [selectedProductModal, setSelectedProductModal] = useState<any>(null);
   const [modalQuantity, setModalQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("Default");
   const [selectedSize, setSelectedSize] = useState("");
