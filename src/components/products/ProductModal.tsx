@@ -22,7 +22,7 @@ import { HomeLivingProduct } from "@/data/Home&living";
 import { useWishlist } from "@/context/WishlistContext";
 
 interface ProductModalProps {
-  product: any;
+  product: Product;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }
@@ -74,7 +74,7 @@ export default function ProductModal({
 
   const effectiveStock = useMemo(() => {
     if (!product.variants || product.variants.length === 0) {
-      return product.stock || 50;
+      return product.stock ?? 999;
     }
     let currentStock = 0;
     const primaryVariant = product.variants[0];

@@ -16,6 +16,15 @@ export interface Product {
   description?: string;
   inStock: boolean;
   stock?: number;
+  images360?: string[];
+  specifications?: { name: string; value: string }[];
+  detailedReviews?: {
+    id: string;
+    author: string;
+    rating: number;
+    comment: string;
+    date: string;
+  }[];
   discount?: number;
   brand?: string;
   author?: string;
@@ -24,6 +33,7 @@ export interface Product {
   language?: string;
   isbn?: string;
   publicationYear?: number;
+  
 }
 
 export interface CartItem extends Product {

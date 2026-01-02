@@ -150,32 +150,6 @@ const HeroSection = () => {
           ))}
         </div>
       </div>
-
-      {/* Featured Categories Strip */}
-      <div className="bg-white/5 dark:bg-slate-900/50 backdrop-blur-md border-t border-border/50 py-12 relative z-20">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { label: "Jewelry", icon: "💍", count: "12,000+" },
-              { label: "Home & Living", icon: "🏠", count: "8,500+" },
-              { label: "Clothing", icon: "👗", count: "15,000+" },
-              { label: "Art", icon: "🎨", count: "6,000+" },
-            ].map((item, i) => (
-              <Link
-                key={i}
-                to="/products"
-                className="flex flex-col items-center md:flex-row md:items-center md:gap-4 p-4 rounded-xl hover:bg-white/10 transition-all duration-300"
-              >
-                <span className="text-4xl mb-2 md:mb-0">{item.icon}</span>
-                <div className="text-center md:text-left">
-                  <p className="font-bold text-white text-sm">{item.label}</p>
-                  <p className="text-xs text-gray-400">{item.count} items</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
     </section>
   );
 };
