@@ -70,13 +70,8 @@
 
 
 
-import { useRef } from "react";
-import {
-  ArrowRight,
-  ArrowLeft,
-  TrendingUp,
-  Flame,
-} from "lucide-react";
+import { useRef, useEffect } from "react";
+import { ArrowRight, ArrowLeft, TrendingUp, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/products/ProductCard";
 import { trending, products } from "@/data/products";
@@ -86,22 +81,45 @@ const TrendingSection = () => {
   const trendingProducts =
     trending.length >= 4 ? trending : products.slice(0, 8);
 
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const handleScroll = (direction) => {
+  const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
 
+    const scrollAmount = 320;
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -320 : 320,
+      left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
 
+  // ===== Auto Slide =====
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!scrollRef.current) return;
+
+      const container = scrollRef.current;
+      const scrollAmount = 320;
+
+      if (
+        container.scrollLeft + container.clientWidth >=
+        container.scrollWidth
+      ) {
+        // If at the end, scroll back to start
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }, 2000); // every 2 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-background to-accent/5">
+    <section className=" md:py-10 bg-gradient-to-b from-background to-accent/5">
       <div className="container">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top duration-700">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-5 animate-in fade-in slide-in-from-top duration-700">
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Flame className="h-4 w-4 text-primary animate-pulse" />
@@ -109,9 +127,7 @@ const TrendingSection = () => {
                 Hot This Week
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold">
-              Trending Now
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-bold">Trending Now</h2>
             <p className="text-muted-foreground mt-2">
               Discover what's hot and what customers love
             </p>
@@ -125,7 +141,7 @@ const TrendingSection = () => {
           </Link>
         </div>
 
-        {/* 🔥 Scrollable Products */}
+        {/* Scrollable Products */}
         <div className="relative">
           {/* Left Scroll Button */}
           <button

@@ -121,7 +121,6 @@
 
 
 
-
 import { useState, useEffect, useRef } from "react";
 import {
   ArrowRight,
@@ -142,19 +141,18 @@ const DealsSection = () => {
     seconds: 59,
   });
 
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  // Countdown Timer
+  /* ================= COUNTDOWN TIMER ================= */
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev.seconds > 0) {
+        if (prev.seconds > 0)
           return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
+        if (prev.minutes > 0)
           return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        } else if (prev.hours > 0) {
+        if (prev.hours > 0)
           return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        }
         return { hours: 23, minutes: 59, seconds: 59 };
       });
     }, 1000);
@@ -162,11 +160,38 @@ const DealsSection = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Scroll Handler
-  const handleScroll = (direction) => {
+  /* ================= AUTO SLIDER (EVERY 2s) ================= */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!scrollRef.current) return;
+
+      const cardWidth =
+        window.innerWidth < 640 ? 220 : 320; // mobile vs desktop
+
+      scrollRef.current.scrollBy({
+        left: cardWidth,
+        behavior: "smooth",
+      });
+
+      // loop back when end reached
+      if (
+        scrollRef.current.scrollLeft +
+          scrollRef.current.clientWidth >=
+        scrollRef.current.scrollWidth - cardWidth
+      ) {
+        scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  /* ================= MANUAL SCROLL ================= */
+  const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
 
-    const scrollAmount = 320;
+    const scrollAmount = window.innerWidth < 640 ? 220 : 320;
+
     scrollRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -174,96 +199,91 @@ const DealsSection = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 relative overflow-hidden">
+    <section className="py-14 md:py-24 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div
-          className="absolute -bottom-20 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
+        <div className="absolute top-0 left-1/4 w-72 h-72 md:w-96 md:h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-20 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-primary/10 rounded-full blur-3xl animate-pulse delay-2000" />
       </div>
 
       <div className="container relative z-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12">
+        {/* ================= HEADER ================= */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           <div className="flex items-center gap-4">
-            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
-              <Zap className="h-8 w-8 text-white animate-pulse" />
+            <div className="h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
+              <Zap className="h-7 w-7 md:h-8 md:w-8 text-white animate-pulse" />
             </div>
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold flex items-center gap-2">
+              <h2 className="text-3xl md:text-5xl font-bold flex items-center gap-2">
                 Flash Deals <span>🔥</span>
               </h2>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-sm md:text-lg">
                 Limited time offers on handpicked collections
               </p>
             </div>
           </div>
 
-          {/* Timer */}
-          <div className="flex items-center gap-4 bg-white dark:bg-slate-800 rounded-2xl px-6 py-4 border border-primary/20 shadow-lg">
-            <Clock className="h-6 w-6 text-primary animate-spin" />
+          {/* ================= TIMER ================= */}
+          <div className="flex items-center gap-4 bg-white dark:bg-slate-800 rounded-2xl px-4 md:px-6 py-3 md:py-4 border border-primary/20 shadow-lg">
+            <Clock className="h-5 w-5 md:h-6 md:w-6 text-primary animate-spin" />
             <div>
               <p className="text-xs uppercase text-muted-foreground font-semibold">
                 Ends in
               </p>
-              <div className="flex gap-2 mt-1">
-                {Object.entries(timeLeft).map(([_, value], idx) => (
-                  <div key={idx} className="flex items-center gap-1">
-                    <span className="bg-primary text-white px-3 py-1 rounded-lg font-bold">
-                      {String(value).padStart(2, "0")}
-                    </span>
-                    
-                    {idx < 2 && <span className="font-bold">:</span>}
-                  </div>
+              <div className="flex gap-1 mt-1">
+                {Object.values(timeLeft).map((value, idx) => (
+                  <span
+                    key={idx}
+                    className="bg-primary text-white px-2 md:px-3 py-1 rounded-lg font-bold text-sm"
+                  >
+                    {String(value).padStart(2, "0")}
+                  </span>
                 ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* 🔥 Scrollable Products */}
+        {/* ================= PRODUCTS SLIDER ================= */}
         <div className="relative mb-12">
-          {/* Left Button */}
+          {/* LEFT BUTTON */}
           <button
             onClick={() => handleScroll("left")}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
+            className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
           >
             <ArrowLeft className="h-5 w-5 text-primary" />
           </button>
 
-          {/* Products Row */}
+          {/* PRODUCTS ROW */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide px-2"
+            className="flex gap-3 md:gap-4 overflow-x-auto scroll-smooth scrollbar-hide px-1"
           >
             {deals.slice(0, 10).map((product, index) => (
               <div
                 key={product.id}
-                className="min-w-[260px] animate-in fade-in slide-in-from-bottom-4 duration-500"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="min-w-[200px] sm:min-w-[230px] md:min-w-[260px] transition-transform"
               >
                 <ProductCard product={product} index={index} />
               </div>
             ))}
           </div>
 
-          {/* Right Button */}
+          {/* RIGHT BUTTON */}
           <button
             onClick={() => handleScroll("right")}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
+            className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
           >
             <ArrowRight className="h-5 w-5 text-primary" />
           </button>
         </div>
 
-        {/* CTA */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 rounded-3xl bg-primary/10 border border-primary/20">
+        {/* ================= CTA ================= */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 md:p-8 rounded-3xl bg-primary/10 border border-primary/20">
           <div className="flex items-center gap-4">
-            <TrendingUp className="h-8 w-8 text-primary" />
+            <TrendingUp className="h-7 w-7 md:h-8 md:w-8 text-primary" />
             <div>
-              <p className="font-semibold text-lg">
+              <p className="font-semibold text-base md:text-lg">
                 Don't miss these amazing deals!
               </p>
               <p className="text-sm text-muted-foreground">
@@ -273,7 +293,7 @@ const DealsSection = () => {
           </div>
 
           <Link to="/deals">
-            <Button className="gap-2 px-8 py-3">
+            <Button className="gap-2 px-6 md:px-8 py-3">
               View All Deals
               <ArrowRight className="h-5 w-5" />
             </Button>

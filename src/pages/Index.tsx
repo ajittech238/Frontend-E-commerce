@@ -7,6 +7,8 @@ import DealsSection from "@/components/home/DealsSection";
 import TrendingSection from "@/components/home/TrendingSection";
 import BannerSection from "@/components/home/BannerSection";
 import NewArrivalsSection from "@/components/home/NewArrivalsSection";
+import ReviewsSection from "@/components/home/ReviewSection";
+import SimpleBanner from "@/components/home/SimpleBanner";
 
 const Index = () => {
   return (
@@ -18,8 +20,11 @@ const Index = () => {
         <CategorySection />
         <DealsSection />
         <TrendingSection />
+        <SimpleBanner />
+       
         <BannerSection />
         <NewArrivalsSection />
+        <ReviewsSection />
       </main>
       <Footer />
       <CartSidebar />
