@@ -91,49 +91,56 @@ import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import BooksPage from "./pages/BooksPage";
 
+import { CustomerAuthProvider } from "./customer/context/CustomerAuthContext";
+import CustomerRoutes from "./customer/routes/CustomerRoutes";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <OrderProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                {/* <Route path="/category/:id" element={<BeautyCategory />} /> */}
-                <Route path="/fashion/:type" element={<FashionCategoryPage />} />
-                <Route path="/fashion/men-top-wear" element={<MenTopWear />} />
-                <Route path="/fashion/men-bottom-wear" element={<MenBottomWear />} />
-                <Route path="/fashion/men-footwear" element={<MenFootwear />} />
-                <Route path="/fashion/women-dresses" element={<WomenDresses />} />
-                <Route path="/fashion/women-ethnic" element={<WomenEthnic />} />
-                <Route path="/fashion/women-western" element={<WomenWestern />} />
-                <Route path="/fashion/women-footwear" element={<WomenFootwear />} />
-                <Route path="/fashion/kids" element={<KidsWear />} />
-                <Route path="/fashion/accessories" element={<Accessories />} />
-                <Route path="/electronics" element={<ElectronicsPage />} />
-                <Route path="/books" element={<BooksPage />} />
-                <Route path="/wishlist" element={<Wishlist />} />
-                <Route path="/deals" element={<Products />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
-                <Route path="/payment/sbi" element={<SBIPayment />} />
-                <Route path="/payment-success" element={<PaymentSuccess />} />
-                <Route path="/payment-failed" element={<PaymentFailed />} />
-                <Route path="/payment-history" element={<PaymentHistory />} />
-                {/* <Route path="/books" element={<BooksPage /> } /> */}
-              
-              {/* Dashboard Routes */}
-              <Route path="/dashboard" element={<DashboardLayout />}>
+      <CustomerAuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <OrderProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  {/* <Route path="/category/:id" element={<BeautyCategory />} /> */}
+                  <Route path="/fashion/:type" element={<FashionCategoryPage />} />
+                  <Route path="/fashion/men-top-wear" element={<MenTopWear />} />
+                  <Route path="/fashion/men-bottom-wear" element={<MenBottomWear />} />
+                  <Route path="/fashion/men-footwear" element={<MenFootwear />} />
+                  <Route path="/fashion/women-dresses" element={<WomenDresses />} />
+                  <Route path="/fashion/women-ethnic" element={<WomenEthnic />} />
+                  <Route path="/fashion/women-western" element={<WomenWestern />} />
+                  <Route path="/fashion/women-footwear" element={<WomenFootwear />} />
+                  <Route path="/fashion/kids" element={<KidsWear />} />
+                  <Route path="/fashion/accessories" element={<Accessories />} />
+                  <Route path="/electronics" element={<ElectronicsPage />} />
+                  <Route path="/grocery" element={<GroceryPage />} />
+                  <Route path="/homeliving" element={<HomeLivingPage />} />
+                  <Route path="/wishlist" element={<Wishlist />} />
+                  <Route path="/deals" element={<Products />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
+                  <Route path="/payment/sbi" element={<SBIPayment />} />
+                  <Route path="/payment-success" element={<PaymentSuccess />} />
+                  <Route path="/payment-failed" element={<PaymentFailed />} />
+                  <Route path="/payment-history" element={<PaymentHistory />} />
+
+                  {/* Customer Dashboard Routes */}
+                  <Route path="/customer/*" element={<CustomerRoutes />} />
+
+                  {/* Dashboard Routes */}
+                  <Route path="/dashboard" element={<DashboardLayout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<DashboardProducts />} />
                 <Route path="orders" element={<DashboardOrders />} />
@@ -194,10 +201,10 @@ const App = () => (
             </BrowserRouter>
           </OrderProvider>
         </WishlistProvider>
-
       </CartProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+    </CustomerAuthProvider>
+  </TooltipProvider>
+</QueryClientProvider>
 );
 
 export default App;

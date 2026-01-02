@@ -221,7 +221,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { HomeLivingProduct } from "@/data/Home&living";
 
 interface ProductCardProps {
-  product: HomeLivingProduct;
+  product: any;
   index?: number;
 }
 

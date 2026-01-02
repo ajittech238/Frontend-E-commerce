@@ -6,6 +6,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images360?: string[];
   category: string;
   subcategory?: string[];
   sizes?: string[];
@@ -14,7 +15,9 @@ export interface Product {
   badge?: string;
   description?: string;
   inStock: boolean;
+  stock?: number;
   discount?: number;
+  brand?: string;
   author?: string;
   publisher?: string;
   pages?: number;

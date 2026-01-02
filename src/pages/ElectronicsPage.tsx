@@ -1,5 +1,5 @@
  import { useState, useRef } from "react";
-import { Heart, ShoppingCart, Filter, Eye, X, Truck, Shield, RotateCcw, Star, Smartphone, Laptop, Headphones, Watch, Zap, Package, Check, Tablet, Camera, Speaker, Monitor, Maximize2, CheckCircle2 } from "lucide-react";
+import { Heart, ShoppingCart, Filter, Eye, X, Truck, Shield, RotateCcw, Star, Smartphone, Laptop, Headphones, Watch, Zap, Package, Check, Tablet, Camera, Speaker, Monitor, Maximize2, CheckCircle2, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
@@ -17,7 +17,10 @@ const ElectronicsPage = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("popularity");
-  const [quickViewProduct, setQuickViewProduct] = useState<typeof electronicsProducts[0] | null>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [quickViewQuantity, setQuickViewQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState("Black");
+  const [selectedSize, setSelectedSize] = useState("");
   const [isFilterMobileOpen, setIsFilterMobileOpen] = useState(false);
   const productsSectionRef = useRef<HTMLDivElement>(null);
 
@@ -113,9 +116,11 @@ const ElectronicsPage = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setQuickViewProduct(product);
+                setQuickViewQuantity(1);
+                setSelectedSize(product.sizes?.[0] || "");
               }}
             >
-              <Maximize2 className="h-4 w-4 text-muted-foreground" />
+              <Eye className="h-4 w-4 text-muted-foreground" />
             </Button>
           </div>
 
@@ -393,111 +398,226 @@ const ElectronicsPage = () => {
       {/* Quick View Modal */}
       {quickViewProduct && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-in zoom-in-95 duration-300">
-            <button
-              onClick={() => setQuickViewProduct(null)}
-              className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition-colors z-10"
-            >
-              <X size={20} />
-            </button>
+          <div className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-in zoom-in-95 duration-300">
+            {/* Modal Header */}
+            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-900 z-10">
+              <h2 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">
+                {quickViewProduct.name}
+              </h2>
+              <button
+                onClick={() => setQuickViewProduct(null)}
+                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-              <div className="bg-slate-50 dark:bg-slate-950 p-8 md:p-12 flex items-center justify-center relative group">
-                <img
-                  src={quickViewProduct.image}
-                  alt={quickViewProduct.name}
-                  className="w-full h-auto object-contain max-h-[400px] drop-shadow-2xl group-hover:scale-105 transition-transform duration-700"
-                />
-                {quickViewProduct.discount && (
-                  <div className="absolute top-8 left-8 bg-red-600 text-white font-black px-4 py-2 rounded-2xl shadow-xl -rotate-12 animate-pulse">
-                    SAVE {quickViewProduct.discount}%
-                  </div>
-                )}
-              </div>
-
-              <div className="p-8 md:p-12 space-y-8 flex flex-col justify-center">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Badge variant="outline" className="text-purple-600 border-purple-600/20 bg-purple-600/5 px-3 py-1 text-xs font-bold uppercase tracking-widest">
-                      {quickViewProduct.brand}
-                    </Badge>
-                    <div className="flex items-center gap-1 text-green-600 bg-green-50 dark:bg-green-950/30 px-3 py-1 rounded-full text-xs font-bold">
-                      <CheckCircle2 size={14} />
-                      {quickViewProduct.inStock ? "In Stock" : "Limited Stock"}
-                    </div>
+            <div className="p-6 lg:p-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* Left Column: Images */}
+                <div className="space-y-6">
+                  <div className="aspect-[4/3] rounded-2xl bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center p-8">
+                    <img
+                      src={quickViewProduct.image}
+                      alt={quickViewProduct.name}
+                      className="w-full h-full object-contain drop-shadow-2xl"
+                    />
                   </div>
                   
-                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight">
-                    {quickViewProduct.name}
-                  </h2>
-                  
-                  <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={18} className={cn(i < Math.floor(quickViewProduct.rating) ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700")} />
-                      ))}
-                      <span className="ml-2 text-sm font-bold text-slate-900 dark:text-white">{quickViewProduct.rating}</span>
-                    </div>
-                    <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800" />
-                    <span className="text-sm text-slate-500 font-medium">{quickViewProduct.reviews} Reviews</span>
+                  {/* Thumbnails */}
+                  <div className="flex gap-4 overflow-x-auto pb-2">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div 
+                        key={i} 
+                        className={cn(
+                          "w-20 h-20 rounded-xl bg-slate-50 dark:bg-slate-950 border-2 shrink-0 flex items-center justify-center p-2 cursor-pointer",
+                          i === 1 ? "border-pink-500" : "border-transparent"
+                        )}
+                      >
+                        <img src={quickViewProduct.image} alt="" className="w-full h-full object-contain" />
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-4">
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">
-                      {formatPrice(quickViewProduct.price)}
-                    </span>
-                    {quickViewProduct.originalPrice && (
-                      <span className="text-xl text-slate-400 line-through decoration-red-500/40">
-                        {formatPrice(quickViewProduct.originalPrice)}
+                {/* Right Column: Info */}
+                <div className="space-y-8">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-medium">
+                      <Zap size={18} className="fill-amber-500" />
+                      <span>Only {quickViewProduct.stock || 5} left!</span>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star 
+                            key={i} 
+                            size={20} 
+                            className={cn(
+                              i < Math.floor(quickViewProduct.rating) ? "fill-pink-500 text-pink-500" : "text-slate-200 dark:text-slate-700"
+                            )} 
+                          />
+                        ))}
+                      </div>
+                      <span className="text-slate-400 text-sm">({quickViewProduct.reviews} reviews)</span>
+                    </div>
+
+                    <div className="flex items-baseline gap-4">
+                      <span className="text-5xl font-bold text-slate-900 dark:text-white">
+                        ₹{quickViewProduct.price.toLocaleString()}
                       </span>
-                    )}
+                      {quickViewProduct.originalPrice && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl text-slate-400 line-through">
+                            ₹{quickViewProduct.originalPrice.toLocaleString()}
+                          </span>
+                          <span className="text-pink-600 font-bold">({quickViewProduct.discount}% off)</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                    {quickViewProduct.description}. High-performance device with cutting-edge technology from {quickViewProduct.brand}.
-                  </p>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <div className="h-10 w-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
-                      <Truck className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold">Express Delivery</p>
-                      <p className="text-[10px] text-slate-500">Ships in 24h</p>
-                    </div>
+                  <div className="space-y-2">
+                    <h3 className="font-bold text-lg">Description</h3>
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                      {quickViewProduct.description}. Experience premium quality and cutting-edge performance with the latest {quickViewProduct.brand} technology.
+                    </p>
                   </div>
-                  <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <div className="h-10 w-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
-                      <Shield className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold">Warranty</p>
-                      <p className="text-[10px] text-slate-500">1 Year Brand</p>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="flex gap-4 pt-2">
+                  {/* Color Selection */}
+                  <div className="space-y-3">
+                    <h3 className="font-bold">Color: <span className="font-normal text-slate-500">{selectedColor}</span></h3>
+                    <div className="flex gap-3">
+                      {["Black", "Silver", "White"].map((color) => (
+                        <button
+                          key={color}
+                          onClick={() => setSelectedColor(color)}
+                          className={cn(
+                            "px-6 py-2 rounded-xl border-2 transition-all font-medium",
+                            selectedColor === color 
+                              ? "border-pink-500 bg-pink-50/50 dark:bg-pink-900/10 text-pink-600" 
+                              : "border-slate-100 dark:border-slate-800 hover:border-slate-200"
+                          )}
+                        >
+                          {color}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Size Selection */}
+                  {quickViewProduct.sizes && quickViewProduct.sizes.length > 0 && (
+                    <div className="space-y-3">
+                      <h3 className="font-bold">Size: <span className="font-normal text-slate-500">{selectedSize}</span></h3>
+                      <div className="flex flex-wrap gap-3">
+                        {quickViewProduct.sizes.map((size) => (
+                          <button
+                            key={size}
+                            onClick={() => setSelectedSize(size)}
+                            className={cn(
+                              "px-6 py-2 rounded-xl border-2 transition-all font-medium",
+                              selectedSize === size 
+                                ? "border-pink-500 bg-pink-50/50 dark:bg-pink-900/10 text-pink-600" 
+                                : "border-slate-100 dark:border-slate-800 hover:border-slate-200"
+                            )}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Quantity and Add to Cart */}
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <div className="flex items-center bg-slate-50 dark:bg-slate-950 rounded-xl p-1 border border-slate-100 dark:border-slate-800">
+                      <button 
+                        onClick={() => setQuickViewQuantity(Math.max(1, quickViewQuantity - 1))}
+                        className="p-3 hover:text-pink-600 transition-colors"
+                      >
+                        <Minus size={20} />
+                      </button>
+                      <span className="w-12 text-center font-bold text-lg">{quickViewQuantity}</span>
+                      <button 
+                        onClick={() => setQuickViewQuantity(quickViewQuantity + 1)}
+                        className="p-3 hover:text-pink-600 transition-colors"
+                      >
+                        <Plus size={20} />
+                      </button>
+                    </div>
+                    <Button
+                      className="flex-1 h-14 bg-pink-600 hover:bg-pink-700 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-pink-600/20 border-none"
+                      onClick={() => {
+                        for(let i=0; i<quickViewQuantity; i++) {
+                          addToCart(quickViewProduct);
+                        }
+                        setQuickViewProduct(null);
+                      }}
+                    >
+                      <ShoppingCart size={22} />
+                      Add to Cart
+                    </Button>
+                  </div>
+
                   <Button
-                    className="flex-1 h-14 bg-pink-600 hover:bg-pink-700 text-white font-black text-lg rounded-2xl shadow-lg shadow-pink-600/20 hover:scale-[1.02] transition-transform border-none"
-                    onClick={() => {
-                      addToCart(quickViewProduct);
-                      setQuickViewProduct(null);
-                    }}
-                  >
-                    <ShoppingCart className="h-5 w-5 mr-3" />
-                    ADD TO CART
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-14 w-14 rounded-2xl border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
+                    variant="ghost"
+                    className="w-full h-12 text-slate-600 dark:text-slate-400 font-medium flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800"
                     onClick={() => toggleWishlist(quickViewProduct)}
                   >
-                    <Heart className={cn("h-6 w-6", isInWishlist(quickViewProduct.id) && "fill-pink-600 text-pink-600")} />
+                    <Heart className={cn("h-5 w-5", isInWishlist(quickViewProduct.id) && "fill-pink-600 text-pink-600")} />
+                    Add to Wishlist
                   </Button>
+                </div>
+              </div>
+
+              {/* Bottom Section: Specifications and Reviews */}
+              <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16 pt-16 border-t border-slate-100 dark:border-slate-800">
+                {/* Specifications */}
+                <div className="space-y-8">
+                  <h3 className="text-2xl font-serif font-bold">Specifications</h3>
+                  <div className="space-y-4">
+                    {[
+                      { label: "Brand", value: quickViewProduct.brand },
+                      { label: "Category", value: quickViewProduct.category },
+                      { label: "Connectivity", value: "Wireless/Wired" },
+                      { label: "Warranty", value: "1 Year Manufacturer" },
+                    ].map((spec, i) => (
+                      <div key={i} className="flex justify-between py-4 border-b border-slate-50 dark:border-slate-800 text-sm">
+                        <span className="font-bold text-slate-900 dark:text-white">{spec.label}</span>
+                        <span className="text-slate-500">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Reviews */}
+                <div className="space-y-8">
+                  <h3 className="text-2xl font-serif font-bold">Reviews (3)</h3>
+                  <div className="space-y-8">
+                    {[
+                      { name: "Amit V.", date: "01/09/2023", rating: 5, text: "Absolutely stunning performance. The build quality is top-notch." },
+                      { name: "Sunita G.", date: "28/08/2023", rating: 5, text: "Very comfortable and looks amazing on my desk. Highly recommended!" },
+                      { name: "Karan P.", date: "25/08/2023", rating: 4, text: "Great quality, but the delivery was slightly delayed. Still worth it." },
+                    ].map((review, i) => (
+                      <div key={i} className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold">{review.name}</span>
+                          <span className="text-xs text-slate-400">{review.date}</span>
+                        </div>
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, j) => (
+                            <Star 
+                              key={j} 
+                              size={12} 
+                              className={cn(j < review.rating ? "fill-pink-500 text-pink-500" : "text-slate-200")} 
+                            />
+                          ))}
+                        </div>
+                        <p className="text-sm text-slate-500 leading-relaxed">{review.text}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
