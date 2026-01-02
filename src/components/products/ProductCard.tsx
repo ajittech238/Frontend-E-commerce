@@ -218,10 +218,10 @@ import { useWishlist } from "@/context/WishlistContext";
 import { cn } from "@/lib/utils"; 
 import ProductModal from "./ProductModal";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { HomeLivingProduct } from "@/data/Home&living";
+import { Product } from "@/types/product";
 
 interface ProductCardProps {
-  product: HomeLivingProduct;
+  product: Product;
   index?: number;
 }
 

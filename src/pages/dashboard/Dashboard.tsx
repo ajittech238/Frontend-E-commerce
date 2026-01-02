@@ -18,6 +18,7 @@ import {
   MapPin,
   Truck,
   Hash,
+  Clock,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -151,7 +152,7 @@ export default function Dashboard() {
             <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
-          <Button size="sm" className="h-9 bg-pink-gradient">
+          <Button size="sm" className="h-9 bg-pink-gradient text-white shadow-md hover:shadow-lg hover:opacity-90 transition-all font-semibold border-0">
             <Download className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
@@ -344,97 +345,250 @@ export default function Dashboard() {
 
       {/* Order Details Dialog */}
       <Dialog open={selectedOrder !== null} onOpenChange={(isOpen) => !isOpen && setSelectedOrder(null)}>
-        <DialogContent className="sm:max-w-2xl md:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] sm:max-w-[800px] p-0 overflow-hidden border-none shadow-2xl bg-background/95 backdrop-blur-xl rounded-sm">
           {selectedOrder && (
-            <>
-              <DialogHeader className="p-4 sm:p-6 pb-0">
-                <DialogTitle className="text-xl sm:text-2xl font-bold flex items-center">
-                  <Hash className="w-6 h-6 mr-2 text-primary" />
-                  Order Details: {selectedOrder.id}
-                </DialogTitle>
-                <DialogDescription>
-                  {new Date(selectedOrder.date).toLocaleString()}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="px-4 sm:px-6 py-2 sm:py-4 space-y-4 sm:space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                  {/* Customer Details */}
-                  <Card className="bg-accent/50 border-border/50">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base sm:text-lg flex items-center">
-                        <User className="w-5 h-5 mr-2 text-primary" />
-                        Customer
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm space-y-2">
-                      <div className="flex items-center">
-                        <strong className="w-16">Name:</strong>
-                        <span className="text-muted-foreground">{selectedOrder.customerName}</span>
+            <div className="flex flex-col h-full max-h-[92vh] sm:max-h-[90vh]">
+              {/* Header with Gradient */}
+              <div className="relative p-5 sm:p-8 bg-gradient-to-br from-primary/10 via-background to-background border-b">
+                <div className="absolute top-0 right-0 p-8 opacity-5 hidden sm:block">
+                  <Package className="w-24 h-24 rotate-12" />
+                </div>
+                
+                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <div className="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                        Official Order
                       </div>
-                      <div className="flex items-center">
-                        <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
-                        <span className="text-muted-foreground">{selectedOrder.email}</span>
-                      </div>
-                      <div className="flex items-start">
-                        <MapPin className="w-4 h-4 mr-2 mt-1 text-muted-foreground" />
-                        <span className="text-muted-foreground">{selectedOrder.address}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      <span className="text-muted-foreground text-[10px]">•</span>
+                      <span className="text-muted-foreground text-[10px] sm:text-xs">{new Date(selectedOrder.date).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                    </div>
+                    <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                      <span className="text-primary opacity-50">#</span>
+                      {selectedOrder.id.replace('ORD-', '')}
+                    </h2>
+                  </div>
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <OrderStatusBadge status={selectedOrder.status} />
+                    <Button variant="outline" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 rounded-full shrink-0">
+                      <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
 
-                  {/* Order Summary */}
-                  <Card className="bg-accent/50 border-border/50">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base sm:text-lg flex items-center">
-                        <ShoppingCart className="w-5 h-5 mr-2 text-primary" />
-                        Order Summary
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm space-y-2">
-                      <div className="flex justify-between items-center">
-                        <strong>Status:</strong>
-                        <OrderStatusBadge status={selectedOrder.status} />
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <strong>Total:</strong>
-                        <span className="font-bold text-lg text-foreground">₹{selectedOrder.total.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <strong>Items:</strong>
-                        <span className="text-muted-foreground">{selectedOrder.items.length}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-5 sm:p-8 space-y-6 sm:space-y-8">
+                {/* Simple Timeline / Progress */}
+                <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-primary">Order Progress</span>
+                    <span className="text-[9px] sm:text-[10px] font-medium text-muted-foreground">Est. Delivery: 05 Jan</span>
+                  </div>
+                  <div className="relative flex items-center justify-between px-1 sm:px-2">
+                    <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-muted-foreground/20 z-0 mx-4" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 bg-primary z-0 transition-all duration-1000 mx-4" style={{ width: selectedOrder.status === 'delivered' ? 'calc(100% - 2rem)' : selectedOrder.status === 'shipped' ? '66%' : selectedOrder.status === 'processing' ? '33%' : '0%' }} />
+                    
+                    {[
+                      { label: 'Placed', icon: Package, status: ['pending', 'processing', 'shipped', 'delivered'] },
+                      { label: 'Process', icon: RefreshCw, status: ['processing', 'shipped', 'delivered'] },
+                      { label: 'Shipped', icon: Truck, status: ['shipped', 'delivered'] },
+                      { label: 'Done', icon: Package, status: ['delivered'] },
+                    ].map((step, i) => {
+                      const isActive = step.status.includes(selectedOrder.status);
+                      return (
+                        <div key={i} className="relative z-10 flex flex-col items-center gap-2">
+                          <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${isActive ? 'bg-primary border-primary text-white scale-110 shadow-lg shadow-primary/20' : 'bg-background border-muted-foreground/30 text-muted-foreground'}`}>
+                            <step.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                          </div>
+                          <span className={`text-[9px] sm:text-[10px] font-bold ${isActive ? 'text-primary' : 'text-muted-foreground'} hidden xs:block`}>{step.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                {/* Items List */}
-                <div>
-                  <h3 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 flex items-center">
-                    <Package className="w-5 h-5 mr-2 text-primary" />
-                    Items Ordered
-                  </h3>
-                  <div className="border rounded-lg overflow-hidden border-border/50">
-                    {selectedOrder.items.map((item, index) => (
-                      <div key={item.productId} className={`flex items-center justify-between p-3 ${index !== selectedOrder.items.length - 1 ? 'border-b border-border/50' : ''} hover:bg-accent/30`}>
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center text-primary font-bold">
-                            {item.quantity}x
-                          </div>
-                          <div>
-                            <p className="font-medium text-foreground text-sm">{item.name}</p>
-                            <p className="text-xs text-muted-foreground">Product ID: {item.productId}</p>
-                          </div>
+                {/* Info Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                  {/* Customer Info */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xs sm:text-sm uppercase tracking-tight">
+                      <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      Customer
+                    </div>
+                    <div className="p-4 rounded-xl sm:rounded-2xl bg-accent/30 border border-border/50 hover:bg-accent/40 transition-colors">
+                      <p className="font-bold text-foreground text-sm mb-1">{selectedOrder.customerName}</p>
+                      <p className="text-[11px] sm:text-xs text-muted-foreground flex items-center gap-1.5 mb-2 truncate">
+                        <Mail className="w-3 h-3 shrink-0" />
+                        {selectedOrder.email}
+                      </p>
+                      <p className="text-[11px] sm:text-xs text-muted-foreground flex items-start gap-1.5 leading-relaxed">
+                        <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
+                        {selectedOrder.address}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Payment Info */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xs sm:text-sm uppercase tracking-tight">
+                      <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      Payment
+                    </div>
+                    <div className="p-4 rounded-xl sm:rounded-2xl bg-accent/30 border border-border/50 hover:bg-accent/40 transition-colors">
+                      <div className="flex justify-between items-center mb-2.5">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Method</span>
+                        <span className="text-[11px] sm:text-xs font-bold text-foreground">Credit Card</span>
+                      </div>
+                      <div className="flex justify-between items-center mb-2.5">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Status</span>
+                        <Badge variant="outline" className="text-[9px] sm:text-[10px] h-5 bg-emerald-500/10 text-emerald-600 border-emerald-500/20">Paid</Badge>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Currency</span>
+                        <span className="text-[11px] sm:text-xs font-bold text-foreground">INR (₹)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Shipping Info */}
+                  <div className="space-y-3 sm:col-span-2 md:col-span-1">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xs sm:text-sm uppercase tracking-tight">
+                      <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      Shipping
+                    </div>
+                    <div className="p-4 rounded-xl sm:rounded-2xl bg-accent/30 border border-border/50 hover:bg-accent/40 transition-colors">
+                      <div className="flex justify-between items-center mb-2.5">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Carrier</span>
+                        <span className="text-[11px] sm:text-xs font-bold text-foreground">BlueDart</span>
+                      </div>
+                      <div className="flex justify-between items-center mb-2.5">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Type</span>
+                        <span className="text-[11px] sm:text-xs font-bold text-foreground">Express</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Track ID</span>
+                        <span className="text-[11px] sm:text-xs font-bold text-primary underline underline-offset-2 cursor-pointer">BD-92182</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Items Section */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xs sm:text-sm uppercase tracking-tight">
+                      <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      Order Items ({selectedOrder.items.length})
+                    </div>
+                  </div>
+                  
+                  {/* Desktop Table */}
+                  <div className="hidden sm:block rounded-2xl border border-border/50 overflow-hidden bg-accent/10">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="bg-accent/30 text-[11px] uppercase tracking-wider text-muted-foreground font-bold">
+                            <th className="px-4 py-3 font-semibold">Product</th>
+                            <th className="px-4 py-3 font-semibold text-center">Qty</th>
+                            <th className="px-4 py-3 font-semibold text-right">Price</th>
+                            <th className="px-4 py-3 font-semibold text-right">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border/50">
+                          {selectedOrder.items.map((item) => (
+                            <tr key={item.productId} className="hover:bg-accent/30 transition-colors group">
+                              <td className="px-4 py-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center border group-hover:border-primary/30 transition-colors shrink-0">
+                                    <Package className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <p className="text-sm font-semibold text-foreground truncate">{item.name}</p>
+                                    <p className="text-[10px] text-muted-foreground uppercase tracking-tight font-medium">SKU: {item.productId.split('-')[1]}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-4 py-4 text-center">
+                                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-accent text-xs font-bold text-foreground">
+                                  {item.quantity}
+                                </span>
+                              </td>
+                              <td className="px-4 py-4 text-right">
+                                <p className="text-sm font-medium text-foreground">₹{item.price.toLocaleString()}</p>
+                              </td>
+                              <td className="px-4 py-4 text-right">
+                                <p className="text-sm font-bold text-foreground">₹{(item.quantity * item.price).toLocaleString()}</p>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Mobile Item Cards */}
+                  <div className="sm:hidden space-y-3">
+                    {selectedOrder.items.map((item) => (
+                      <div key={item.productId} className="p-3 rounded-xl border border-border/50 bg-accent/10 flex gap-3">
+                        <div className="w-12 h-12 rounded-lg bg-background flex items-center justify-center border shrink-0">
+                          <Package className="w-6 h-6 text-muted-foreground" />
                         </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-foreground text-sm">₹{item.price.toLocaleString()}</p>
-                          <p className="text-xs text-muted-foreground">Subtotal: ₹{(item.quantity * item.price).toLocaleString()}</p>
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          <p className="text-xs font-bold text-foreground truncate">{item.name}</p>
+                          <div className="flex items-center justify-between mt-1">
+                            <p className="text-[10px] text-muted-foreground font-medium uppercase">Qty: {item.quantity}</p>
+                            <p className="text-xs font-bold text-primary">₹{(item.quantity * item.price).toLocaleString()}</p>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
+
+                {/* Summary & Totals */}
+                <div className="flex flex-col sm:flex-row justify-end gap-6 pt-4 border-t border-dashed">
+                  <div className="w-full sm:w-64 space-y-2.5">
+                    <div className="flex justify-between items-center text-xs sm:text-sm">
+                      <span className="text-muted-foreground">Subtotal</span>
+                      <span className="font-medium text-foreground">₹{selectedOrder.total.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs sm:text-sm">
+                      <span className="text-muted-foreground">Shipping Fee</span>
+                      <span className="text-emerald-500 font-medium">Free</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs sm:text-sm">
+                      <span className="text-muted-foreground">Tax (GST 18%)</span>
+                      <span className="font-medium text-foreground">₹{(selectedOrder.total * 0.18).toLocaleString()}</span>
+                    </div>
+                    <Separator className="my-2" />
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm sm:text-base font-bold text-foreground">Total Amount</span>
+                      <div className="text-right">
+                        <p className="text-lg sm:text-xl font-black text-primary">₹{(selectedOrder.total * 1.18).toLocaleString()}</p>
+                        <p className="text-[9px] sm:text-[10px] text-muted-foreground font-medium uppercase">Inclusive of all taxes</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </>
+
+              {/* Footer Actions */}
+              <div className="p-4 sm:p-6 bg-accent/20 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground font-medium order-2 sm:order-1">
+                  <Clock className="w-3 h-3 sm:w-3 " />
+                  Last updated: 5 mins ago
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto order-1 sm:order-2">
+                  <Button variant="outline" className="flex-1 sm:flex-none h-9 text-xs border-border/50 hover:bg-background" onClick={() => setSelectedOrder(null)}>
+                    Close
+                  </Button>
+                  <Button className="flex-1 sm:flex-none h-9 text-xs bg-pink-gradient text-white shadow-lg hover:shadow-primary/20 hover:opacity-90 transition-all">
+                    Print Invoice
+                  </Button>
+                </div>
+              </div>
+            </div>
           )}
         </DialogContent>
       </Dialog>
