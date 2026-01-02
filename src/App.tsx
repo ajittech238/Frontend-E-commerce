@@ -89,6 +89,7 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
+import BooksPage from "./pages/BooksPage";
 
 const queryClient = new QueryClient();
 
@@ -117,8 +118,7 @@ const App = () => (
                 <Route path="/fashion/kids" element={<KidsWear />} />
                 <Route path="/fashion/accessories" element={<Accessories />} />
                 <Route path="/electronics" element={<ElectronicsPage />} />
-                <Route path="/grocery" element={<GroceryPage />} />
-                <Route path="/homeliving" element={<HomeLivingPage />} />
+                <Route path="/books" element={<BooksPage />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
                 <Route path="/login" element={<Login />} />
@@ -130,7 +130,8 @@ const App = () => (
                 <Route path="/payment-success" element={<PaymentSuccess />} />
                 <Route path="/payment-failed" element={<PaymentFailed />} />
                 <Route path="/payment-history" element={<PaymentHistory />} />
-
+                {/* <Route path="/books" element={<BooksPage /> } /> */}
+              
               {/* Dashboard Routes */}
               <Route path="/dashboard" element={<DashboardLayout />}>
                 <Route index element={<Dashboard />} />
