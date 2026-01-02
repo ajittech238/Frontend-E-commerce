@@ -26,17 +26,29 @@ const Cart = () => {
       <Header />
 
       <div className="flex-1 container py-8">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 font-medium"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back
-        </button>
+        {/* title and back button*/}
+        <div className="grid grid-cols-3 items-center mb-8">
+        {/* Back Button (Left) */}
+    <button
+      onClick={() => navigate(-1)}
+      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium justify-self-start">
+      <ChevronLeft className="h-4 w-4" />
+      Back
+    </button>
 
-        <h1 className="text-4xl font-bold text-foreground mb-8">Shopping Cart</h1>
+  {/* Center Heading */}
+  <h1 className="text-4xl font-bold text-foreground text-center">
+    Shopping Cart
+  </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  {/* Empty space for right alignment */}
+  <div />
+</div>
+
+
+        {/* <h1 className="text-4xl font-bold text-foreground mb-8  flex justify-center">Shopping Cart</h1> */}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* Cart Items */}
           <div className="lg:col-span-2">
             {items.length === 0 ? (
@@ -47,7 +59,7 @@ const Cart = () => {
                   <p className="text-muted-foreground mb-6">
                     Add some products to your cart to get started
                   </p>
-                  <Button onClick={() => navigate("/products")} className="bg-blue-600 hover:bg-blue-700">
+                  <Button onClick={() => navigate("/products")} className="bg-pink-400 hover:bg-pink-600">
                     Continue Shopping
                   </Button>
                 </CardContent>
@@ -68,7 +80,7 @@ const Cart = () => {
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="h-24 w-24 rounded-lg object-cover"
+                          className="h-20 w-20 rounded-lg object-cover"
                         />
                       </div>
 
@@ -139,12 +151,13 @@ const Cart = () => {
                   <div className="pt-4 border-t border-border/30">
                     <Button
                       variant="outline"
-                      className="w-full text-destructive hover:bg-destructive/10"
+                      className="w-80 mx-auto text-destructive hover:bg-destructive/25 flex items-center gap-2"
                       onClick={clearCart}
                     >
-                      Clear Cart
+                      Clear Cart <Trash2 className="h-5 w-5" />
                     </Button>
                   </div>
+
                 </CardContent>
               </Card>
             )}
@@ -184,7 +197,7 @@ const Cart = () => {
 
                   <Button
                     onClick={handleCheckout}
-                    className="w-full bg-blue-600 hover:bg-blue-700 font-semibold py-6 text-base"
+                    className="w-full bg-yellow-400 hover:bg-yellow-500 font-semibold py-6 text-base text-color-black"
                   >
                     Proceed to Checkout
                   </Button>

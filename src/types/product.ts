@@ -1,4 +1,5 @@
 export interface Product {
+  variants?: { name: string; options: { value: string; stock: number; priceModifier?: number; }[]; }[];
   subCategoryId?: string;
   id: string;
   name: string;
