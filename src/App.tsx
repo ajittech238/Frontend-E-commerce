@@ -93,6 +93,9 @@ import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import BooksPage from "./pages/BooksPage";
 
+import { CustomerAuthProvider } from "./customer/context/CustomerAuthContext";
+import CustomerRoutes from "./customer/routes/CustomerRoutes";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -192,10 +195,10 @@ const App = () => (
             </BrowserRouter>
           </OrderProvider>
         </WishlistProvider>
-
       </CartProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+    </CustomerAuthProvider>
+  </TooltipProvider>
+</QueryClientProvider>
 );
 
 export default App;
