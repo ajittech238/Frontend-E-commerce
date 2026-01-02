@@ -23,13 +23,17 @@ import CartSidebar from "@/components/cart/CartSidebar";
 import ProductCard from "@/components/products/ProductCard";
 import { products } from "@/data/products";
 import { electronicsProducts } from "@/data/electronics";
+import { beautyProducts } from "@/data/beauty";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { cn } from "@/lib/utils";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = products.find((p) => p.id === id) || electronicsProducts.find((p) => p.id === id);
+  const product = 
+    products.find((p) => p.id === id) || 
+    electronicsProducts.find((p) => p.id === id) ||
+    beautyProducts.find((p) => p.id === id);
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
@@ -53,7 +57,7 @@ const ProductDetail = () => {
 
   const inWishlist = isInWishlist(product.id);
   
-  const allProducts = [...products, ...electronicsProducts];
+  const allProducts = [...products, ...electronicsProducts, ...beautyProducts];
   let relatedProducts = allProducts.filter(
     (p) => p.category === product.category && p.id !== product.id
   ).slice(0, 4);
@@ -254,18 +258,18 @@ const ProductDetail = () => {
 
               <Button
                 size="lg"
-                className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground h-12 text-base font-semibold gap-2"
+                className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground h-12 text-base font-semibold gap-2  bg-pink-500 hover:bg-pink-400"
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
                 <ShoppingCart className="h-5 w-5" />
-                Add to Cart
+                Add to Cart 
               </Button>
 
               <Button
                 size="lg"
                 variant="outline"
-                className="h-12"
+                className="h-12  hover:bg-pink-400"
                 onClick={() => toggleWishlist(product)}
               >
                 <Heart
@@ -276,13 +280,13 @@ const ProductDetail = () => {
                 />
               </Button>
 
-              <Button size="lg" variant="outline" className="h-12">
+              <Button size="lg" variant="outline" className="h-12  hover:bg-pink-400">
                 <Share2 className="h-5 w-5" />
               </Button>
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border   ">
               {[
                 { icon: Truck, title: "Free Delivery", desc: "On orders above ₹499" },
                 { icon: Shield, title: "1 Year Warranty", desc: "Official warranty" },
@@ -290,7 +294,7 @@ const ProductDetail = () => {
               ].map((feature, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <feature.icon className="h-5 w-5 text-accent" />
+                    <feature.icon className="h-5 w-5 text-pink-500" />
                   </div>
                   <div>
                     <p className="text-sm font-medium">{feature.title}</p>
