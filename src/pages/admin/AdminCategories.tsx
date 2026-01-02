@@ -54,7 +54,7 @@ export default function AdminCategories() {
       header: "Category",
       render: (item: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
             <FolderTree className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -101,6 +101,7 @@ export default function AdminCategories() {
 
   return (
     <div className="space-y-4 md:space-y-6 animate-fade-in">
+      
       <AdminPageHeader
         title="Categories"
         description="Manage product categories and hierarchy"
@@ -112,17 +113,19 @@ export default function AdminCategories() {
         onExport={() => {}}
       />
 
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        selectable
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-        pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
-      />
+      <div className="overflow-x-auto">
+        <DataTable
+          columns={columns}
+          data={filteredData}
+          selectable
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+          pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
+        />
+      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="w-[90vw] max-w-sm sm:max-w-md">
+        <DialogContent className="w-[90vw] max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <DialogHeader>
             <DialogTitle>{editingItem ? "Edit Category" : "Add Category"}</DialogTitle>
             <DialogDescription>
@@ -135,15 +138,11 @@ export default function AdminCategories() {
               <Input id="name" defaultValue={editingItem?.name} placeholder="Category name" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="slug">Slug</Label>
-              <Input id="slug" defaultValue={editingItem?.slug} placeholder="category-slug" />
-            </div>
-            <div className="grid gap-2">
               <Label htmlFor="parent">Parent Category</Label>
               <Select defaultValue={editingItem?.parent || ""}>
                 <SelectTrigger><SelectValue placeholder="Select parent (optional)" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None (Top Level)</SelectItem>
+                  <SelectItem value="none">None (Top Level)</SelectItem>
                   <SelectItem value="Electronics">Electronics</SelectItem>
                   <SelectItem value="Fashion">Fashion</SelectItem>
                   <SelectItem value="Home & Living">Home & Living</SelectItem>

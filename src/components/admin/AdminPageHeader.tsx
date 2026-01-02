@@ -45,10 +45,10 @@ export function AdminPageHeader({
         </div>
         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
           {onRefresh && (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={onRefresh} 
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onRefresh}
               disabled={isRefreshing}
               className="hidden xs:inline-flex"
             >
@@ -57,9 +57,9 @@ export function AdminPageHeader({
             </Button>
           )}
           {onFilter && (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onFilter}
               className="hidden xs:inline-flex"
             >
@@ -68,9 +68,9 @@ export function AdminPageHeader({
             </Button>
           )}
           {onExport && (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onExport}
               className="hidden sm:inline-flex"
             >
@@ -79,9 +79,9 @@ export function AdminPageHeader({
             </Button>
           )}
           {onImport && (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onImport}
               className="hidden sm:inline-flex"
             >
@@ -90,14 +90,14 @@ export function AdminPageHeader({
             </Button>
           )}
           {onAdd && (
-            <Button size="sm" onClick={onAdd} className="bg-primary">
+            <Button size="sm" onClick={onAdd} className="bg-pink-gradient">
               <Plus className="w-4 h-4 sm:mr-2" />
               <span className="hidden sm:inline">{addLabel}</span>
             </Button>
           )}
         </div>
       </div>
-      
+
       <div className="flex flex-col gap-2 sm:gap-3">
         {onSearchChange && (
           <div className="relative w-full sm:max-w-md">

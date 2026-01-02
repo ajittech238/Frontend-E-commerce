@@ -50,7 +50,7 @@ export default function Roles() {
       header: "Role",
       render: (role: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
             <Shield className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -147,7 +147,7 @@ export default function Roles() {
               <div className="space-y-2">
                 {allPermissions.map((permission) => (
                   <div key={permission.id} className="flex items-center gap-3 p-2 rounded hover:bg-accent">
-                    <Checkbox 
+                    <Checkbox
                       id={permission.id}
                       checked={selectedPermissions.includes(permission.id)}
                       onCheckedChange={(checked) => {

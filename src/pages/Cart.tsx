@@ -26,17 +26,29 @@ const Cart = () => {
       <Header />
 
       <div className="flex-1 container py-8">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 font-medium"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back
-        </button>
+        {/* title and back button*/}
+        <div className="grid grid-cols-3 items-center mb-8">
+        {/* Back Button (Left) */}
+    <button
+      onClick={() => navigate(-1)}
+      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium justify-self-start">
+      <ChevronLeft className="h-4 w-4" />
+      Back
+    </button>
 
-        <h1 className="text-4xl font-bold text-foreground mb-8">Shopping Cart</h1>
+  {/* Center Heading */}
+  <h1 className="text-4xl font-bold text-foreground text-center">
+    Shopping Cart
+  </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  {/* Empty space for right alignment */}
+  <div />
+</div>
+
+
+        {/* <h1 className="text-4xl font-bold text-foreground mb-8  flex justify-center">Shopping Cart</h1> */}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* Cart Items */}
           <div className="lg:col-span-2">
             {items.length === 0 ? (
@@ -47,7 +59,7 @@ const Cart = () => {
                   <p className="text-muted-foreground mb-6">
                     Add some products to your cart to get started
                   </p>
-                  <Button onClick={() => navigate("/products")} className="bg-blue-600 hover:bg-blue-700">
+                  <Button onClick={() => navigate("/products")} className="bg-pink-400 hover:bg-pink-600">
                     Continue Shopping
                   </Button>
                 </CardContent>
@@ -68,7 +80,7 @@ const Cart = () => {
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="h-24 w-24 rounded-lg object-cover"
+                          className="h-20 w-20 rounded-lg object-cover"
                         />
                       </div>
 
@@ -139,12 +151,13 @@ const Cart = () => {
                   <div className="pt-4 border-t border-border/30">
                     <Button
                       variant="outline"
-                      className="w-full text-destructive hover:bg-destructive/10"
+                      className="w-80 mx-auto text-destructive hover:bg-destructive/25 flex items-center gap-2"
                       onClick={clearCart}
                     >
-                      Clear Cart
+                      Clear Cart <Trash2 className="h-5 w-5" />
                     </Button>
                   </div>
+
                 </CardContent>
               </Card>
             )}
@@ -184,7 +197,7 @@ const Cart = () => {
 
                   <Button
                     onClick={handleCheckout}
-                    className="w-full bg-blue-600 hover:bg-blue-700 font-semibold py-6 text-base"
+                    className="w-full bg-yellow-400 hover:bg-yellow-500 font-semibold py-6 text-base text-color-black"
                   >
                     Proceed to Checkout
                   </Button>
@@ -209,3 +222,231 @@ const Cart = () => {
 };
 
 export default Cart;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import { useNavigate } from "react-router-dom";
+// import { useCart } from "@/context/CartContext";
+// import { Button } from "@/components/ui/button";
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import {
+//   ChevronLeft,
+//   Plus,
+//   Minus,
+//   Trash2,
+//   ShoppingBag,
+//   BadgePercent,
+// } from "lucide-react";
+// import Header from "@/components/layout/Header";
+// import Footer from "@/components/layout/Footer";
+
+// const Cart = () => {
+//   const navigate = useNavigate();
+//   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
+
+//   const TAX_RATE = 0.1;
+//   const SHIPPING_COST = items.length > 0 ? 50 : 0;
+//   const subtotal = totalPrice;
+//   const tax = Math.round(subtotal * TAX_RATE);
+//   const total = subtotal + tax + SHIPPING_COST;
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-b from-background to-muted/40 flex flex-col">
+//       <Header />
+
+//       <div className="container py-10 flex-1">
+//         {/* Back */}
+//         <button
+//           onClick={() => navigate(-1)}
+//           className="flex items-center gap-2 text-primary font-medium mb-6"
+//         >
+//           <ChevronLeft className="h-4 w-4" />
+//           Back to Shop
+//         </button>
+
+//         <h1 className="text-4xl font-bold mb-10">🛒 Your Shopping Cart</h1>
+
+//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+//           {/* CART ITEMS */}
+//           <div className="lg:col-span-2 space-y-6">
+//             {items.length === 0 ? (
+//               <Card className="py-20 text-center">
+//                 <ShoppingBag className="mx-auto h-20 w-20 text-muted-foreground mb-4" />
+//                 <h2 className="text-2xl font-semibold">Your cart is empty</h2>
+//                 <p className="text-muted-foreground mt-2">
+//                   Looks like you haven’t added anything yet.
+//                 </p>
+//                 <Button
+//                   className="mt-6 bg-blue-600 hover:bg-blue-700"
+//                   onClick={() => navigate("/products")}
+//                 >
+//                   Start Shopping
+//                 </Button>
+//               </Card>
+//             ) : (
+//               items.map((item) => {
+//                 const savings =
+//                   item.originalPrice && item.originalPrice > item.price
+//                     ? (item.originalPrice - item.price) * item.quantity
+//                     : 0;
+
+//                 return (
+//                   <Card
+//                     key={item.id}
+//                     className="p-4 flex flex-col md:flex-row gap-5 hover:shadow-xl transition-all"
+//                   >
+//                     {/* IMAGE */}
+//                     <div className="relative group w-full md:w-40">
+//                       <img
+//                         src={item.image}
+//                         alt={item.name}
+//                         className="rounded-xl w-full h-40 object-cover group-hover:scale-105 transition"
+//                       />
+//                       {item.originalPrice && (
+//                         <span className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
+//                           SALE
+//                         </span>
+//                       )}
+//                     </div>
+
+//                     {/* INFO */}
+//                     <div className="flex-1 space-y-2">
+//                       <h3 className="text-lg font-semibold line-clamp-2">
+//                         {item.name}
+//                       </h3>
+//                       <p className="text-sm text-muted-foreground">
+//                         Category: {item.category}
+//                       </p>
+
+//                       <div className="flex items-center gap-3">
+//                         <span className="text-xl font-bold text-primary">
+//                           ₹{item.price.toLocaleString()}
+//                         </span>
+//                         {item.originalPrice && (
+//                           <span className="line-through text-sm text-muted-foreground">
+//                             ₹{item.originalPrice.toLocaleString()}
+//                           </span>
+//                         )}
+//                       </div>
+
+//                       {savings > 0 && (
+//                         <p className="text-green-600 text-sm flex items-center gap-1">
+//                           <BadgePercent className="w-4 h-4" />
+//                           You save ₹{savings.toLocaleString()}
+//                         </p>
+//                       )}
+
+//                       {/* Quantity */}
+//                       <div className="flex items-center gap-3 mt-3">
+//                         <button
+//                           onClick={() =>
+//                             updateQuantity(item.id, item.quantity - 1)
+//                           }
+//                           className="p-2 rounded-md border hover:bg-muted"
+//                         >
+//                           <Minus size={16} />
+//                         </button>
+//                         <span className="w-8 text-center font-semibold">
+//                           {item.quantity}
+//                         </span>
+//                         <button
+//                           onClick={() =>
+//                             updateQuantity(item.id, item.quantity + 1)
+//                           }
+//                           className="p-2 rounded-md border hover:bg-muted"
+//                         >
+//                           <Plus size={16} />
+//                         </button>
+//                       </div>
+//                     </div>
+
+//                     {/* RIGHT */}
+//                     <div className="flex flex-col justify-between items-end">
+//                       <p className="font-bold text-lg">
+//                         ₹{(item.price * item.quantity).toLocaleString()}
+//                       </p>
+//                       <button
+//                         onClick={() => removeFromCart(item.id)}
+//                         className="text-red-500 hover:text-red-700 mt-4"
+//                       >
+//                         <Trash2 />
+//                       </button>
+//                     </div>
+//                   </Card>
+//                 );
+//               })
+//             )}
+//           </div>
+
+//           {/* SUMMARY */}
+//           {items.length > 0 && (
+//             <div className="sticky top-24 h-fit">
+//               <Card className="p-6 space-y-4">
+//                 <h3 className="text-xl font-bold">Order Summary</h3>
+
+//                 <div className="space-y-2 text-sm">
+//                   <div className="flex justify-between">
+//                     <span>Subtotal</span>
+//                     <span>₹{subtotal.toLocaleString()}</span>
+//                   </div>
+//                   <div className="flex justify-between">
+//                     <span>Tax (10%)</span>
+//                     <span>₹{tax.toLocaleString()}</span>
+//                   </div>
+//                   <div className="flex justify-between">
+//                     <span>Shipping</span>
+//                     <span>₹{SHIPPING_COST}</span>
+//                   </div>
+//                 </div>
+
+//                 <div className="border-t pt-3 flex justify-between font-bold text-lg">
+//                   <span>Total</span>
+//                   <span className="text-primary">
+//                     ₹{total.toLocaleString()}
+//                   </span>
+//                 </div>
+
+//                 <Button
+//                   className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg"
+//                   onClick={() => navigate("/checkout")}
+//                 >
+//                   Checkout Securely
+//                 </Button>
+
+//                 <Button
+//                   variant="outline"
+//                   className="w-full"
+//                   onClick={() => navigate("/products")}
+//                 >
+//                   Continue Shopping
+//                 </Button>
+
+//                 <Button
+//                   variant="ghost"
+//                   className="w-full text-red-500"
+//                   onClick={clearCart}
+//                 >
+//                   Clear Cart
+//                 </Button>
+//               </Card>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default Cart;

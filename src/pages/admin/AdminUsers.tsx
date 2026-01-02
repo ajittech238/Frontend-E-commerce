@@ -58,7 +58,7 @@ export default function AdminUsers() {
         <div className="flex items-center gap-3">
           <Avatar className="w-9 h-9">
             <AvatarImage src={user.avatar} />
-            <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+            <AvatarFallback className="bg-pink-gradient/10 text-primary text-sm font-medium">
               {user.name.split(" ").map((n: string) => n[0]).join("")}
             </AvatarFallback>
           </Avatar>

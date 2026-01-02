@@ -1,9 +1,9 @@
 import { useState, useMemo, useCallback } from "react";
-import { 
-  Plus, 
-  Search, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
   MoreHorizontal,
   Filter,
   Grid,
@@ -42,9 +42,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { products, categories } from "@/data/products";
 import { useToast } from "@/hooks/use-toast";
+import { AddProductForm } from "@/components/dashboard/AddProductForm";
 
 export default function DashboardProducts() {
   const { toast } = useToast();
@@ -54,6 +56,7 @@ export default function DashboardProducts() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("newest");
   const [previewProduct, setPreviewProduct] = useState<typeof products[0] | null>(null);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
@@ -89,7 +92,7 @@ export default function DashboardProducts() {
   }, [selectedProducts.length, filteredProducts]);
 
   const toggleSelect = useCallback((id: string) => {
-    setSelectedProducts(prev => 
+    setSelectedProducts(prev =>
       prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
     );
   }, []);
@@ -126,10 +129,23 @@ export default function DashboardProducts() {
             <Download className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
-          <Button size="sm" className="h-9 bg-primary hover:bg-primary/90">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Product
-          </Button>
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm" className="h-9 bg-primary hover:bg-primary/90">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Product
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-[90vw] rounded-md sm:max-w-[900px] max-h-[90vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <DialogHeader>
+                <DialogTitle>Add New Product</DialogTitle>
+                <DialogDescription>
+                  Fill in the details below to add a new product to your inventory.
+                </DialogDescription>
+              </DialogHeader>
+              <AddProductForm onFormSubmit={() => setIsAddDialogOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -217,7 +233,7 @@ export default function DashboardProducts() {
 
       {/* Bulk Actions */}
       {selectedProducts.length > 0 && (
-        <div className="flex items-center justify-between p-3 bg-primary/10 rounded-lg border border-primary/20 animate-fade-in">
+        <div className="flex items-center justify-between p-3 bg-pink-gradient/10 rounded-lg border border-primary/20 animate-fade-in">
           <span className="text-sm font-medium text-foreground">
             {selectedProducts.length} products selected
           </span>
@@ -237,8 +253,8 @@ export default function DashboardProducts() {
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filteredProducts.map((product) => (
-            <Card 
-              key={product.id} 
+            <Card
+              key={product.id}
               className={`group overflow-hidden border-border/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 ${
                 selectedProducts.includes(product.id) ? 'ring-2 ring-primary' : ''
               }`}
@@ -258,7 +274,7 @@ export default function DashboardProducts() {
                   />
                 </div>
                 {product.badge && (
-                  <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
+                  <Badge className="absolute top-3 right-3 bg-pink-gradient text-primary-foreground">
                     {product.badge}
                   </Badge>
                 )}
@@ -312,10 +328,10 @@ export default function DashboardProducts() {
               </thead>
               <tbody className="divide-y divide-border/50">
                 {filteredProducts.map((product) => (
-                  <tr 
-                    key={product.id} 
+                  <tr
+                    key={product.id}
                     className={`hover:bg-accent/30 transition-colors ${
-                      selectedProducts.includes(product.id) ? 'bg-primary/5' : ''
+                      selectedProducts.includes(product.id) ? 'bg-pink-gradient/5' : ''
                     }`}
                   >
                     <td className="p-3 sm:p-4">
@@ -352,7 +368,7 @@ export default function DashboardProducts() {
                     </td>
                     <td className="p-3 sm:p-4 hidden lg:table-cell">
                       {product.badge ? (
-                        <Badge className="bg-primary/10 text-primary">{product.badge}</Badge>
+                        <Badge className="bg-pink-gradient/10 text-primary">{product.badge}</Badge>
                       ) : (
                         <Badge variant="secondary">In Stock</Badge>
                       )}
@@ -429,11 +445,11 @@ export default function DashboardProducts() {
                   <span className="text-muted-foreground">({previewProduct.reviews} reviews)</span>
                 </div>
                 {previewProduct.badge && (
-                  <Badge className="bg-primary">{previewProduct.badge}</Badge>
+                  <Badge className="bg-pink-gradient">{previewProduct.badge}</Badge>
                 )}
                 <p className="text-sm text-muted-foreground">{previewProduct.description}</p>
                 <div className="flex gap-2 pt-4">
-                  <Button className="flex-1 bg-primary">
+                  <Button className="flex-1 bg-pink-gradient">
                     <Edit className="w-4 h-4 mr-2" /> Edit Product
                   </Button>
                   <Button variant="outline">

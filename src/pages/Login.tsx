@@ -52,8 +52,8 @@ const Login = () => {
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-gradient/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-gradient/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
@@ -147,7 +147,7 @@ const Login = () => {
                       name="rememberMe"
                       checked={formData.rememberMe}
                       onChange={handleChange}
-                      className="h-4 w-4 rounded border-2 border-primary/50 bg-primary/10 cursor-pointer accent-primary"
+                      className="h-4 w-4 rounded border-2 border-primary/50 bg-pink-gradient/10 cursor-pointer accent-primary"
                     />
                     <label htmlFor="remember" className="text-sm font-medium text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
                       Keep me logged in
@@ -186,14 +186,14 @@ const Login = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="border-2 border-border/50 hover:border-primary/50 hover:bg-primary/5 rounded-xl py-3 h-auto font-semibold transition-all duration-300 group/social"
+                    className="border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 rounded-xl py-3 h-auto font-semibold transition-all duration-300 group/social"
                   >
                     <Chrome className="h-5 w-5 group-hover/social:scale-110 transition-transform" />
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
-                    className="border-2 border-border/50 hover:border-primary/50 hover:bg-primary/5 rounded-xl py-3 h-auto font-semibold transition-all duration-300 group/social"
+                    className="border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 rounded-xl py-3 h-auto font-semibold transition-all duration-300 group/social"
                   >
                     <Github className="h-5 w-5 group-hover/social:scale-110 transition-transform" />
                   </Button>
