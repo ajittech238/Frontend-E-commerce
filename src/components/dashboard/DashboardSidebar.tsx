@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, Package, ShoppingCart, CreditCard, Settings, LogOut, Store, ChevronLeft,
+  LayoutDashboard, Package, ShoppingCart, CreditCard, Settings, LogOut, Store,
   Users, BarChart3, FolderTree, Ticket, Warehouse, Box, RotateCcw, FileText, Star, Shield,
   Gift, Coins, MessageSquare, Mail, Bell, Calendar, Building2, DollarSign, Plug, Bot,
-  ShoppingBag, Truck, HelpCircle,
+  ShoppingBag, Truck, HelpCircle, PanelLeftClose, PanelRightOpen
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
@@ -103,7 +103,7 @@ export function DashboardSidebar() {
   const collapsed = state === "collapsed";
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-border/50 bg-card/50">
+    <Sidebar collapsible="icon" className="border-r border-border/50 bg-card">
       <SidebarHeader className="p-4">
         <NavLink to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center shadow-lg">
@@ -137,7 +137,7 @@ export function DashboardSidebar() {
                           <NavLink
                             to={item.url}
                             className={cn(
-                              "flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm",
+                              "flex items-center  py-2 rounded-lg transition-all text-sm",
                               isActive
                                 ? "bg-primary text-primary-foreground shadow-sm"
                                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -162,7 +162,7 @@ export function DashboardSidebar() {
         </ScrollArea>
       </SidebarContent>
 
-      <SidebarFooter className="p-3 space-y-2">
+      <SidebarFooter className="p-3 space-y-2 border-t border-border/50">
         <SidebarMenuButton
           onClick={() => navigate("/")}
           tooltip="Logout"
@@ -171,12 +171,20 @@ export function DashboardSidebar() {
           <LogOut className="w-4 h-4" />
           {!collapsed && <span className="font-medium">Logout</span>}
         </SidebarMenuButton>
-        <div className="flex justify-center pt-2 border-t border-border/50">
-          <SidebarTrigger className="p-2 rounded-lg hover:bg-accent">
-            <ChevronLeft className={cn("w-4 h-4 transition-transform", collapsed && "rotate-180")} />
-          </SidebarTrigger>
-        </div>
+        {collapsed && (
+          <div className="flex justify-center pt-2">
+            <SidebarTrigger className="p-2 rounded-lg hover:bg-accent">
+              <PanelRightOpen className="w-4 h-4" />
+            </SidebarTrigger>
+          </div>
+        )}
       </SidebarFooter>
     </Sidebar>
   );
 }
+
+
+
+
+
+

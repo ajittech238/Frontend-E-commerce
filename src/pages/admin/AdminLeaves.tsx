@@ -118,7 +118,7 @@ export default function AdminLeaves() {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-primary/10 text-primary text-xs">{leave.employee.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                        <AvatarFallback className="bg-pink-gradient/10 text-primary text-xs">{leave.employee.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="font-medium">{leave.employee}</div>

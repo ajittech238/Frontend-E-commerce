@@ -9,7 +9,7 @@ import { OrderProvider } from "@/context/OrderContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
-import Category from "./pages/Category";
+// import Category from "./pages/BeautyCategory";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -53,6 +53,14 @@ import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminTransactions from "./pages/admin/AdminTransactions";
 import AdminIntegrations from "./pages/admin/AdminIntegrations";
 import AdminOrders from "./pages/admin/AdminOrders";
+import AdminRackProducts from "./pages/admin/AdminRackProducts";
+import AdminScratchCards from "./pages/admin/AdminScratchCards";
+import AdminWarehouseCart from "./pages/admin/AdminWarehouseCart";
+import AdminWarehouseInvoices from "./pages/admin/AdminWarehouseInvoices";
+import AdminWarehouseProducts from "./pages/admin/AdminWarehouseProducts";
+import AdminWarehouseManagement from "./pages/admin/AdminWarehouseManagement";
+import AdminWarehouseReferEarn from "./pages/admin/AdminWarehouseReferEarn";
+import AdminWarehouseReturns from "./pages/admin/AdminWarehouseReturns";
 import Analytics from "./pages/admin/Analytics";
 // Integration pages
 import AmazonIntegration from "./pages/admin/integrations/AmazonIntegration";
@@ -65,6 +73,9 @@ import RazorpayIntegration from "./pages/admin/integrations/RazorpayIntegration"
 import WhatsAppIntegration from "./pages/admin/integrations/WhatsAppIntegration";
 import FashionCategoryPage from "./pages/FashionCategoryPage";
 import ElectronicsPage from "./pages/ElectronicsPage";
+// import BeautyPage from "./pages/BeautyPage";
+import GroceryPage from "./pages/Grocerypage";
+import HomeLivingPage from "./pages/Home&livingPage";
 import MenTopWear from "./pages/fashion/MenTopWear";
 import MenBottomWear from "./pages/fashion/MenBottomWear";
 import MenFootwear from "./pages/fashion/MenFootwear";
@@ -95,7 +106,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/category/:id" element={<Category />} />
+                {/* <Route path="/category/:id" element={<BeautyCategory />} /> */}
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
                 <Route path="/fashion/men-top-wear" element={<MenTopWear />} />
                 <Route path="/fashion/men-bottom-wear" element={<MenBottomWear />} />
@@ -150,7 +161,15 @@ const App = () => (
                 <Route path="invoices" element={<AdminInvoices />} />
                 <Route path="reviews" element={<AdminReviews />} />
                 <Route path="warehouses" element={<AdminWarehouses />} />
+                <Route path="warehouse-cart" element={<AdminWarehouseCart />} />
+                <Route path="warehouse-invoices" element={<AdminWarehouseInvoices />} />
+                <Route path="warehouse-products" element={<AdminWarehouseProducts />} />
+                <Route path="warehouse-management" element={<AdminWarehouseManagement />} />
+                <Route path="warehouse-refer-earn" element={<AdminWarehouseReferEarn />} />
+                <Route path="warehouse-returns" element={<AdminWarehouseReturns />} />
                 <Route path="racks" element={<AdminRacks />} />
+                <Route path="rack-products" element={<AdminRackProducts />} />
+                <Route path="scratch-cards" element={<AdminScratchCards />} />
                 <Route path="employees" element={<AdminEmployees />} />
                 <Route path="departments" element={<AdminDepartments />} />
                 <Route path="salaries" element={<AdminSalaries />} />
@@ -169,12 +188,13 @@ const App = () => (
                 <Route path="integrations/razorpay" element={<RazorpayIntegration />} />
                 <Route path="integrations/whatsapp" element={<WhatsAppIntegration />} />
               </Route>
-              
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </OrderProvider>
         </WishlistProvider>
+
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>

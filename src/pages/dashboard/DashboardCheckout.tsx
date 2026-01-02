@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { 
-  CreditCard, 
-  Truck, 
-  Shield, 
+import {
+  CreditCard,
+  Truck,
+  Shield,
   Check,
   MapPin,
   User,
@@ -97,7 +97,7 @@ export default function DashboardCheckout() {
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2 text-center">Your cart is empty</h2>
         <p className="text-sm text-muted-foreground mb-6 text-center">Add some items to proceed with checkout</p>
-        <Button onClick={() => navigate("/products")} className="bg-primary">
+        <Button onClick={() => navigate("/products")} className="bg-pink-gradient">
           <ShoppingBag className="w-4 h-4 mr-2" />
           Browse Products
         </Button>
@@ -127,8 +127,8 @@ export default function DashboardCheckout() {
             <div key={s.id} className="flex items-center">
               <div className="flex flex-col items-center">
                 <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-semibold transition-all ${
-                  step >= s.id 
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30" 
+                  step >= s.id
+                    ? "bg-pink-gradient text-primary-foreground shadow-lg shadow-primary/30"
                     : "bg-accent text-muted-foreground"
                 }`}>
                   {step > s.id ? <Check className="w-5 h-5" /> : <s.icon className="w-5 h-5" />}
@@ -138,7 +138,7 @@ export default function DashboardCheckout() {
                 </span>
               </div>
               {index < steps.length - 1 && (
-                <div className={`w-12 sm:w-20 h-0.5 mx-2 ${step > s.id ? "bg-primary" : "bg-border"}`} />
+                <div className={`w-12 sm:w-20 h-0.5 mx-2 ${step > s.id ? "bg-pink-gradient" : "bg-border"}`} />
               )}
             </div>
           ))}
@@ -246,9 +246,9 @@ export default function DashboardCheckout() {
                     />
                   </div>
                 </div>
-                <Button 
-                  onClick={() => setStep(2)} 
-                  className="w-full bg-primary hover:bg-primary/90 h-11"
+                <Button
+                  onClick={() => setStep(2)}
+                  className="w-full bg-pink-gradient hover:bg-pink-gradient/90 h-11"
                 >
                   Continue to Payment
                   <ChevronRight className="w-4 h-4 ml-2" />
@@ -272,15 +272,15 @@ export default function DashboardCheckout() {
                     <div
                       key={method.id}
                       className={`flex items-center gap-4 p-3 sm:p-4 rounded-xl border transition-all cursor-pointer ${
-                        paymentMethod === method.id 
-                          ? "border-primary bg-primary/5 ring-2 ring-primary/20" 
+                        paymentMethod === method.id
+                          ? "border-primary bg-pink-gradient/5 ring-2 ring-primary/20"
                           : "border-border hover:border-primary/50 bg-accent/30"
                       }`}
                       onClick={() => setPaymentMethod(method.id)}
                     >
                       <RadioGroupItem value={method.id} id={method.id} />
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        paymentMethod === method.id ? 'bg-primary text-primary-foreground' : 'bg-accent'
+                        paymentMethod === method.id ? 'bg-pink-gradient text-primary-foreground' : 'bg-accent'
                       }`}>
                         <method.icon className="w-5 h-5" />
                       </div>
@@ -317,7 +317,7 @@ export default function DashboardCheckout() {
                   </div>
                 )}
 
-                <Button onClick={handlePlaceOrder} className="w-full bg-primary hover:bg-primary/90 h-11">
+                <Button onClick={handlePlaceOrder} className="w-full bg-pink-gradient hover:bg-pink-gradient/90 h-11">
                   <Shield className="w-4 h-4 mr-2" />
                   Place Order - ₹{finalTotal.toLocaleString()}
                 </Button>
@@ -345,7 +345,7 @@ export default function DashboardCheckout() {
                   <Button variant="outline" onClick={() => navigate("/dashboard/orders")}>
                     View Orders
                   </Button>
-                  <Button onClick={() => navigate("/products")} className="bg-primary">
+                  <Button onClick={() => navigate("/products")} className="bg-pink-gradient">
                     Continue Shopping
                   </Button>
                 </div>
@@ -398,9 +398,9 @@ export default function DashboardCheckout() {
                       className="h-9 text-sm"
                       disabled={promoApplied}
                     />
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={handleApplyPromo}
                       disabled={promoApplied}
                       className="h-9"

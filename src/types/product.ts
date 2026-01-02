@@ -1,4 +1,6 @@
 export interface Product {
+  variants?: { name: string; options: { value: string; stock: number; priceModifier?: number; }[]; }[];
+  subCategoryId?: string;
   id: string;
   name: string;
   price: number;
@@ -53,7 +55,13 @@ export interface Order {
   };
   paymentMethod: string;
   paymentStatus: "pending" | "completed" | "failed";
-  orderStatus: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
+  orderStatus:
+    | "pending"
+    | "confirmed"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
   sellerId?: string;
   createdAt: string;
   updatedAt: string;

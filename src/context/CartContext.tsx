@@ -34,6 +34,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     toast({
       title: "Added to Cart ✓",
       description: `${product.name} has been added to your cart.`,
+      duration: 2000,
     });
   }, []);
 
@@ -60,6 +61,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <CartContext.Provider
+    
       value={{
         items,
         addToCart,
@@ -84,3 +86,7 @@ export const useCart = () => {
   }
   return context;
 };
+
+
+
+

@@ -156,6 +156,16 @@ const Checkout = () => {
               >
                 2
               </div>
+              <div className={`flex-1 h-1 ${step >= 3 ? "bg-blue-600" : "bg-gray-200"}`} />
+              <div
+                className={`flex items-center justify-center h-10 w-10 rounded-full font-bold ${
+                  step >= 3
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-600"
+                }`}
+              >
+                3
+              </div>
             </div>
 
             {/* Shipping Address */}
@@ -167,7 +177,7 @@ const Checkout = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <Input
                     name="fullName"
                     placeholder="Full Name"
@@ -188,14 +198,14 @@ const Checkout = () => {
                     placeholder="Phone Number"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="border-border/50 md:col-span-2"
+                    className="border-border/50"
                   />
                   <Input
                     name="address"
                     placeholder="Street Address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    className="border-border/50 md:col-span-2"
+                    className="border-border/50 "
                   />
                   <Input
                     name="city"
@@ -212,17 +222,21 @@ const Checkout = () => {
                     className="border-border/50"
                   />
                   <Input
-                    name="zipCode"
-                    placeholder="ZIP Code"
+                    name="PIN Code"
+                    placeholder="PIN Code"
                     value={formData.zipCode}
                     onChange={handleInputChange}
                     className="border-border/50"
                   />
-                </div>
 
-                <Button onClick={() => setStep(2)} className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button onClick={() => setStep(2)} className="w-50 hover: bg-pink-400 bg-pink-600">
                   Continue to Payment
                 </Button>
+                </div>
+
+                {/* <Button onClick={() => setStep(2)} className="w-50 bg-blue-600 hover:bg-blue-700">
+                  Continue to Payment
+                </Button> */}
               </CardContent>
             </Card>
 
@@ -230,17 +244,17 @@ const Checkout = () => {
             {step >= 2 && (
               <Card className="border-border/50 mt-6">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center justify-center gap-2">
                     <CreditCard className="h-5 w-5" />
                     Payment Method
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-3">
+                <CardContent className="space-y-4 flex justify-center flex-col  items-center ">
+                  <div className="space-y-3 w-full">
                     {["card", "upi", "netbanking"].map((method) => (
                       <label
                         key={method}
-                        className="flex items-center gap-3 p-4 border border-border/50 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                        className="flex items-center   gap-3 p-4 border border-border/50 rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
                       >
                         <input
                           type="radio"
@@ -263,7 +277,7 @@ const Checkout = () => {
 
                   <Button
                     onClick={handlePlaceOrder}
-                    className="w-full bg-green-600 hover:bg-green-700 font-semibold"
+                    className="w-80 bg-green-600 hover:bg-green-700 font-semibold "
                   >
                     Place Order
                   </Button>
@@ -271,6 +285,7 @@ const Checkout = () => {
               </Card>
             )}
           </div>
+        
 
           {/* Order Summary */}
           <div>
@@ -329,7 +344,7 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  <Badge className="w-full justify-center py-2 bg-green-600">
+                  <Badge className="w-full justify-center py-2 bg-pink-500">
                     {items.length} {items.length === 1 ? "item" : "items"}
                   </Badge>
                 </div>
