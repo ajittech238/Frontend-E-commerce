@@ -55,7 +55,7 @@ const ProductDetail = () => {
   // ========================================
   // STEP 3: Search product in all arrays
   // ========================================
-  let product = null;
+  let product: any = null;
   for (const productArray of allProductArrays) {
     product = productArray.find((p) => p.id === id);
     if (product) break;
