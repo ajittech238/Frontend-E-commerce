@@ -409,6 +409,20 @@ const Header = () => {
               </Link>
             </li>
 
+            {/* Books */}
+            <li>
+              <Link
+                to="/books"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>📚</span>
+                Books
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
+            
+
             {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
@@ -419,7 +433,7 @@ const Header = () => {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
                 </Link>
               </li>
-            ))} 
+            ))}
             <li className="ml-auto">
               <Link
                 to="/products"
@@ -514,6 +528,15 @@ const Header = () => {
                 >
                   <span className="text-lg">📚</span>
                   <span className="font-medium text-foreground hover:text-primary transition-colors">Books</span>
+                </Link>
+
+                <Link
+                  to="/sports"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                >
+                  <span className="text-lg"></span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">Sports</span>
                 </Link>
 
                 {/* Other Categories */}
