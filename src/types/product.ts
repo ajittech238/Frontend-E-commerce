@@ -6,6 +6,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images360?: string[];
   category: string;
   subcategory?: string[];
   sizes?: string[];
@@ -14,7 +15,18 @@ export interface Product {
   badge?: string;
   description?: string;
   inStock: boolean;
+  stock?: number;
+  images360?: string[];
+  specifications?: { name: string; value: string }[];
+  detailedReviews?: {
+    id: string;
+    author: string;
+    rating: number;
+    comment: string;
+    date: string;
+  }[];
   discount?: number;
+  brand?: string;
   author?: string;
   publisher?: string;
   pages?: number;

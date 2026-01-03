@@ -6,7 +6,12 @@ import {
   Heart, 
   MapPin, 
   Lock, 
-  LogOut 
+  LogOut,
+  LayoutDashboard,
+  Bell,
+  Gift,
+  Coins,
+  HelpCircle
 } from "lucide-react";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
 
@@ -15,11 +20,16 @@ const CustomerSidebar: React.FC = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { name: "My Profile", path: "/customer", icon: User },
+    { name: "Dashboard", path: "/customer", icon: LayoutDashboard },
+    { name: "My Profile", path: "/customer/profile", icon: User },
     { name: "My Orders", path: "/customer/orders", icon: ShoppingBag },
     { name: "Wishlist", path: "/customer/wishlist", icon: Heart },
     { name: "Addresses", path: "/customer/addresses", icon: MapPin },
-    { name: "Change Password", path: "/customer/change-password", icon: Lock },
+    { name: "Notifications", path: "/customer/notifications", icon: Bell },
+    { name: "Refer & Earn", path: "/customer/refer-earn", icon: Gift },
+    { name: "Rewards", path: "/customer/rewards", icon: Coins },
+    { name: "Help & Support", path: "/customer/qa", icon: HelpCircle },
+    { name: "Security", path: "/customer/change-password", icon: Lock },
   ];
 
   const handleLogout = () => {

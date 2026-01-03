@@ -357,7 +357,7 @@ const Header = () => {
             {/* Fashion with Dropdown */}
             <li className="relative group">
               <Link
-                to={`/category/fashion`}
+                to={`/fashion`}
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 flex items-center gap-1"
               >
                 Fashion
@@ -426,7 +426,7 @@ const Header = () => {
             {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
-                  to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
+                  to={category.id === 'home' ? '/home-living' : `/${category.id}`}
                   className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group"
                 >
                   {category.name}
@@ -543,7 +543,7 @@ const Header = () => {
                 {categories.slice(2).map((category) => (
                   <Link
                     key={category.id}
-                    to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
+                    to={category.id === 'home' ? '/home-living' : `/${category.id}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                   >
