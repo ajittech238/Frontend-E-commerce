@@ -50,26 +50,29 @@ export default function AdminReturns() {
       header: "Product",
       render: (item: any) => (
         <div>
-          <p className="font-medium text-foreground">{item.productName}</p>
-          <p className="text-xs text-muted-foreground">{item.orderId}</p>
+          <p className="font-medium text-foreground text-xs sm:text-sm">{item.productName}</p>
+          <p className="text-[10px] sm:text-xs text-muted-foreground">{item.orderId}</p>
         </div>
       ),
     },
-    { key: "customer", header: "Customer" },
-    { key: "reason", header: "Reason" },
+    { key: "customer", header: "Customer", className: "hidden md:table-cell" },
+    { key: "reason", header: "Reason", className: "hidden lg:table-cell" },
     {
       key: "refundAmount",
       header: "Refund",
+      className: "hidden sm:table-cell",
       render: (item: any) => <span className="font-medium">₹{item.refundAmount.toLocaleString()}</span>,
     },
     {
       key: "status",
       header: "Status",
+      className: "hidden xs:table-cell",
       render: (item: any) => <StatusBadge status={item.status} />,
     },
     {
       key: "createdAt",
       header: "Date",
+      className: "hidden xl:table-cell",
       render: (item: any) => new Date(item.createdAt).toLocaleDateString(),
     },
     {
@@ -93,7 +96,7 @@ export default function AdminReturns() {
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in min-h-[calc(100vh-80px)] pb-10">
       <AdminPageHeader
         title="Returns & Refunds"
         description="Manage product returns and refund requests"

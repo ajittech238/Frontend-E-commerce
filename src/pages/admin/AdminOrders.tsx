@@ -2,16 +2,9 @@ import { useOrder } from "@/context/OrderContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/admin/DataTable";
+import { DataTable, Column } from "@/components/admin/DataTable";
 import { Eye, Edit2 } from "lucide-react";
 import { useState } from "react";
-
-interface DataTableColumn {
-  key: string;
-  header: string;
-  width?: string;
-  render?: (item: any) => React.ReactNode;
-}
 
 const AdminOrders = () => {
   const { getAllOrders, updateOrderStatus } = useOrder();
@@ -27,7 +20,7 @@ const AdminOrders = () => {
     cancelled: "bg-red-100 text-red-800",
   };
 
-  const columns: DataTableColumn[] = [
+  const columns: Column<any>[] = [
     {
       key: "id",
       header: "Order ID",
@@ -40,6 +33,7 @@ const AdminOrders = () => {
       key: "customerName",
       header: "Customer",
       width: "150px",
+      className: "hidden md:table-cell",
     },
     {
       key: "total",
@@ -63,6 +57,7 @@ const AdminOrders = () => {
       key: "paymentStatus",
       header: "Payment",
       width: "100px",
+      className: "hidden sm:table-cell",
       render: (order) => (
         <Badge className={order.paymentStatus === "completed" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}>
           {order.paymentStatus.toUpperCase()}
@@ -73,6 +68,7 @@ const AdminOrders = () => {
       key: "createdAt",
       header: "Date",
       width: "120px",
+      className: "hidden lg:table-cell",
       render: (order) => (
         <span className="text-sm">
           {new Date(order.createdAt).toLocaleDateString()}
@@ -125,36 +121,36 @@ const AdminOrders = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Orders Management</h1>
-        <p className="text-muted-foreground mt-1">Manage all customer orders</p>
+    <div className="space-y-6 min-h-[calc(100vh-80px)] pb-10">
+      <div className="px-1 xs:px-0">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Orders Management</h1>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">Manage all customer orders</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 px-1 xs:px-0">
         {stats.map((stat, index) => (
           <Card key={index} className="border-border/50">
-            <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground mb-2">{stat.label}</p>
-              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+            <CardContent className="p-4 sm:p-6">
+              <p className="text-xs sm:text-sm text-muted-foreground mb-1 sm:mb-2">{stat.label}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Orders Table */}
-      <Card className="border-border/50">
-        <CardHeader>
-          <CardTitle>All Orders</CardTitle>
+      <Card className="border-border/50 mx-1 xs:mx-0">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl">All Orders</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 sm:p-6">
           <DataTable
             columns={columns}
             data={orders}
             selectable
             selectedIds={selectedOrders}
-            onSelectChange={setSelectedOrders}
+            onSelectionChange={setSelectedOrders}
             getRowId={(order) => order.id}
             pagination={{
               page: 1,
