@@ -1,11 +1,9 @@
-
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { DataTable } from "@/components/admin/DataTable";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, Eye, Edit, Trash2, FolderTree, ShoppingCart, DollarSign, PackageCheck, X, Star } from "lucide-react";
+import { MoreHorizontal, Eye, Edit, Trash2, FolderTree, ShoppingCart, DollarSign, PackageCheck, X, Star, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,6 +30,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Category {
   id: string;
@@ -80,20 +87,55 @@ export default function AdminCategories() {
   const [editingItem, setEditingItem] = useState<Category | null>(null);
   const [isProductsDialogOpen, setIsProductsDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [pagination, setPagination] = useState({ page: 1, pageSize: 10 });
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   const filteredData = mockCategories.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
+
+  const paginatedData = filteredData.slice(
+    (pagination.page - 1) * pagination.pageSize,
+    pagination.page * pagination.pageSize
+  );
+
+  const handlePageChange = (page: number) => {
+    setPagination((prev) => ({ ...prev, page }));
+  };
+
   const filteredProducts = mockProducts.filter((product) =>
     product.category === selectedCategory?.slug
   );
+
+  const getRowId = (item: Category) => item.id;
+
+  const allSelected = paginatedData.length > 0 && paginatedData.every((item) => selectedIds.includes(getRowId(item)));
+  const someSelected = paginatedData.some((item) => selectedIds.includes(getRowId(item)));
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(paginatedData.map(getRowId));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
+  };
 
   const columns = [
     {
       key: "name",
       header: "Category",
       width: "300px",
+      showOnMobile: true,
       render: (item: Category) => (
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
@@ -110,60 +152,31 @@ export default function AdminCategories() {
       key: "parent",
       header: "Parent",
       width: "150px",
+      showOnMobile: false,
       render: (item: Category) => item.parent || <span className="text-muted-foreground">—</span>,
     },
-    { 
-      key: "productCount", 
+    {
+      key: "productCount",
       header: "Products",
       width: "120px",
+      showOnMobile: false,
+      render: (item: Category) => item.productCount
     },
     {
       key: "status",
       header: "Status",
       width: "120px",
+      showOnMobile: false,
       render: (item: Category) => <StatusBadge status={item.status} />,
     },
     {
       key: "actions",
       header: "Actions",
       width: "200px",
+      showOnMobile: false,
       render: (item: Category) => (
         <div className="flex items-center gap-1">
-          <div className="hidden lg:flex gap-1">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedCategory(item); 
-                setIsProductsDialogOpen(true); 
-              }}
-              className="h-8 px-2 text-xs"
-            >
-              <Eye className="w-3 h-3 mr-1" /> View
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={(e) => {
-                e.stopPropagation();
-                setEditingItem(item); 
-                setIsDialogOpen(true); 
-              }}
-              className="h-8 px-2 text-xs"
-            >
-              <Edit className="w-3 h-3 mr-1" /> Edit
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-8 px-2 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Trash2 className="w-3 h-3 mr-1" /> Delete
-            </Button>
-          </div>
-          <div className="lg:hidden">
+          <div className="flex gap-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="w-8 h-8">
@@ -171,20 +184,20 @@ export default function AdminCategories() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedCategory(item); 
-                    setIsProductsDialogOpen(true); 
+                    setSelectedCategory(item);
+                    setIsProductsDialogOpen(true);
                   }}
                 >
                   <Eye className="w-4 h-4 mr-2" /> View Products
                 </DropdownMenuItem>
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={(e) => {
                     e.stopPropagation();
-                    setEditingItem(item); 
-                    setIsDialogOpen(true); 
+                    setEditingItem(item);
+                    setIsDialogOpen(true);
                   }}
                 >
                   <Edit className="w-4 h-4 mr-2" /> Edit
@@ -211,17 +224,217 @@ export default function AdminCategories() {
         onSearchChange={setSearch}
         onAdd={() => { setEditingItem(null); setIsDialogOpen(true); }}
         addLabel="Add Category"
-        onExport={() => {}}
+        onExport={() => { }}
       />
-      {/* DataTable for categories */}
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        selectable
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-        pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
-      />
+      <div className="space-y-4">
+        <div className="rounded-xl border border-border/50 overflow-hidden">
+          <div className="overflow-x-auto">
+            <Table className="w-full table-auto">
+              <TableHeader>
+                <TableRow className="bg-muted/30 hover:bg-muted/30">
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={allSelected}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Select all"
+                      className={someSelected && !allSelected ? "data-[state=checked]:bg-pink-gradient/50" : ""}
+                    />
+                  </TableHead>
+                  {columns.map((col) => (
+                    <TableHead 
+                      key={col.key} 
+                      style={{ width: col.width }} 
+                      className={`font-semibold text-foreground text-xs sm:text-sm ${col.showOnMobile === false ? 'hidden md:table-cell' : ''}`}
+                    >
+                      {col.header}
+                    </TableHead>
+                  ))}
+                  <TableHead className="w-12 md:hidden">
+                    <Plus className="w-4 h-4" />
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paginatedData.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length + 2}
+                      className="h-24 sm:h-32 text-center text-xs sm:text-sm text-muted-foreground"
+                    >
+                      No categories found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  paginatedData.map((item) => {
+                    const id = getRowId(item);
+                    const isSelected = selectedIds.includes(id);
+                    const isExpanded = expandedRow === id;
+                    return (
+                      <>
+                        <TableRow
+                          key={id}
+                          className={`transition-colors ${isSelected ? "bg-pink-gradient/5" : ""}`}
+                        >
+                          <TableCell className="w-12" onClick={(e) => e.stopPropagation()}>
+                            <Checkbox
+                              checked={isSelected}
+                              onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
+                              aria-label={`Select row ${id}`}
+                            />
+                          </TableCell>
+                          {columns.map((col) => (
+                            <TableCell
+                              key={col.key}
+                              style={{ width: col.width }}
+                              className={`text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words ${col.showOnMobile === false ? 'hidden md:table-cell' : ''}`}
+                            >
+                              {col.render ? col.render(item) : item[col.key as keyof Category] as ReactNode}
+                            </TableCell>
+                          ))}
+                          <TableCell className="w-12 md:hidden">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="w-8 h-8"
+                              onClick={() => setExpandedRow(isExpanded ? null : id)}
+                            >
+                              {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                        {isExpanded && (
+                          <TableRow className="md:hidden">
+                            <TableCell colSpan={columns.length + 2} className="p-0">
+                              <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 p-4 mx-2 my-2 rounded-xl shadow-lg border border-purple-200/50 dark:border-purple-800/50 animate-in slide-in-from-top-2">
+                                <div className="space-y-4">
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-lg shadow-sm border border-purple-100 dark:border-purple-900/50">
+                                      <p className="text-xs text-muted-foreground mb-1 font-medium">Parent</p>
+                                      <p className="text-sm font-semibold text-foreground flex items-center gap-2">
+                                        <FolderTree className="w-4 h-4 text-purple-500" />
+                                        {item.parent || "—"}
+                                      </p>
+                                    </div>
+                                    <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-lg shadow-sm border border-purple-100 dark:border-purple-900/50">
+                                      <p className="text-xs text-muted-foreground mb-1 font-medium">Products</p>
+                                      <p className="text-sm font-semibold text-foreground flex items-center gap-2">
+                                        <PackageCheck className="w-4 h-4 text-blue-500" />
+                                        {item.productCount}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-lg shadow-sm border border-purple-100 dark:border-purple-900/50">
+                                    <p className="text-xs text-muted-foreground mb-2 font-medium">Status</p>
+                                    <StatusBadge status={item.status} />
+                                  </div>
+
+                                  <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-lg shadow-sm border border-purple-100 dark:border-purple-900/50">
+                                    <p className="text-xs text-muted-foreground mb-2 font-medium">Description</p>
+                                    <p className="text-sm text-foreground">{item.description}</p>
+                                  </div>
+
+                                  <div className="flex gap-2 pt-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="flex-1 bg-white/90 dark:bg-gray-800/90 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-950/30"
+                                      onClick={() => {
+                                        setSelectedCategory(item);
+                                        setIsProductsDialogOpen(true);
+                                      }}
+                                    >
+                                      <Eye className="w-4 h-4 mr-2" />
+                                      View
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="flex-1 bg-white/90 dark:bg-gray-800/90 border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                                      onClick={() => {
+                                        setEditingItem(item);
+                                        setIsDialogOpen(true);
+                                      }}
+                                    >
+                                      <Edit className="w-4 h-4 mr-2" />
+                                      Edit
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="flex-1 bg-white/90 dark:bg-gray-800/90 border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-950/30 text-destructive"
+                                    >
+                                      <Trash2 className="w-4 h-4 mr-2" />
+                                      Delete
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 text-xs sm:text-sm">
+          <p className="text-muted-foreground">
+            Showing {(pagination.page - 1) * pagination.pageSize + 1} to{" "}
+            {Math.min(pagination.page * pagination.pageSize, filteredData.length)} of{" "}
+            {filteredData.length}
+          </p>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(1)}
+              disabled={pagination.page === 1}
+              title="First page"
+            >
+              <ChevronsLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              title="Previous page"
+            >
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <span className="px-2 sm:px-3 font-medium text-xs sm:text-sm">
+              {pagination.page} / {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === totalPages}
+              title="Next page"
+            >
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={pagination.page === totalPages}
+              title="Last page"
+            >
+              <ChevronsRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="w-[95vw] max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-0">
           <div className="p-4 sm:p-6">

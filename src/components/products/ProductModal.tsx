@@ -39,6 +39,17 @@ export default function ProductModal({
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string }>({});
 
+  // Zoom functionality states and ref
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [isZooming, setIsZooming] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [magnifierStyle, setMagnifierStyle] = useState({});
+
+  // Constants for zoom
+  const ZOOM_FACTOR = 2; // How much to zoom in
+  const MAGNIFIER_SIZE = 150; // Size of the magnifier circle
+  const MAGNIFIER_OFFSET = MAGNIFIER_SIZE / 2; // Offset to center the magnifier
+
   const inWishlist = isInWishlist(product.id);
 
   // Effect to reset state when modal opens or product changes
@@ -103,6 +114,40 @@ export default function ProductModal({
       )
     : 0;
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imgRef.current) return;
+
+    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+
+    setMousePosition({ x, y });
+
+    const backgroundX = -(x * ZOOM_FACTOR - MAGNIFIER_OFFSET);
+    const backgroundY = -(y * ZOOM_FACTOR - MAGNIFIER_OFFSET);
+
+    const magnifierLeft = x - MAGNIFIER_OFFSET;
+    const magnifierTop = y - MAGNIFIER_OFFSET;
+
+    setMagnifierStyle({
+      backgroundImage: `url(${selectedImage})`,
+      backgroundSize: `${width * ZOOM_FACTOR}px ${height * ZOOM_FACTOR}px`,
+      backgroundPosition: `${backgroundX}px ${backgroundY}px`,
+      left: `${magnifierLeft}px`,
+      top: `${magnifierTop}px`,
+      width: `${MAGNIFIER_SIZE}px`,
+      height: `${MAGNIFIER_SIZE}px`,
+    });
+  };
+
+  const handleMouseEnter = () => {
+    setIsZooming(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsZooming(false);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-5xl w-full p-0 overflow-hidden rounded-3xl border-none bg-white dark:bg-slate-900 shadow-2xl">
@@ -124,12 +169,26 @@ export default function ProductModal({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Left Column: Images */}
               <div className="space-y-6">
-                <div className="aspect-[4/3] rounded-2xl bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center p-8 border border-slate-100 dark:border-slate-800">
-                  <img
-                    src={selectedImage}
-                    alt={product.name}
-                    className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
-                  />
+                <div className="aspect-[4/3] rounded-2xl bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center p-8 border border-slate-100 dark:border-slate-800 relative">
+                  <div
+                    className="relative w-full h-full flex items-center justify-center"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseMove={handleMouseMove}
+                  >
+                    <img
+                      ref={imgRef}
+                      src={selectedImage}
+                      alt={product.name}
+                      className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500"
+                    />
+                    {isZooming && (
+                      <div
+                        className="absolute rounded-full pointer-events-none border-2 border-gray-400 overflow-hidden z-10"
+                        style={magnifierStyle}
+                      ></div>
+                    )}
+                  </div>
                 </div>
                 
                 {/* Thumbnails */}
