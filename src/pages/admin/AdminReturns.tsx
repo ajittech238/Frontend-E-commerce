@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { DataTable } from "@/components/admin/DataTable";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MoreHorizontal, Eye, RotateCcw, Package, DollarSign, AlertTriangle, CheckCircle } from "lucide-react";
+import { MoreHorizontal, Eye, RotateCcw, Package, DollarSign, AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +11,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { StatCard } from "@/components/admin/StatCard";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const mockReturns = [
+interface Return {
+  id: string;
+  orderId: string;
+  productName: string;
+  reason: string;
+  status: string;
+  refundAmount: number;
+  customer: string;
+  createdAt: string;
+}
+
+const mockReturns: Return[] = [
   { id: "RTN001", orderId: "ORD-2024-001", productName: "Handmade Ceramic Vase", reason: "Damaged during shipping", status: "pending", refundAmount: 1299, customer: "John Doe", createdAt: "2024-01-15" },
   { id: "RTN002", orderId: "ORD-2024-002", productName: "Artisan Wooden Bowl", reason: "Wrong item received", status: "approved", refundAmount: 899, customer: "Jane Smith", createdAt: "2024-01-14" },
   { id: "RTN003", orderId: "ORD-2024-003", productName: "Handwoven Basket", reason: "Not as described", status: "processing", refundAmount: 549, customer: "Bob Wilson", createdAt: "2024-01-13" },
@@ -31,55 +50,89 @@ const stats = [
 export default function AdminReturns() {
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
+  const [pagination, setPagination] = useState({ page: 1, pageSize: 10 });
+  
   const filteredData = mockReturns.filter(
     (item) =>
       item.id.toLowerCase().includes(search.toLowerCase()) ||
       item.productName.toLowerCase().includes(search.toLowerCase()) ||
       item.customer.toLowerCase().includes(search.toLowerCase())
   );
+  
+  const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
+
+  const paginatedData = filteredData.slice(
+    (pagination.page - 1) * pagination.pageSize,
+    pagination.page * pagination.pageSize
+  );
+
+  const handlePageChange = (page: number) => {
+    setPagination((prev) => ({ ...prev, page }));
+  };
+
+  const getRowId = (item: Return) => item.id;
+
+  const allSelected = paginatedData.length > 0 && paginatedData.every((item) => selectedIds.includes(getRowId(item)));
+  const someSelected = paginatedData.some((item) => selectedIds.includes(getRowId(item)));
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(paginatedData.map(getRowId));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
+  };
+
 
   const columns = [
     {
       key: "id",
       header: "Return ID",
-      render: (item: any) => <code className="text-xs bg-muted px-2 py-1 rounded">{item.id}</code>,
+      render: (item: Return) => <code className="text-xs bg-muted px-2 py-1 rounded">{item.id}</code>,
     },
     {
       key: "product",
       header: "Product",
-      render: (item: any) => (
+      render: (item: Return) => (
         <div>
           <p className="font-medium text-foreground text-xs sm:text-sm">{item.productName}</p>
           <p className="text-[10px] sm:text-xs text-muted-foreground">{item.orderId}</p>
         </div>
       ),
     },
-    { key: "customer", header: "Customer", className: "hidden md:table-cell" },
-    { key: "reason", header: "Reason", className: "hidden lg:table-cell" },
+    { key: "customer", header: "Customer", className: "hidden md:table-cell", render: (item: Return) => item.customer },
+    { key: "reason", header: "Reason", className: "hidden lg:table-cell", render: (item: Return) => item.reason },
     {
       key: "refundAmount",
       header: "Refund",
       className: "hidden sm:table-cell",
-      render: (item: any) => <span className="font-medium">₹{item.refundAmount.toLocaleString()}</span>,
+      render: (item: Return) => <span className="font-medium">₹{item.refundAmount.toLocaleString()}</span>,
     },
     {
       key: "status",
       header: "Status",
       className: "hidden xs:table-cell",
-      render: (item: any) => <StatusBadge status={item.status} />,
+      render: (item: Return) => <StatusBadge status={item.status} />,
     },
     {
       key: "createdAt",
       header: "Date",
       className: "hidden xl:table-cell",
-      render: (item: any) => new Date(item.createdAt).toLocaleDateString(),
+      render: (item: Return) => new Date(item.createdAt).toLocaleDateString(),
     },
     {
       key: "actions",
       header: "",
       width: "60px",
-      render: (item: any) => (
+      render: (item: Return) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="w-8 h-8">
@@ -113,14 +166,124 @@ export default function AdminReturns() {
         ))}
       </div>
 
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        selectable
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-        pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
-      />
+       <div className="space-y-4">
+        <div className="rounded-xl border border-border/50 overflow-hidden">
+          <div className="overflow-x-auto">
+            <Table className="w-full table-auto">
+              <TableHeader>
+                <TableRow className="bg-muted/30 hover:bg-muted/30">
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={allSelected}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Select all"
+                      className={someSelected && !allSelected ? "data-[state=checked]:bg-pink-gradient/50" : ""}
+                    />
+                  </TableHead>
+                  {columns.map((col) => (
+                    <TableHead key={col.key} style={{ width: col.width }} className={`${col.className || ''} font-semibold text-foreground text-xs sm:text-sm`}>
+                      {col.header}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paginatedData.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length + 1}
+                      className="h-24 sm:h-32 text-center text-xs sm:text-sm text-muted-foreground"
+                    >
+                      No returns found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  paginatedData.map((item) => {
+                    const id = getRowId(item);
+                    const isSelected = selectedIds.includes(id);
+                    return (
+                      <TableRow
+                        key={id}
+                        className={`transition-colors ${isSelected ? "bg-pink-gradient/5" : ""}`}
+                      >
+                        <TableCell className="w-12" onClick={(e) => e.stopPropagation()}>
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
+                            aria-label={`Select row ${id}`}
+                          />
+                        </TableCell>
+                        {columns.map((col) => (
+                          <TableCell
+                            key={col.key}
+                            style={{ width: col.width }}
+                            className={`${col.className || ''} text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words`}
+                          >
+                            {col.render ? col.render(item) : item[col.key as keyof typeof item] as ReactNode}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 text-xs sm:text-sm">
+          <p className="text-muted-foreground">
+            Showing {(pagination.page - 1) * pagination.pageSize + 1} to{" "}
+            {Math.min(pagination.page * pagination.pageSize, filteredData.length)} of{" "}
+            {filteredData.length}
+          </p>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(1)}
+              disabled={pagination.page === 1}
+              title="First page"
+            >
+              <ChevronsLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              title="Previous page"
+            >
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <span className="px-2 sm:px-3 font-medium text-xs sm:text-sm">
+              {pagination.page} / {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === totalPages}
+              title="Next page"
+            >
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={pagination.page === totalPages}
+              title="Last page"
+            >
+              <ChevronsRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
