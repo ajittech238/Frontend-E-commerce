@@ -101,9 +101,10 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <OrderProvider>
+      <CustomerAuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <OrderProvider>
             <Toaster />
             <Sonner />
             <BrowserRouter>

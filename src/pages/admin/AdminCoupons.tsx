@@ -66,7 +66,7 @@ export default function AdminCoupons() {
       render: (item: any) => (
         <div className="flex items-center gap-1">
           {item.type === "percent" ? <Percent className="w-4 h-4 text-muted-foreground" /> : <DollarSign className="w-4 h-4 text-muted-foreground" />}
-          <span className="font-medium">
+          <span className="font-medium text-xs sm:text-sm">
             {item.type === "percent" ? `${item.value}%` : `₹${item.value}`}
           </span>
         </div>
@@ -75,11 +75,13 @@ export default function AdminCoupons() {
     {
       key: "minCart",
       header: "Min Cart",
+      className: "hidden md:table-cell",
       render: (item: any) => item.minCart > 0 ? `₹${item.minCart}` : <span className="text-muted-foreground">—</span>,
     },
     {
       key: "usage",
       header: "Usage",
+      className: "hidden md:table-cell",
       render: (item: any) => (
         <div className="space-y-1 min-w-[100px]">
           <div className="flex justify-between text-xs">
@@ -93,16 +95,19 @@ export default function AdminCoupons() {
     {
       key: "validity",
       header: "Valid Until",
+      className: "hidden lg:table-cell",
       render: (item: any) => new Date(item.endsAt).toLocaleDateString(),
     },
     {
       key: "status",
       header: "Status",
+      className: "hidden lg:table-cell",
       render: (item: any) => <StatusBadge status={item.status} />,
     },
     {
       key: "actions",
-      header: "",
+      header: "Actions",
+      className: "hidden lg:table-cell",
       width: "60px",
       render: (item: any) => (
         <DropdownMenu>
@@ -122,10 +127,15 @@ export default function AdminCoupons() {
         </DropdownMenu>
       ),
     },
+    {
+      key: "expander",
+      header: "",
+      width: "50px",
+    }
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in min-h-[calc(100vh-80px)] pb-10">
       <AdminPageHeader
         title="Coupons"
         description="Manage discount codes and promotions"
@@ -144,6 +154,8 @@ export default function AdminCoupons() {
         selectedIds={selectedIds}
         onSelectionChange={setSelectedIds}
         pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
+        showMobileExpand={true}
+        expandColumnKey="expander"
       />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import { StatCard } from "@/components/admin/StatCard";
 import { DollarSign, FileCheck, Clock, AlertCircle } from "lucide-react";
 
@@ -38,47 +39,109 @@ export default function AdminInvoices() {
       item.customer.toLowerCase().includes(search.toLowerCase())
   );
 
+  const renderExpandedRow = (item: any) => {
+    // Columns that are visible on tablet but not mobile
+    const tabletOnlyContent = (
+      <>
+        <Label className="text-xs font-medium text-muted-foreground self-center">Order ID</Label>
+        <div className="text-sm">{item.orderId}</div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Customer</Label>
+        <div className="text-sm">{item.customer}</div>
+      </>
+    );
+
+    // Columns that are hidden on both mobile and tablet
+    const hiddenContent = (
+      <>
+        <Label className="text-xs font-medium text-muted-foreground self-center">Amount</Label>
+        <div className="text-sm font-medium">₹{item.amount.toLocaleString()}</div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Tax</Label>
+        <div className="text-sm text-muted-foreground">₹{item.tax}</div>
+        
+        <Label className="text-xs font-medium text-muted-foreground self-center">Total</Label>
+        <div className="text-sm font-semibold text-primary">₹{(item.amount + item.tax).toLocaleString()}</div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Status</Label>
+        <div className="text-sm"><StatusBadge status={item.status} /></div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Date</Label>
+        <div className="text-sm">{new Date(item.createdAt).toLocaleDateString()}</div>
+        
+        <Label className="text-xs font-medium text-muted-foreground self-center">Actions</Label>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-8">
+                Actions <MoreHorizontal className="w-4 h-4 ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem><Eye className="w-4 h-4 mr-2" /> View</DropdownMenuItem>
+              <DropdownMenuItem><Download className="w-4 h-4 mr-2" /> Download PDF</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </>
+    );
+
+    return (
+      <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-3 p-4">
+        {/* On mobile, show tablet content + hidden content. On tablet, show only hidden content. */}
+        <div className="contents md:hidden">{tabletOnlyContent}</div>
+        {hiddenContent}
+      </div>
+    );
+  };
+
   const columns = [
     {
       key: "id",
       header: "Invoice #",
       render: (item: any) => (
         <div className="flex items-center gap-2">
-          <FileText className="w-4 h-4 text-muted-foreground" />
-          <span className="font-mono font-medium">{item.id}</span>
+          <FileText className="w-4 h-4 text-muted-foreground hidden sm:block" />
+          <span className="font-mono font-medium text-xs sm:text-sm">{item.id}</span>
         </div>
       ),
     },
-    { key: "orderId", header: "Order ID" },
-    { key: "customer", header: "Customer" },
+    { key: "orderId", header: "Order ID", className: "hidden md:table-cell" },
+    { key: "customer", header: "Customer", className: "hidden md:table-cell" },
     {
       key: "amount",
       header: "Amount",
+      className: "hidden lg:table-cell",
       render: (item: any) => <span className="font-medium">₹{item.amount.toLocaleString()}</span>,
     },
     {
       key: "tax",
       header: "Tax",
+      className: "hidden lg:table-cell",
       render: (item: any) => <span className="text-muted-foreground">₹{item.tax}</span>,
     },
     {
       key: "total",
       header: "Total",
+      className: "hidden lg:table-cell",
       render: (item: any) => <span className="font-semibold text-primary">₹{(item.amount + item.tax).toLocaleString()}</span>,
     },
     {
       key: "status",
       header: "Status",
+      className: "hidden lg:table-cell",
       render: (item: any) => <StatusBadge status={item.status} />,
     },
     {
       key: "createdAt",
       header: "Date",
+      className: "hidden lg:table-cell",
       render: (item: any) => new Date(item.createdAt).toLocaleDateString(),
     },
     {
       key: "actions",
-      header: "",
+      header: "Actions",
+      className: "hidden lg:table-cell",
       width: "60px",
       render: (item: any) => (
         <DropdownMenu>
@@ -93,6 +156,11 @@ export default function AdminInvoices() {
           </DropdownMenuContent>
         </DropdownMenu>
       ),
+    },
+    {
+      key: "expander",
+      header: "",
+      width: "50px",
     },
   ];
 
@@ -122,6 +190,9 @@ export default function AdminInvoices() {
         selectedIds={selectedIds}
         onSelectionChange={setSelectedIds}
         pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
+        showMobileExpand={true}
+        expandColumnKey="expander"
+        renderExpandedRow={renderExpandedRow}
       />
     </div>
   );
