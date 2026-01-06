@@ -4,6 +4,13 @@
 // import { Button } from "@/components/ui/button";
 // import { useCart } from "@/context/CartContext";
 // import { useWishlist } from "@/context/WishlistContext";
+// import { cn } from "@/lib/utils";
+// import ProductModal from "./ProductModal";
+// import { useIsMobile } from "@/hooks/use-mobile";
+// import { Product } from "@/types/product";
+
+// interface ProductCardProps {
+//   product: Product;
 // import { cn } from "@/lib/utils"; 
 // import ProductModal from "./ProductModal";
 // import { useIsMobile } from "@/hooks/use-mobile";
@@ -17,6 +24,11 @@
 // const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 //   const [isHovered, setIsHovered] = useState(false);
 //   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+//   const { addToCart } = useCart();
+//   const { isInWishlist, toggleWishlist } = useWishlist();
+//   const inWishlist = isInWishlist(product.id);
+
   
 //   const { addToCart } = useCart();
 //   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -43,6 +55,16 @@
 //     }
 //   };
 
+//   const discountPercent = product.originalPrice
+//     ? Math.round(
+//         ((product.originalPrice - product.price) / product.originalPrice) * 100
+//       )
+//     : 0;
+
+//   const shortDescription = product.description
+//     ? `${product.description.substring(0, 80)}${
+//         product.description.length > 80 ? "..." : ""
+//       }`
 //   const handleCardClick = () => {
 //     navigate(`/product/${product.id}`);
 //   };
@@ -57,6 +79,83 @@
 
 //   return (
     
+//   <div
+//     className={cn(
+//       "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300",
+//       "hover:shadow-card-hover hover:border-primary/20",
+//       "animate-fade-in opacity-0"
+//     )}
+//     style={{
+//       animationDelay: `${index * 0.05}s`,
+//       animationFillMode: "forwards",
+//     }}
+//     onMouseEnter={() => setIsHovered(true)}
+//     onMouseLeave={() => setIsHovered(false)}
+//   >
+//     {/* Image Section */}
+//     <div className="relative aspect-square overflow-hidden bg-secondary/30">
+//       {/* image + buttons same as before */}
+//     </div>
+
+//     {/* Content Section */}
+//     <div className="p-4 space-y-2.5">
+//       <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+//         Artisan Shop
+//       </p>
+
+//       <Link to={`/product/${product.id}`} className="block mt-1.5">
+//         <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
+//           {product.name}
+//         </h3>
+//       </Link>
+
+//       {/* Rating */}
+//       <div className="flex items-center gap-1.5">
+//         <div className="flex items-center gap-0.5">
+//           {[...Array(5)].map((_, i) => (
+//             <Star
+//               key={i}
+//               className={cn(
+//                 "h-3 w-3",
+//                 i < Math.floor(product.rating)
+//                   ? "fill-primary text-primary"
+//                   : "fill-muted text-muted"
+//               )}
+//             />
+//           ))}
+//         </div>
+//         <span className="text-xs text-muted-foreground">
+//           ({product.reviews.toLocaleString()})
+//         </span>
+//       </div>
+
+//       {/* Price */}
+//       <div className="flex items-baseline gap-2 flex-wrap mt-1.5">
+//         <span className="text-lg font-bold text-foreground">
+//           {formatPrice(product.price)}
+//         </span>
+//         {product.originalPrice && (
+//           <span className="text-sm text-muted-foreground line-through">
+//             {formatPrice(product.originalPrice)}
+//           </span>
+//         )}
+//       </div>
+
+//       {/* Delivery Info */}
+//       <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
+//         <Truck className="h-3.5 w-3.5" />
+//         <span>FREE delivery</span>
+//       </div>
+//     </div>
+
+//     {/* Modal */}
+//     <ProductModal
+//       product={product}
+//       isOpen={isDetailModalOpen}
+//       onOpenChange={setIsDetailModalOpen}
+//     />
+//   </div>
+// );
 //       <div
 //         className={cn(
 //           "group relative bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 cursor-pointer",
@@ -307,6 +406,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             size="icon"
             variant="ghost"
             className={cn(
+              "absolute top-3 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border",
               "absolute top-3 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border z-10",
               isHovered ? "opacity-100" : "opacity-0 sm:opacity-100"
             )}
@@ -322,6 +422,23 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 inWishlist ? "fill-primary text-primary" : "text-muted-foreground"
               )}
             />
+          </Button>
+
+          {/* Quick View (Eye) Button */}
+          <Button
+            size="icon"
+            variant="ghost"
+            className={cn(
+              "absolute top-14 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border",
+              isHovered ? "opacity-100" : "opacity-0 sm:opacity-100"
+            )}
+            onClick={handleQuickViewClick}
+          >
+            <Eye className={cn(
+                "h-4 w-4 transition-colors",
+                "text-muted-foreground")}/>
+          </Button>
+
           </Button>
 
           {/* Quick View (Eye) Button */}
@@ -370,6 +487,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </div>
 
           {/* Product Name with Link */}
+          <Link to={`/product/${product.id}`} className="block mt-1.5">
+            <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
+              {product.name}
+            </h3>
+          </Link>
           <Link to={`/product/${product.id}`} className="block mt-1">
             <h3 className="text-sm font-bold text-foreground line-clamp-1 hover:text-primary transition-colors leading-snug">
               {product.name}
