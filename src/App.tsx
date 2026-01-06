@@ -9,7 +9,6 @@ import { OrderProvider } from "@/context/OrderContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
-// import Category from "./pages/BeautyCategory";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -76,6 +75,7 @@ import ElectronicsPage from "./pages/ElectronicsPage";
 import BeautyPage from "./pages/BeautyPage";
 import SportsPage from "./pages/SportsPage";
 // import BeautyPage from "./pages/BeautyPage";
+// import { beautyCategories } from "./data/beauty";
 import GroceryPage from "./pages/Grocerypage";
 import HomeLivingPage from "./pages/Home&livingPage";
 import MenTopWear from "./pages/fashion/MenTopWear";
@@ -91,11 +91,11 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
-import BooksPage from "./pages/BooksPage";
-
-import { CustomerAuthProvider } from "./customer/context/CustomerAuthContext";
-import CustomerRoutes from "./customer/routes/CustomerRoutes";
-
+import JewelleryPage from "./pages/JewelleryPage";
+import BeautyPage from "./pages/BeautyPage";
+import PerfumePage from "./pages/PerfumePage";
+// import BeautyCategory from "./pages/BeautyCatego.ry";
+// import JewelleryPage from "./pages/JewelleryPage";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -117,10 +117,12 @@ const App = () => (
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
                 <Route path="/electronics" element={<ElectronicsPage />} />
                 <Route path="/grocery" element={<GroceryPage />} />
-                <Route path="/home-living" element={<HomeLivingPage />} />
-                <Route path="/books" element={<BooksPage />} />
-                <Route path="/beauty" element={<BeautyPage />} />
-                <Route path="/sports" element={<SportsPage />} />
+                <Route path="/homeliving" element={<HomeLivingPage />} />
+                <Route path="/beauty" element={<BeautyPage/>}/>
+                <Route path="/jewellery" element={<JewelleryPage/>}/>
+                {/* <Route path "/jewellery" element={<JewelleryPage />} />  */}
+                <Route path="/perfumes" element={<PerfumePage />} />
+
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
                 <Route path="/login" element={<Login />} />
