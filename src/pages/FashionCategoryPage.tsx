@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { HiTruck } from "react-icons/hi";
 
 interface GroupedProducts {
   [key: string]: typeof fashionProducts;
@@ -302,6 +303,19 @@ const FashionCategoryPage = () => {
               {product.badge}
             </div>
           )}
+
+          {/* Add to Cart Button - Show on Hover */}
+          <div className="absolute bottom-3 left-3 right-3 transition-all duration-300 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto">
+            <Button
+              className={`w-full text-primary-foreground font-semibold text-sm
+      ${buttonGradientMap[categoryName as Category]}
+      transition-all duration-300 hover:shadow-lg`}
+              onClick={() => addToCart(product)}
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              Add to Cart
+            </Button>
+          </div>
         </div>
 
         {/* Content */}
@@ -354,7 +368,7 @@ const FashionCategoryPage = () => {
           </div>
 
           {/* Sizes */}
-          {product.sizes && product.sizes.length > 0 && (
+          {/* {product.sizes && product.sizes.length > 0 && (
             <div className="flex gap-1 flex-wrap">
               {product.sizes.slice(0, 4).map((size) => (
                 <button
@@ -365,18 +379,13 @@ const FashionCategoryPage = () => {
                 </button>
               ))}
             </div>
-          )}
+          )} */}
 
-          {/* Add to Cart Button */}
-          <Button
-            className={`w-full mt-auto text-primary-foreground font-semibold text-sm
-    ${buttonGradientMap[categoryName as Category]}
-    transition-all duration-300 hover:shadow-lg`}
-            onClick={() => addToCart(product)}
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Add to Cart
-          </Button>
+           {/* Delivery Info */}
+        <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
+          <HiTruck className="h-3.5 w-3.5" />
+          <span>FREE delivery</span>
+        </div>
         </div>
       </div>
     );
@@ -476,10 +485,10 @@ const FashionCategoryPage = () => {
                   {!showMoreCategories && (
                     <div className="space-y-3">
                       {[
-                        "👕 Clothing",
-                        "👟 Footwear",
-                        "🧥 Winter Wear",
-                        "🕶️ Accessories",
+                        "Clothing",
+                        "Footwear",
+                        "Winter Wear",
+                        "Accessories",
                       ].map((size) => (
                         <button
                           key={size}
@@ -508,15 +517,15 @@ const FashionCategoryPage = () => {
                   {showMoreCategories && (
                     <div className="space-y-3 text-start">
                       {[
-                        "👕 Clothing",
-                        "👟 Footwear",
-                        "🧥 Winter Wear",
-                        "🕶️ Accessories",
-                        "🏋️ Sports & Activewear",
-                        "🧦 Innerwear & Sleepwear",
-                        "👜 Bags",
-                        "👖 Jeans",
-                        "⌚ Watches",
+                        "Clothing",
+                        "Footwear",
+                        "Winter Wear",
+                        "Accessories",
+                        "Sports & Activewear",
+                        "Innerwear & Sleepwear",
+                        "Bags",
+                        "Jeans",
+                        "Watches",
                       ].map((size) => (
                         <button
                           key={size}
