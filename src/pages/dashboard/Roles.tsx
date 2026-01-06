@@ -50,23 +50,24 @@ export default function Roles() {
       header: "Role",
       render: (role: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
-            <Shield className="w-5 h-5 text-primary" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center flex-shrink-0">
+            <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
           </div>
           <div>
-            <p className="font-medium text-foreground">{role.name}</p>
-            <p className="text-xs text-muted-foreground">{role.description}</p>
+            <p className="font-medium text-foreground text-xs sm:text-sm">{role.name}</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-1">{role.description}</p>
           </div>
         </div>
       ),
     },
-    { key: "users", header: "Users" },
-    { key: "permissions", header: "Permissions" },
+    { key: "users", header: "Users", className: "hidden sm:table-cell" },
+    { key: "permissions", header: "Perms", className: "hidden md:table-cell" },
     {
       key: "status",
       header: "Status",
+      className: "hidden xs:table-cell",
       render: (role: any) => (
-        <Badge className="bg-emerald-500/10 text-emerald-600">{role.status}</Badge>
+        <Badge className="bg-emerald-500/10 text-emerald-600 text-[10px] sm:text-xs">{role.status}</Badge>
       ),
     },
     {
@@ -94,25 +95,26 @@ export default function Roles() {
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in px-1 xs:px-0">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Roles & Permissions</h1>
-          <p className="text-muted-foreground mt-1">Manage user roles and access control</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Roles</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">Manage access control</p>
         </div>
-        <Button onClick={() => { setEditingRole(null); setIsDialogOpen(true); }} className="gap-2">
-          <Plus className="w-4 h-4" />
-          New Role
+        <Button onClick={() => { setEditingRole(null); setIsDialogOpen(true); }} className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4">
+          <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden xs:inline">New Role</span>
+          <span className="xs:hidden">New</span>
         </Button>
       </div>
 
       {/* Roles Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>All Roles</CardTitle>
-          <CardDescription>System roles and their permissions</CardDescription>
+      <Card className="mx-0">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl">All Roles</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">System roles and their permissions</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 sm:p-6">
           <DataTable
             columns={columns}
             data={roles}

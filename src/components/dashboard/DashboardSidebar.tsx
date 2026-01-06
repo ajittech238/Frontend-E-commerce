@@ -103,26 +103,19 @@ export function DashboardSidebar() {
   const collapsed = state === "collapsed";
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-border/50 bg-card/50">
+    <Sidebar collapsible="icon" className="border-r border-border/50 bg-card">
       <SidebarHeader className="p-4">
-        <div className="flex items-center justify-between">
-          <NavLink to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center shadow-lg">
-              <Store className="w-5 h-5 text-primary-foreground" />
-            </div>
-            {!collapsed && (
-              <div className="flex flex-col">
-                <span className="font-bold text-lg text-foreground">Craftsy</span>
-                <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Admin Panel</span>
-              </div>
-            )}
-          </NavLink>
+        <NavLink to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center shadow-lg flex-shrink-0">
+            <Store className="w-5 h-5 text-primary-foreground" />
+          </div>
           {!collapsed && (
-            <SidebarTrigger className="p-2 rounded-lg hover:bg-accent">
-              <PanelLeftClose className="w-4 h-4" />
-            </SidebarTrigger>
+            <div className="flex flex-col">
+              <span className="font-bold text-lg text-foreground">Craftsy</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Admin Panel</span>
+            </div>
           )}
-        </div>
+        </NavLink>
       </SidebarHeader>
 
       <SidebarContent className="px-2">
@@ -140,13 +133,16 @@ export function DashboardSidebar() {
                     const isActive = location.pathname === item.url;
                     return (
                       <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild tooltip={item.title}>
+                        <SidebarMenuButton 
+                          asChild 
+                          tooltip={collapsed ? item.title : undefined}
+                        >
                           <NavLink
                             to={item.url}
                             className={cn(
-                              "flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm",
+                              "flex items-center py-2 rounded-lg transition-all text-sm",
                               isActive
-                                ? "bg-pink-gradient text-primary-foreground shadow-sm"
+                                ? "bg-primary text-primary-foreground shadow-sm"
                                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
                             )}
                           >
@@ -172,20 +168,18 @@ export function DashboardSidebar() {
       <SidebarFooter className="p-3 space-y-2 border-t border-border/50">
         <SidebarMenuButton
           onClick={() => navigate("/")}
-          tooltip="Logout"
+          tooltip={collapsed ? "Logout" : undefined}
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-destructive hover:bg-destructive/10 w-full"
         >
-          <LogOut className="w-4 h-4" />
+          <LogOut className="w-4 h-4 flex-shrink-0" />
           {!collapsed && <span className="font-medium">Logout</span>}
         </SidebarMenuButton>
-        {collapsed && (
-          <div className="flex justify-center pt-2">
-            <SidebarTrigger className="p-2 rounded-lg hover:bg-accent">
-              <PanelRightOpen className="w-4 h-4" />
-            </SidebarTrigger>
-          </div>
-        )}
       </SidebarFooter>
     </Sidebar>
   );
 }
+
+
+
+
+
