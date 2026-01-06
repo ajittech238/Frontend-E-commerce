@@ -22,7 +22,7 @@ import { HomeLivingProduct } from "@/data/Home&living";
 import { useWishlist } from "@/context/WishlistContext";
 
 interface ProductModalProps {
-  product: Product;
+  product: any;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }
@@ -38,17 +38,6 @@ export default function ProductModal({
   const [selectedImage, setSelectedImage] = useState(product.image);
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string }>({});
-
-  // Zoom functionality states and ref
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [isZooming, setIsZooming] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [magnifierStyle, setMagnifierStyle] = useState({});
-
-  // Constants for zoom
-  const ZOOM_FACTOR = 2; // How much to zoom in
-  const MAGNIFIER_SIZE = 150; // Size of the magnifier circle
-  const MAGNIFIER_OFFSET = MAGNIFIER_SIZE / 2; // Offset to center the magnifier
 
   const inWishlist = isInWishlist(product.id);
 
@@ -85,7 +74,7 @@ export default function ProductModal({
 
   const effectiveStock = useMemo(() => {
     if (!product.variants || product.variants.length === 0) {
-      return product.stock ?? 999;
+      return product.stock || 50;
     }
     let currentStock = 0;
     const primaryVariant = product.variants[0];
@@ -114,47 +103,13 @@ export default function ProductModal({
     )
     : 0;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imgRef.current) return;
-
-    const { left, top, width, height } = imgRef.current.getBoundingClientRect();
-    const x = e.clientX - left;
-    const y = e.clientY - top;
-
-    setMousePosition({ x, y });
-
-    const backgroundX = -(x * ZOOM_FACTOR - MAGNIFIER_OFFSET);
-    const backgroundY = -(y * ZOOM_FACTOR - MAGNIFIER_OFFSET);
-
-    const magnifierLeft = x - MAGNIFIER_OFFSET;
-    const magnifierTop = y - MAGNIFIER_OFFSET;
-
-    setMagnifierStyle({
-      backgroundImage: `url(${selectedImage})`,
-      backgroundSize: `${width * ZOOM_FACTOR}px ${height * ZOOM_FACTOR}px`,
-      backgroundPosition: `${backgroundX}px ${backgroundY}px`,
-      left: `${magnifierLeft}px`,
-      top: `${magnifierTop}px`,
-      width: `${MAGNIFIER_SIZE}px`,
-      height: `${MAGNIFIER_SIZE}px`,
-    });
-  };
-
-  const handleMouseEnter = () => {
-    setIsZooming(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsZooming(false);
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-5xl w-full p-0 overflow-hidden rounded-3xl border-none bg-white dark:bg-slate-900 shadow-2xl">
         <div className="flex flex-col max-h-[90vh] overflow-y-auto scrollbar-hide">
           {/* Modal Header */}
           <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-900 z-10">
-            <h2 className="text-2xl font-serif font-bold text-slate-900 dark:text-white truncate pr-8">
+            <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-white truncate pr-8">
               {product.name}
             </h2>
             <button
@@ -169,26 +124,22 @@ export default function ProductModal({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Left Column: Images */}
               <div className="space-y-6">
-                <div className="aspect-[4/3] rounded-2xl bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center p-8 border border-slate-100 dark:border-slate-800 relative">
-                  <div
-                    className="relative w-full h-full flex items-center justify-center"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={handleMouseMove}
-                  >
-                    <img
-                      ref={imgRef}
-                      src={selectedImage}
-                      alt={product.name}
-                      className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500"
-                    />
-                    {isZooming && (
-                      <div
-                        className="absolute rounded-full pointer-events-none border-2 border-gray-400 overflow-hidden z-10"
-                        style={magnifierStyle}
-                      ></div>
-                    )}
-                  </div>
+                <div className="aspect-[4/3] rounded-2xl bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center p-4 border border-slate-100 dark:border-slate-800 relative group/image">
+                  <img
+                    src={selectedImage}
+                    alt={product.name}
+                    className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover/image:scale-150 cursor-zoom-in"
+                    onMouseMove={(e) => {
+                      const target = e.currentTarget;
+                      const rect = target.getBoundingClientRect();
+                      const x = ((e.clientX - rect.left) / rect.width) * 100;
+                      const y = ((e.clientY - rect.top) / rect.height) * 100;
+                      target.style.transformOrigin = `${x}% ${y}%`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transformOrigin = 'center';
+                    }}
+                  />
                 </div>
 
                 {/* Thumbnails */}
@@ -211,10 +162,11 @@ export default function ProductModal({
               {/* Right Column: Info */}
               <div className="space-y-8">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-medium">
-                    <Zap size={18} className="fill-amber-500" />
-                    <span>{effectiveStock < 10 ? `Only ${effectiveStock} left!` : 'In Stock'}</span>
-                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-medium">
+                      <Zap size={18} className="fill-amber-500" />
+                      <span>{effectiveStock < 10 ? `Only ${effectiveStock} left!` : 'In Stock'}</span>
+                    </div>
 
                   <div className="flex items-center gap-4">
                     <div className="flex gap-0.5">
@@ -228,7 +180,6 @@ export default function ProductModal({
                         />
                       ))}
                     </div>
-                    <span className="text-slate-400 text-sm">({product.reviews.toLocaleString()} reviews)</span>
                   </div>
 
                   <div className="flex items-baseline gap-4">
@@ -247,7 +198,7 @@ export default function ProductModal({
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-bold text-lg">Description</h3>
+                  <h3 className="font-serif text-2xl font-bold">Description</h3>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                     {product.description || "Experience the perfect blend of style and performance with this premium quality product."}
                   </p>
@@ -274,8 +225,25 @@ export default function ProductModal({
                         </button>
                       ))}
                     </div>
-                  </div>
-                ))}
+                  ))}
+                  
+                  {/* Default sizes if no variants found */}
+                  {!product.variants && product.sizes && (
+                    <div className="space-y-3">
+                      <h3 className="font-bold text-lg">Size:</h3>
+                      <div className="flex flex-wrap gap-3">
+                        {product.sizes.map((size: string) => (
+                          <button
+                            key={size}
+                            className="px-6 py-2.5 rounded-xl border-2 border-slate-100 dark:border-slate-800 hover:border-slate-200 transition-all font-medium min-w-[80px]"
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {/* Quantity and Add to Cart */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -324,15 +292,15 @@ export default function ProductModal({
             <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16 pt-16 border-t border-slate-100 dark:border-slate-800">
               {/* Specifications */}
               <div className="space-y-8">
-                <h3 className="text-2xl font-serif font-bold">Specifications</h3>
-                <div className="space-y-4">
+                <h3 className="text-3xl font-serif font-bold">Specifications</h3>
+                <div className="space-y-0">
                   {[
-                    { label: "Material", value: "Premium Grade" },
+                    { label: "Upholstery", value: product.material || "Premium Grade" },
+                    { label: "Frame", value: "Solid Oak" },
+                    { label: "Dimensions", value: "Standard" },
                     { label: "Warranty", value: "1 Year Standard" },
-                    { label: "Shipping", value: "Fast & Free" },
-                    { label: "Returns", value: "30-Day Policy" },
                   ].map((spec, i) => (
-                    <div key={i} className="flex justify-between py-4 border-b border-slate-50 dark:border-slate-800 text-sm">
+                    <div key={i} className="flex justify-between py-5 border-b border-slate-100 dark:border-slate-800 text-base">
                       <span className="font-bold text-slate-900 dark:text-white">{spec.label}</span>
                       <span className="text-slate-500">{spec.value}</span>
                     </div>
@@ -342,13 +310,14 @@ export default function ProductModal({
 
               {/* Reviews */}
               <div className="space-y-8">
-                <h3 className="text-2xl font-serif font-bold">Recent Reviews</h3>
-                <div className="space-y-8">
+                <h3 className="text-3xl font-serif font-bold">Reviews ({product.reviews > 0 ? 3 : 0})</h3>
+                <div className="space-y-10">
                   {[
-                    { name: "Amit V.", rating: 5, text: "Exceeded my expectations! The quality is amazing and fits perfectly." },
-                    { name: "Sunita G.", rating: 5, text: "Beautiful design and very practical. Highly recommend this to everyone." },
+                    { name: "Amit V.", rating: 5, date: "01/09/2023", text: "Absolutely stunning product. The quality is amazing." },
+                    { name: "Sunita G.", rating: 5, date: "28/08/2023", text: "Very comfortable and looks amazing in my living room." },
+                    { name: "Karan P.", rating: 4, date: "25/08/2023", text: "Great quality, but the delivery was slightly delayed." },
                   ].map((review, i) => (
-                    <div key={i} className="space-y-2">
+                    <div key={i} className="space-y-3 pb-8 border-b border-slate-100 dark:border-slate-800 last:border-0">
                       <div className="flex justify-between items-center">
                         <span className="font-bold">{review.name}</span>
                         <div className="flex gap-0.5">
@@ -361,7 +330,7 @@ export default function ProductModal({
                           ))}
                         </div>
                       </div>
-                      <p className="text-sm text-slate-500 leading-relaxed">{review.text}</p>
+                      <p className="text-base text-slate-500 leading-relaxed">{review.text}</p>
                     </div>
                   ))}
                 </div>

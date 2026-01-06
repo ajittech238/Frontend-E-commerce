@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useOrder } from "@/context/OrderContext";
+import { useCustomerAuth } from "@/customer/context/CustomerAuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +16,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { items, totalPrice, clearCart } = useCart();
   const { createOrder } = useOrder();
+  const { user, addOrder, addAddress } = useCustomerAuth();
 
   const TAX_RATE = 0.1;
   const SHIPPING_COST = items.length > 0 ? 50 : 0;
@@ -63,11 +65,12 @@ const Checkout = () => {
     if (!validateStep1()) return;
 
     const orderId = `ORD-${Date.now()}`;
+    const customerId = user?.id || `CUST-${Date.now()}`;
     const newOrder = {
       id: orderId,
-      customerId: `CUST-${Date.now()}`,
-      customerName: formData.fullName,
-      customerEmail: formData.email,
+      customerId,
+      customerName: formData.fullName || user?.name || "",
+      customerEmail: formData.email || user?.email || "",
       items,
       subtotal,
       tax,
@@ -89,7 +92,17 @@ const Checkout = () => {
       updatedAt: new Date().toISOString(),
     };
 
+    // Save to global orders store
     createOrder(newOrder);
+
+    // Save order and address to the customer's profile (localStorage)
+    try {
+      addOrder(newOrder);
+      addAddress(newOrder.shippingAddress);
+    } catch (e) {
+      // If customer context isn't available or fails, continue silently
+    }
+
     clearCart();
 
     toast({
@@ -222,14 +235,14 @@ const Checkout = () => {
                     className="border-border/50"
                   />
                   <Input
-                    name="PIN Code"
+                    name="zipCode"
                     placeholder="PIN Code"
                     value={formData.zipCode}
                     onChange={handleInputChange}
                     className="border-border/50"
                   />
 
-                  <Button onClick={() => setStep(2)} className="w-50 hover: bg-pink-400 bg-pink-600">
+                  <Button onClick={() => validateStep1() && setStep(2)} className="w-50 hover: bg-pink-400 bg-pink-600">
                   Continue to Payment
                 </Button>
                 </div>
@@ -285,7 +298,7 @@ const Checkout = () => {
               </Card>
             )}
           </div>
-        
+
 
           {/* Order Summary */}
           <div>

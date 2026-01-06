@@ -1,23 +1,44 @@
 export interface Product {
-  variants?: { name: string; options: { value: string; stock: number; priceModifier?: number; }[]; }[];
-  subCategoryId?: string;
   id: string;
   name: string;
   price: number;
   originalPrice?: number;
+
   image: string;
   images360?: string[];
+
   category: string;
+  subCategoryId?: string;
   subcategory?: string[];
-  sizes?: string[];
+
   rating: number;
   reviews: number;
+
   badge?: string;
   description?: string;
+
   inStock: boolean;
   stock?: number;
-  images360?: string[];
-  specifications?: { name: string; value: string }[];
+
+  discount?: number;
+  brand?: string;
+
+  variants?: {
+    name: string;
+    options: {
+      value: string;
+      stock: number;
+      priceModifier?: number;
+    }[];
+  }[];
+
+  sizes?: string[];
+
+  specifications?: {
+    name: string;
+    value: string;
+  }[];
+
   detailedReviews?: {
     id: string;
     author: string;
@@ -25,16 +46,16 @@ export interface Product {
     comment: string;
     date: string;
   }[];
-  discount?: number;
-  brand?: string;
+
+  /* Book-specific fields */
   author?: string;
   publisher?: string;
   pages?: number;
   language?: string;
   isbn?: string;
   publicationYear?: number;
-  
 }
+
 
 export interface CartItem extends Product {
   quantity: number;

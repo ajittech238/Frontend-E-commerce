@@ -1,4 +1,6 @@
 /* Hide scrollbar but keep scroll functionality */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lora:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
 .scrollbar-hide {
   scrollbar-width: none;      /* Firefox */
   -ms-overflow-style: none;   /* IE & Edge */
@@ -9,7 +11,6 @@
 }
 
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lora:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -361,18 +362,10 @@
   border-radius: 2px;
   transform: scaleX(0.9) rotate(-0.5deg);
 }
+/* Removed problematic global [data-state="closed"] style */
+
 /* Only apply exit animation to toasts, not all Radix components */
 [data-radix-toast-root][data-state="closed"] {
   animation: toast-exit 0.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes toast-exit {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-}
