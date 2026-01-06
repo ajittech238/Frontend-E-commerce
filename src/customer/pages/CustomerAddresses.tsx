@@ -1,11 +1,23 @@
 import React from "react";
 import { MapPin, Plus, Edit2, Trash2 } from "lucide-react";
+import { useCustomerAuth } from "../context/CustomerAuthContext";
 
 const CustomerAddresses: React.FC = () => {
-  const addresses = [
+  const { user } = useCustomerAuth();
+  
+  const initialAddresses = [
     { id: 1, type: "Home", address: "123 Fashion Street, New York, NY 10001", isDefault: true },
     { id: 2, type: "Office", address: "456 Design Avenue, Brooklyn, NY 11201", isDefault: false },
   ];
+
+  const userAddresses = (user?.addresses || []).map((addr: any, index: number) => ({
+    id: `user-${index}`,
+    type: "Shipping",
+    address: `${addr.address}, ${addr.city}, ${addr.state} ${addr.zipCode}`,
+    isDefault: false
+  }));
+
+  const allAddresses = [...userAddresses, ...initialAddresses];
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -21,7 +33,7 @@ const CustomerAddresses: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {addresses.map((addr) => (
+        {allAddresses.map((addr) => (
           <div key={addr.id} className={`bg-card border-2 rounded-3xl p-8 relative transition-all ${addr.isDefault ? 'border-primary shadow-lg shadow-pink-500/5' : 'border-border'}`}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
