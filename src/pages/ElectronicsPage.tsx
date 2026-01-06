@@ -1,31 +1,20 @@
- import { useState, useRef } from "react";
-import { Heart, ShoppingCart, Filter, Eye, X, Truck, Shield, RotateCcw, Star, Smartphone, Laptop, Headphones, Watch, Zap, Package, Check, Tablet, Camera, Speaker, Monitor, Maximize2, CheckCircle2, Minus, Plus } from "lucide-react";
+import { useState, useRef } from "react";
+import { Filter, Smartphone, Laptop, Headphones, Watch, Zap, Package, Tablet, Camera, Speaker, Monitor, Truck, Shield, RotateCcw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useCart } from "@/context/CartContext";
-import { useWishlist } from "@/context/WishlistContext";
 import { electronicsProducts } from "@/data/electronics";
 import { cn } from "@/lib/utils";
-import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ProductCard from "@/components/products/ProductCard";
 
 const ElectronicsPage = () => {
-  const navigate = useNavigate();
   const [priceRange, setPriceRange] = useState([10000, 500000]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("popularity");
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
-  const [quickViewQuantity, setQuickViewQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState("Black");
-  const [selectedSize, setSelectedSize] = useState("");
   const [isFilterMobileOpen, setIsFilterMobileOpen] = useState(false);
   const productsSectionRef = useRef<HTMLDivElement>(null);
-
-  const { addToCart } = useCart();
-  const { isInWishlist, toggleWishlist } = useWishlist();
 
   const scrollToProducts = () => {
     productsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,8 +38,7 @@ const ElectronicsPage = () => {
     const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
     const matchesCategory = !selectedCategory || p.subcategory?.includes(selectedCategory);
     const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(p.brand || "");
-    const matchesRating = p.rating >= minRating;
-    return matchesPrice && matchesCategory && matchesBrand && matchesRating;
+    return matchesPrice && matchesCategory && matchesBrand;
   });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -74,133 +62,15 @@ const ElectronicsPage = () => {
     }).format(price);
   };
 
-  const renderProductCard = (product: typeof electronicsProducts[0]) => {
-    const inWishlist = isInWishlist(product.id);
-
-    return (
-      <div
-        key={product.id}
-        className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full relative cursor-pointer"
-        onClick={() => navigate(`/product/${product.id}`)}
-      >
-        <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-950">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500"
-          />
-
-          {/* Action Buttons Stack */}
-          <div className="absolute top-3 right-3 flex flex-col gap-2 translate-x-12 group-hover:translate-x-0 transition-transform duration-300 z-30">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md dark:bg-slate-900/90"
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleWishlist(product);
-              }}
-            >
-              <Heart
-                className={cn(
-                  "h-4 w-4 transition-colors",
-                  inWishlist ? "fill-pink-600 text-pink-600" : "text-muted-foreground"
-                )}
-              />
-            </Button>
-            
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md dark:bg-slate-900/90"
-              onClick={(e) => {
-                e.stopPropagation();
-                setQuickViewProduct(product);
-                setQuickViewQuantity(1);
-                setSelectedSize(product.sizes?.[0] || "");
-              }}
-            >
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            </Button>
-          </div>
-
-          {product.discount && (
-            <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
-              -{product.discount}%
-            </div>
-          )}
-
-          {product.badge && (
-            <div className="absolute bottom-3 left-3 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
-              {product.badge}
-            </div>
-          )}
-
-          {/* Hover Add to Cart Button on Image */}
-          <div className="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-40">
-            <Button
-              className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs h-10 shadow-xl shadow-pink-900/20 rounded-xl backdrop-blur-sm border-none"
-              onClick={(e) => {
-                e.stopPropagation();
-                addToCart(product);
-              }}
-              disabled={!product.inStock}
-            >
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              {product.inStock ? "Add to Cart" : "Out of Stock"}
-            </Button>
-          </div>
-        </div>
-
-        <div className="p-4 flex flex-col flex-grow space-y-2 relative">
-          <div className="flex flex-col">
-            <span className="text-[10px] text-purple-600 dark:text-purple-400 font-bold uppercase tracking-wider">{product.brand}</span>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-purple-600 transition-colors">
-              {product.name}
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
-            {product.description}
-          </p>
-
-          <div className="flex items-center gap-2">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={10}
-                  className={cn(
-                    i < Math.floor(product.rating) ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700"
-                  )}
-                />
-              ))}
-            </div>
-            <span className="text-[10px] text-slate-400 font-medium">({product.reviews})</span>
-          </div>
-
-          <div className="flex items-baseline gap-2 pt-1 mt-auto">
-            <span className="text-base font-black text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
-            {product.originalPrice && (
-              <span className="text-xs text-slate-400 line-through decoration-red-500/50">
-                {formatPrice(product.originalPrice)}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <Header />
 
       {/* Hero Section */}
-      <div className="relative w-full overflow-hidden pt-20">
+      <div className="relative w-full overflow-hidden pt-8">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-indigo-600/10 to-blue-600/10 dark:from-purple-600/20 dark:via-indigo-600/20 dark:to-blue-600/20 blur-3xl" />
         
-        <div className="relative mx-auto px-4 py-16 md:py-24 text-center z-10">
+        <div className="relative mx-auto px-4 py-12 md:py-16 text-center z-10">
           <div className="inline-block mb-6">
             <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 text-sm font-semibold rounded-full border-none">
               ✨ 2025 Latest Collection
@@ -320,7 +190,6 @@ const ElectronicsPage = () => {
                 onClick={() => {
                   setPriceRange([10000, 500000]);
                   setSelectedBrands([]);
-                  setMinRating(0);
                   setSelectedCategory(null);
                 }}
                 className="w-full text-xs font-bold text-slate-400 hover:text-purple-600 transition-colors pt-4 border-t border-slate-100 dark:border-slate-800"
@@ -365,8 +234,10 @@ const ElectronicsPage = () => {
                 <p className="text-slate-500 dark:text-slate-400 mt-2">Try adjusting your filters to find what you're looking for.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {sortedProducts.map((product) => renderProductCard(product))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                {sortedProducts.map((product, index) => (
+                  <ProductCard key={product.id} product={product} index={index} />
+                ))}
               </div>
             )}
           </div>
@@ -394,236 +265,6 @@ const ElectronicsPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Quick View Modal */}
-      {quickViewProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-in zoom-in-95 duration-300">
-            {/* Modal Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-900 z-10">
-              <h2 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">
-                {quickViewProduct.name}
-              </h2>
-              <button
-                onClick={() => setQuickViewProduct(null)}
-                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 transition-colors"
-              >
-                <X size={24} />
-              </button>
-            </div>
-
-            <div className="p-6 lg:p-10">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                {/* Left Column: Images */}
-                <div className="space-y-6">
-                  <div className="aspect-[4/3] rounded-2xl bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center p-8">
-                    <img
-                      src={quickViewProduct.image}
-                      alt={quickViewProduct.name}
-                      className="w-full h-full object-contain drop-shadow-2xl"
-                    />
-                  </div>
-                  
-                  {/* Thumbnails */}
-                  <div className="flex gap-4 overflow-x-auto pb-2">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <div 
-                        key={i} 
-                        className={cn(
-                          "w-20 h-20 rounded-xl bg-slate-50 dark:bg-slate-950 border-2 shrink-0 flex items-center justify-center p-2 cursor-pointer",
-                          i === 1 ? "border-pink-500" : "border-transparent"
-                        )}
-                      >
-                        <img src={quickViewProduct.image} alt="" className="w-full h-full object-contain" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Right Column: Info */}
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-medium">
-                      <Zap size={18} className="fill-amber-500" />
-                      <span>Only {quickViewProduct.stock || 5} left!</span>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      <div className="flex gap-0.5">
-                        {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            size={20} 
-                            className={cn(
-                              i < Math.floor(quickViewProduct.rating) ? "fill-pink-500 text-pink-500" : "text-slate-200 dark:text-slate-700"
-                            )} 
-                          />
-                        ))}
-                      </div>
-                      <span className="text-slate-400 text-sm">({quickViewProduct.reviews} reviews)</span>
-                    </div>
-
-                    <div className="flex items-baseline gap-4">
-                      <span className="text-5xl font-bold text-slate-900 dark:text-white">
-                        ₹{quickViewProduct.price.toLocaleString()}
-                      </span>
-                      {quickViewProduct.originalPrice && (
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl text-slate-400 line-through">
-                            ₹{quickViewProduct.originalPrice.toLocaleString()}
-                          </span>
-                          <span className="text-pink-600 font-bold">({quickViewProduct.discount}% off)</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h3 className="font-bold text-lg">Description</h3>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                      {quickViewProduct.description}. Experience premium quality and cutting-edge performance with the latest {quickViewProduct.brand} technology.
-                    </p>
-                  </div>
-
-                  {/* Color Selection */}
-                  <div className="space-y-3">
-                    <h3 className="font-bold">Color: <span className="font-normal text-slate-500">{selectedColor}</span></h3>
-                    <div className="flex gap-3">
-                      {["Black", "Silver", "White"].map((color) => (
-                        <button
-                          key={color}
-                          onClick={() => setSelectedColor(color)}
-                          className={cn(
-                            "px-6 py-2 rounded-xl border-2 transition-all font-medium",
-                            selectedColor === color 
-                              ? "border-pink-500 bg-pink-50/50 dark:bg-pink-900/10 text-pink-600" 
-                              : "border-slate-100 dark:border-slate-800 hover:border-slate-200"
-                          )}
-                        >
-                          {color}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Size Selection */}
-                  {quickViewProduct.sizes && quickViewProduct.sizes.length > 0 && (
-                    <div className="space-y-3">
-                      <h3 className="font-bold">Size: <span className="font-normal text-slate-500">{selectedSize}</span></h3>
-                      <div className="flex flex-wrap gap-3">
-                        {quickViewProduct.sizes.map((size) => (
-                          <button
-                            key={size}
-                            onClick={() => setSelectedSize(size)}
-                            className={cn(
-                              "px-6 py-2 rounded-xl border-2 transition-all font-medium",
-                              selectedSize === size 
-                                ? "border-pink-500 bg-pink-50/50 dark:bg-pink-900/10 text-pink-600" 
-                                : "border-slate-100 dark:border-slate-800 hover:border-slate-200"
-                            )}
-                          >
-                            {size}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Quantity and Add to Cart */}
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <div className="flex items-center bg-slate-50 dark:bg-slate-950 rounded-xl p-1 border border-slate-100 dark:border-slate-800">
-                      <button 
-                        onClick={() => setQuickViewQuantity(Math.max(1, quickViewQuantity - 1))}
-                        className="p-3 hover:text-pink-600 transition-colors"
-                      >
-                        <Minus size={20} />
-                      </button>
-                      <span className="w-12 text-center font-bold text-lg">{quickViewQuantity}</span>
-                      <button 
-                        onClick={() => setQuickViewQuantity(quickViewQuantity + 1)}
-                        className="p-3 hover:text-pink-600 transition-colors"
-                      >
-                        <Plus size={20} />
-                      </button>
-                    </div>
-                    <Button
-                      className="flex-1 h-14 bg-pink-600 hover:bg-pink-700 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-pink-600/20 border-none"
-                      onClick={() => {
-                        for(let i=0; i<quickViewQuantity; i++) {
-                          addToCart(quickViewProduct);
-                        }
-                        setQuickViewProduct(null);
-                      }}
-                    >
-                      <ShoppingCart size={22} />
-                      Add to Cart
-                    </Button>
-                  </div>
-
-                  <Button
-                    variant="ghost"
-                    className="w-full h-12 text-slate-600 dark:text-slate-400 font-medium flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800"
-                    onClick={() => toggleWishlist(quickViewProduct)}
-                  >
-                    <Heart className={cn("h-5 w-5", isInWishlist(quickViewProduct.id) && "fill-pink-600 text-pink-600")} />
-                    Add to Wishlist
-                  </Button>
-                </div>
-              </div>
-
-              {/* Bottom Section: Specifications and Reviews */}
-              <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16 pt-16 border-t border-slate-100 dark:border-slate-800">
-                {/* Specifications */}
-                <div className="space-y-8">
-                  <h3 className="text-2xl font-serif font-bold">Specifications</h3>
-                  <div className="space-y-4">
-                    {[
-                      { label: "Brand", value: quickViewProduct.brand },
-                      { label: "Category", value: quickViewProduct.category },
-                      { label: "Connectivity", value: "Wireless/Wired" },
-                      { label: "Warranty", value: "1 Year Manufacturer" },
-                    ].map((spec, i) => (
-                      <div key={i} className="flex justify-between py-4 border-b border-slate-50 dark:border-slate-800 text-sm">
-                        <span className="font-bold text-slate-900 dark:text-white">{spec.label}</span>
-                        <span className="text-slate-500">{spec.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Reviews */}
-                <div className="space-y-8">
-                  <h3 className="text-2xl font-serif font-bold">Reviews (3)</h3>
-                  <div className="space-y-8">
-                    {[
-                      { name: "Amit V.", date: "01/09/2023", rating: 5, text: "Absolutely stunning performance. The build quality is top-notch." },
-                      { name: "Sunita G.", date: "28/08/2023", rating: 5, text: "Very comfortable and looks amazing on my desk. Highly recommended!" },
-                      { name: "Karan P.", date: "25/08/2023", rating: 4, text: "Great quality, but the delivery was slightly delayed. Still worth it." },
-                    ].map((review, i) => (
-                      <div key={i} className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="font-bold">{review.name}</span>
-                          <span className="text-xs text-slate-400">{review.date}</span>
-                        </div>
-                        <div className="flex gap-0.5">
-                          {[...Array(5)].map((_, j) => (
-                            <Star 
-                              key={j} 
-                              size={12} 
-                              className={cn(j < review.rating ? "fill-pink-500 text-pink-500" : "text-slate-200")} 
-                            />
-                          ))}
-                        </div>
-                        <p className="text-sm text-slate-500 leading-relaxed">{review.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Mobile Filter Overlay */}
       {isFilterMobileOpen && (

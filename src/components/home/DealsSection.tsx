@@ -181,7 +181,7 @@ const DealsSection = () => {
       ) {
         scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
       }
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);

@@ -4,6 +4,7 @@ import CustomerDashboard from "../pages/CustomerDashboard";
 import CustomerOverview from "../pages/CustomerOverview";
 import CustomerProfile from "../pages/CustomerProfile";
 import CustomerOrders from "../pages/CustomerOrders";
+import CustomerOrderDetail from "../pages/CustomerOrderDetail";
 import CustomerWishlist from "../pages/CustomerWishlist";
 import CustomerAddresses from "../pages/CustomerAddresses";
 import ChangePassword from "../pages/ChangePassword";
@@ -27,6 +28,7 @@ const CustomerRoutes: React.FC = () => {
         <Route index element={<CustomerOverview />} />
         <Route path="profile" element={<CustomerProfile />} />
         <Route path="orders" element={<CustomerOrders />} />
+        <Route path="orders/:orderId" element={<CustomerOrderDetail />} />
         <Route path="wishlist" element={<CustomerWishlist />} />
         <Route path="addresses" element={<CustomerAddresses />} />
         <Route path="notifications" element={<CustomerNotifications />} />

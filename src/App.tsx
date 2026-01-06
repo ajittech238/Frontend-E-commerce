@@ -18,6 +18,8 @@ import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import NotFound from "./pages/NotFound";
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
+import { DashboardLayout as CustomerDashboardLayout } from "./components/Customer/DashboardLayout";
+import { ThemeProvider as CustomerThemeProvider } from "./components/Customer/useTheme";
 import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
@@ -92,6 +94,10 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
+import SportsPage from "./pages/SportsPage";
+import CustomerDash from "./pages/customer-dashboard/CustomerDash";
+
+
 import JewelleryPage from "./pages/JewelleryPage";
 import PerfumePage from "./pages/PerfumePage";
 // import PerfumePage from "./pages/PerfumePage";
@@ -135,6 +141,118 @@ const App = () => (
                 <Route path="/payment-success" element={<PaymentSuccess />} />
                 <Route path="/payment-failed" element={<PaymentFailed />} />
                 <Route path="/payment-history" element={<PaymentHistory />} />
+
+                {/* Dashboard Routes */}
+                <Route path="/dashboard" element={<DashboardLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="products" element={<DashboardProducts />} />
+                  <Route path="orders" element={<DashboardOrders />} />
+                  <Route path="seller-orders" element={<SellerOrders />} />
+                  <Route path="checkout" element={<DashboardCheckout />} />
+                  <Route path="settings" element={<DashboardSettings />} />
+                  <Route path="refer-earn" element={<ReferEarn />} />
+                  <Route path="rewards" element={<Rewards />} />
+                  <Route path="qa" element={<QA />} />
+                  <Route path="shops" element={<Shops />} />
+                  <Route path="roles" element={<Roles />} />
+                  <Route path="events" element={<EventLogs />} />
+                  <Route path="emails" element={<EmailTemplates />} />
+                  <Route path="chatbot" element={<Chatbot />} />
+                  <Route path="whatsapp" element={<WhatsAppMessaging />} />
+                  <Route path="amazon" element={<AmazonDashboard />} />
+                  <Route path="shopify" element={<ShopifyDashboard />} />
+                  <Route path="razorpay" element={<RazorpayDashboard />} />
+                  {/* Admin modules */}
+                  <Route path="users" element={<AdminUsers />} />
+                  <Route path="admin-orders" element={<AdminOrders />} />
+                  <Route path="categories" element={<AdminCategories />} />
+                  <Route path="coupons" element={<AdminCoupons />} />
+                  <Route path="returns" element={<AdminReturns />} />
+                  <Route path="invoices" element={<AdminInvoices />} />
+                  <Route path="reviews" element={<AdminReviews />} />
+                  <Route path="warehouses" element={<AdminWarehouses />} />
+                  <Route
+                    path="warehouse-cart"
+                    element={<AdminWarehouseCart />}
+                  />
+                  <Route
+                    path="warehouse-invoices"
+                    element={<AdminWarehouseInvoices />}
+                  />
+                  <Route
+                    path="warehouse-products"
+                    element={<AdminWarehouseProducts />}
+                  />
+                  <Route
+                    path="warehouse-management"
+                    element={<AdminWarehouseManagement />}
+                  />
+                  <Route
+                    path="warehouse-refer-earn"
+                    element={<AdminWarehouseReferEarn />}
+                  />
+                  <Route
+                    path="warehouse-returns"
+                    element={<AdminWarehouseReturns />}
+                  />
+                  <Route path="racks" element={<AdminRacks />} />
+                  <Route path="rack-products" element={<AdminRackProducts />} />
+                  <Route path="scratch-cards" element={<AdminScratchCards />} />
+                  <Route path="employees" element={<AdminEmployees />} />
+                  <Route path="departments" element={<AdminDepartments />} />
+                  <Route path="salaries" element={<AdminSalaries />} />
+                  <Route path="leaves" element={<AdminLeaves />} />
+                  <Route
+                    path="notifications"
+                    element={<AdminNotifications />}
+                  />
+                  <Route path="transactions" element={<AdminTransactions />} />
+                  <Route path="integrations" element={<AdminIntegrations />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  {/* Integration detail pages */}
+                  <Route
+                    path="integrations/amazon"
+                    element={<AmazonIntegration />}
+                  />
+                  <Route
+                    path="integrations/shopify"
+                    element={<ShopifyIntegration />}
+                  />
+                  <Route
+                    path="integrations/ebay"
+                    element={<EbayIntegration />}
+                  />
+                  <Route
+                    path="integrations/walmart"
+                    element={<WalmartIntegration />}
+                  />
+                  <Route
+                    path="integrations/flipkart"
+                    element={<FlipkartIntegration />}
+                  />
+                  <Route
+                    path="integrations/woocommerce"
+                    element={<WooCommerceIntegration />}
+                  />
+                  <Route
+                    path="integrations/razorpay"
+                    element={<RazorpayIntegration />}
+                  />
+                  <Route
+                    path="integrations/whatsapp"
+                    element={<WhatsAppIntegration />}
+                  />
+                </Route>
+                <Route
+                  path="/customerdash"
+                  element={
+                    <CustomerThemeProvider>
+                      <CustomerDashboardLayout />
+                    </CustomerThemeProvider>
+                  }
+                >
+                  <Route index element={<CustomerDash />} />
+                </Route>
                 {/* <Route path="/books" element={<BooksPage /> } /> */}
               
               {/* Dashboard Routes */}

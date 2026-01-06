@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useCustomerAuth } from "@/customer/context/CustomerAuthContext";
 import { categories, products } from "@/data/products";
 import { fashionProducts } from "@/data/fashion";
 import { electronicsProducts } from "@/data/electronics";
@@ -29,6 +30,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { totalItems, setIsCartOpen } = useCart();
   const { items: wishlistItems } = useWishlist();
+  const { isAuthenticated } = useCustomerAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -219,16 +221,15 @@ const Header = () => {
               </Button>
 
               {/* Account */}
-              <Link to="/dashboard">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
-                >
-                  <User className="h-5 w-5" />
-                  <span className="hidden md:block">Account</span>
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(isAuthenticated ? "/customer" : "/login")}
+                className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
+              >
+                <User className="h-5 w-5" />
+                <span className="hidden md:block">Account</span>
+              </Button>
 
               {/* Login Button */}
               <Link to="/login">
@@ -357,7 +358,7 @@ const Header = () => {
             {/* Fashion with Dropdown */}
             <li className="relative group">
               <Link
-                to={`/fashion`}
+                to={`/category/fashion`}
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 flex items-center gap-1"
               >
                 Fashion
@@ -448,7 +449,7 @@ const Header = () => {
             {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
-                  to={category.id === 'home' ? '/home-living' : `/${category.id}`}
+                  to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                   className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group"
                 >
                   {category.name}
@@ -477,7 +478,7 @@ const Header = () => {
             <div className="space-y-3">
               <h3 className="font-display font-bold text-lg">Quick Access</h3>
               <Link
-                to="/dashboard"
+                to="/customer"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-primary/10 to-transparent transition-colors"
               >
@@ -552,20 +553,11 @@ const Header = () => {
                   <span className="font-medium text-foreground hover:text-primary transition-colors">Books</span>
                 </Link>
 
-                <Link
-                  to="/sports"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-                >
-                  <span className="text-lg"></span>
-                  <span className="font-medium text-foreground hover:text-primary transition-colors">Sports</span>
-                </Link>
-
                 {/* Other Categories */}
                 {categories.slice(2).map((category) => (
                   <Link
                     key={category.id}
-                    to={category.id === 'home' ? '/home-living' : `/${category.id}`}
+                    to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                   >

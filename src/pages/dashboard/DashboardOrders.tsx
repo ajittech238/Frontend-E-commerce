@@ -95,21 +95,21 @@ export default function DashboardOrders() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Orders</h1>
-          <p className="text-sm text-muted-foreground mt-1">Track and manage customer orders</p>
+          <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tighter">Orders</h1>
+          <p className="text-sm text-muted-foreground mt-1 font-medium tracking-tight">Track and manage customer orders</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="sm"
-            className="h-9"
+            className="h-9 font-bold text-xs uppercase tracking-widest border-border/50 hover:bg-accent"
             onClick={handleRefresh}
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
-          <Button variant="outline" size="sm" className="h-9">
-            <Download className="w-4 h-4 mr-2" />
+          <Button variant="outline" size="sm" className="h-9 font-bold text-xs uppercase tracking-widest border-border/50 hover:bg-accent">
+            <Download className="w-3.5 h-3.5 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
         </div>
@@ -117,46 +117,46 @@ export default function DashboardOrders() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-        <Card className="border-border/50 col-span-1">
+        <Card className="border-border/50 col-span-1 shadow-sm overflow-hidden bg-accent/20">
           <CardContent className="p-3 sm:p-4">
-            <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.total}</p>
-            <p className="text-xs text-muted-foreground">Total Orders</p>
+            <p className="text-xl sm:text-2xl font-black text-foreground tabular-nums tracking-tighter">{stats.total}</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">Total Orders</p>
           </CardContent>
         </Card>
         {Object.entries(statusConfig).map(([key, config]) => (
           <Card
             key={key}
-            className={`border-border/50 cursor-pointer transition-all hover:shadow-md ${status === key ? 'ring-2 ring-primary' : ''}`}
+            className={`border-border/50 cursor-pointer transition-all duration-300 hover:shadow-md overflow-hidden ${status === key ? 'ring-2 ring-primary bg-primary/5' : 'bg-background hover:bg-accent/30'}`}
             onClick={() => setStatus(status === key ? "all" : key)}
           >
-            <CardContent className="p-3 sm:p-4 relative overflow-hidden">
-              <div className={`absolute top-0 left-0 w-1 h-full ${config.color}`} />
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats[key as keyof typeof stats]}</p>
-              <p className="text-xs text-muted-foreground">{config.label}</p>
+            <CardContent className="p-3 sm:p-4 relative">
+              <div className={`absolute top-0 left-0 w-1.5 h-full ${config.color} opacity-70`} />
+              <p className="text-xl sm:text-2xl font-black text-foreground tabular-nums tracking-tighter">{stats[key as keyof typeof stats]}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">{config.label}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Revenue Summary */}
-      <Card className="border-border/50">
+      <Card className="border-border/50 shadow-sm overflow-hidden bg-gradient-to-br from-background to-accent/20">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <p className="text-sm text-muted-foreground">Total Revenue (excluding cancelled)</p>
-              <p className="text-2xl sm:text-3xl font-bold text-foreground">₹{stats.revenue.toLocaleString()}</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">Total Revenue (excluding cancelled)</p>
+              <p className="text-2xl sm:text-4xl font-black text-foreground tabular-nums tracking-tighter">₹{stats.revenue.toLocaleString()}</p>
             </div>
-            <div className="flex items-center gap-2 text-emerald-600">
-              <ArrowUpRight className="w-5 h-5" />
-              <span className="font-semibold">+12.5% from last month</span>
+            <div className="flex items-center gap-2 text-emerald-600 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
+              <ArrowUpRight className="w-4 h-4 stroke-[3px]" />
+              <span className="font-black text-xs uppercase tracking-wider">+12.5% vs Last Month</span>
             </div>
           </div>
-          <div className="mt-4">
-            <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
+          <div className="mt-6">
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mb-2.5">
               <span>Order Fulfillment Rate</span>
-              <span>{Math.round((stats.delivered / (stats.total - stats.cancelled)) * 100)}%</span>
+              <span className="tabular-nums">{Math.round((stats.delivered / (stats.total - stats.cancelled)) * 100)}%</span>
             </div>
-            <Progress value={(stats.delivered / (stats.total - stats.cancelled)) * 100} className="h-2" />
+            <Progress value={(stats.delivered / (stats.total - stats.cancelled)) * 100} className="h-2 rounded-full" />
           </div>
         </CardContent>
       </Card>
@@ -194,46 +194,46 @@ export default function DashboardOrders() {
       <Card className="border-border/50 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-accent/50">
+            <thead className="bg-muted/40 border-b border-border/50">
               <tr>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm">Order ID</th>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm hidden sm:table-cell">Customer</th>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm hidden lg:table-cell">Items</th>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm hidden md:table-cell">Date</th>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm">Total</th>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm">Status</th>
-                <th className="text-left p-3 sm:p-4 font-semibold text-foreground text-sm w-20">Actions</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px]">Order ID</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] hidden sm:table-cell">Customer</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] hidden lg:table-cell">Items</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] hidden md:table-cell">Date</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px]">Total</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px]">Status</th>
+                <th className="text-left p-3 sm:p-4 font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] w-20">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/50">
+            <tbody className="divide-y divide-border/30">
               {filteredOrders.map((order) => {
                 const StatusIcon = statusConfig[order.status].icon;
                 return (
-                  <tr key={order.id} className="hover:bg-accent/30 transition-colors">
+                  <tr key={order.id} className="hover:bg-accent/20 transition-colors group">
                     <td className="p-3 sm:p-4">
-                      <span className="font-medium text-foreground text-sm">{order.id}</span>
+                      <span className="font-black text-foreground text-sm tabular-nums tracking-tighter">{order.id}</span>
                     </td>
                     <td className="p-3 sm:p-4 hidden sm:table-cell">
                       <div>
-                        <p className="font-medium text-foreground text-sm">{order.customerName}</p>
-                        <p className="text-xs text-muted-foreground">{order.email}</p>
+                        <p className="font-black text-foreground text-sm tracking-tight">{order.customerName}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">{order.email}</p>
                       </div>
                     </td>
                     <td className="p-3 sm:p-4 hidden lg:table-cell">
-                      <span className="text-sm text-muted-foreground">{order.items.length} items</span>
+                      <span className="text-xs font-bold text-muted-foreground/80 tabular-nums">{order.items.length} ITEMS</span>
                     </td>
-                    <td className="p-3 sm:p-4 hidden md:table-cell text-muted-foreground text-sm">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
+                    <td className="p-3 sm:p-4 hidden md:table-cell text-muted-foreground">
+                      <div className="flex items-center gap-2 text-xs font-bold tabular-nums">
+                        <Calendar className="w-3.5 h-3.5" />
                         {new Date(order.date).toLocaleDateString()}
                       </div>
                     </td>
                     <td className="p-3 sm:p-4">
-                      <span className="font-semibold text-foreground text-sm">₹{order.total.toLocaleString()}</span>
+                      <span className="font-black text-foreground text-sm tabular-nums tracking-tighter">₹{order.total.toLocaleString()}</span>
                     </td>
                     <td className="p-3 sm:p-4">
-                      <Badge className={`${statusConfig[order.status].bgColor} ${statusConfig[order.status].textColor} hover:${statusConfig[order.status].bgColor} text-xs`}>
-                        <StatusIcon className="w-3 h-3 mr-1" />
+                      <Badge className={`${statusConfig[order.status].bgColor} ${statusConfig[order.status].textColor} hover:${statusConfig[order.status].bgColor} text-[9px] font-black uppercase tracking-[0.15em] px-2 py-0.5 rounded-md`}>
+                        <StatusIcon className="w-2.5 h-2.5 mr-1.5 stroke-[3px]" />
                         <span className="hidden sm:inline">{statusConfig[order.status].label}</span>
                       </Badge>
                     </td>
