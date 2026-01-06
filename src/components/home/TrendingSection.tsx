@@ -69,13 +69,15 @@
 // export default TrendingSection;
 
 
-
 import { useRef, useEffect } from "react";
 import { ArrowRight, ArrowLeft, TrendingUp, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/products/ProductCard";
 import { trending, products } from "@/data/products";
 import { Link } from "react-router-dom";
+
+const CARD_WIDTH = 300;
+const CARD_HEIGHT = 500;
 
 const TrendingSection = () => {
   const trendingProducts =
@@ -86,9 +88,8 @@ const TrendingSection = () => {
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
 
-    const scrollAmount = 320;
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
+      left: direction === "left" ? -CARD_WIDTH : CARD_WIDTH,
       behavior: "smooth",
     });
   };
@@ -99,27 +100,25 @@ const TrendingSection = () => {
       if (!scrollRef.current) return;
 
       const container = scrollRef.current;
-      const scrollAmount = 320;
 
       if (
         container.scrollLeft + container.clientWidth >=
-        container.scrollWidth
+        container.scrollWidth - 10
       ) {
-        // If at the end, scroll back to start
         container.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        container.scrollBy({ left: CARD_WIDTH, behavior: "smooth" });
       }
-    }, 2000); // every 2 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className=" md:py-10 bg-gradient-to-b from-background to-accent/5">
+    <section className="md:py-10 bg-gradient-to-b from-background to-accent/5">
       <div className="container">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-5 animate-in fade-in slide-in-from-top duration-700">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-gradient/10 border border-primary/20 mb-4">
               <Flame className="h-4 w-4 text-primary animate-pulse" />
@@ -127,6 +126,7 @@ const TrendingSection = () => {
                 Hot This Week
               </span>
             </div>
+
             <h2 className="text-4xl md:text-5xl font-bold">Trending Now</h2>
             <p className="text-muted-foreground mt-2">
               Discover what's hot and what customers love
@@ -134,16 +134,16 @@ const TrendingSection = () => {
           </div>
 
           <Link to="/products">
-            <Button className="group bg-gradient-to-r from-primary to-primary/90 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all gap-2 hover:-translate-y-1">
+            <Button className="group bg-gradient-to-r from-primary to-primary/90 text-white px-6 py-3 rounded-xl shadow-lg gap-2">
               Explore Trending
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
         </div>
 
-        {/* Scrollable Products */}
+        {/* Slider */}
         <div className="relative">
-          {/* Left Scroll Button */}
+          {/* Left Button */}
           <button
             onClick={() => handleScroll("left")}
             className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
@@ -151,29 +151,28 @@ const TrendingSection = () => {
             <ArrowLeft className="h-5 w-5 text-primary" />
           </button>
 
-          {/* Products Row */}
+          {/* Cards */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide px-2"
+            className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-2"
           >
             {trendingProducts.slice(0, 10).map((product, index) => (
               <div
                 key={product.id}
-                className="min-w-[260px] animate-in fade-in slide-in-from-bottom-4 duration-500 hover:scale-105 transition-transform"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="flex-shrink-0"
+                style={{
+                  width: CARD_WIDTH,
+                  height: CARD_HEIGHT,
+                }}
               >
-                <div className="relative group">
+                <div className="h-full rounded-2xl overflow-hidden transition-transform hover:scale-105">
                   <ProductCard product={product} index={index} />
-                  {/* Badge */}
-                  <div className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-primary text-white text-xs font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                    🔥 Trending
-                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Right Scroll Button */}
+          {/* Right Button */}
           <button
             onClick={() => handleScroll("right")}
             className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
@@ -183,10 +182,11 @@ const TrendingSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-14 text-center animate-in fade-in slide-in-from-bottom duration-700 delay-300">
+        <div className="mt-14 text-center">
           <p className="text-muted-foreground mb-6">
             💡 New trending items are discovered every day!
           </p>
+
           <Link to="/products">
             <Button
               variant="outline"

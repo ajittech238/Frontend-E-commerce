@@ -115,7 +115,7 @@ const BannerSection = () => {
           ].map((feature, i) => (
             <div
               key={i}
-              className={`group flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-5 md:p-6 rounded-2xl bg-gradient-to-br ${feature.bgColor} border-2 border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4 duration-500`}
+              className={`group flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-5 md:p-6 rounded-2xl bg-gradient-to-br ${feature.bgColor} border-2 border-border hover:border-primary/30 transition-all  hover:shadow-lg hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4 duration-500`}
               style={{ animationDelay: `${i * 50}ms` }}
             >
               <div className={`h-14 w-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform`}>

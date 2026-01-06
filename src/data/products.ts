@@ -18,6 +18,7 @@ export const categories: Category[] = [
 
 export const products: Product[] = [
   // Electronics
+  
   // {
   //   id: "1",
   //   name: "iPhone 15 Pro Max",
@@ -106,6 +107,7 @@ export const products: Product[] = [
     discount: 10,
   },
 
+
   // Fashion
   // {
   //   id: "7",
@@ -136,8 +138,8 @@ export const products: Product[] = [
     stock: 50,
     discount: 19,
   },
-  // {
   //   id: "9",
+  // {
   //   name: "Nike Air Jordan 1 Retro",
   //   price: 16999,
   //   originalPrice: 19999,
@@ -183,7 +185,7 @@ export const products: Product[] = [
     name: "Athletic Performance Set",
     price: 3499,
     originalPrice: 4499,
-    image: "/a/p_img1.png",
+    image: "./a/a_1.jpg",
     category: "fashion",
     rating: 4.5,
     reviews: 1234,
@@ -199,7 +201,7 @@ export const products: Product[] = [
     name: "Ergonomic Office Chair",
     price: 3499,
     originalPrice: 4499,
-    image: homeimg,
+    image: "./a/chair_1.jpg",
     category: "home",
     rating: 4.7,
     reviews: 2134,
@@ -214,7 +216,7 @@ export const products: Product[] = [
     name: "Smart Air Purifier",
     price: 19999,
     originalPrice: 24999,
-    image: homeimg,
+    image: "./a/air_purifier.jpg",
     category: "home",
     rating: 4.6,
     reviews: 987,
@@ -229,7 +231,7 @@ export const products: Product[] = [
     name: "King Size Memory Foam Mattress",
     price: 45999,
     originalPrice: 59999,
-    image: homeimg,
+    image: "./a/foam.jpg",
     category: "home",
     rating: 4.8,
     reviews: 3456,
@@ -244,7 +246,7 @@ export const products: Product[] = [
     name: "Robot Vacuum Cleaner",
     price: 29999,
     originalPrice: 39999,
-    image: homeimg,
+    image: "./a/vaccum_cleaner.jpg",
     category: "home",
     rating: 4.5,
     reviews: 1567,
@@ -456,6 +458,37 @@ export const products: Product[] = [
   },
   {
     id: "30",
+    name: "LEGO Star Wars Millennium Falcon",
+    price: 15999,
+    originalPrice: 17999,
+    image: "./a/starwar.jpg", // make sure you have this image variable
+    category: "toys",
+    rating: 4.8,
+    reviews: 5421,
+    badge: "Bestseller",
+    description: "Buildable LEGO model of the iconic Star Wars ship with detailed interiors.",
+    inStock: true,
+    stock: 120,
+    discount: 11,
+},
+{
+    id: "31",
+    name: "Nintendo Switch OLED",
+    price: 44999,
+    originalPrice: 47999,
+    image: "./a/oled.jpg", // make sure you have this image variable
+    category: "toys",
+    rating: 4.7,
+    reviews: 6123,
+    badge: "Hot",
+    description: "Portable and dockable gaming console with vibrant OLED display.",
+    inStock: true,
+    stock: 75,
+    discount: 6,
+}
+,
+  {
+    id: "32",
     name: "Nintendo Switch OLED",
     price: 34999,
     originalPrice: 39999,
@@ -471,7 +504,7 @@ export const products: Product[] = [
 
   // Grocery
   {
-    id: "31",
+    id: "33",
     name: "Organic Coffee Beans 1kg",
     price: 1299,
     originalPrice: 1599,
@@ -486,7 +519,7 @@ export const products: Product[] = [
     discount: 19,
   },
   {
-    id: "32",
+    id: "34",
     name: "Imported Dark Chocolate Box",
     price: 1999,
     originalPrice: 2499,
@@ -501,7 +534,7 @@ export const products: Product[] = [
     discount: 20,
   },
   {
-    id: "33",
+    id: "35",
     name: "Manuka Honey UMF 15+",
     price: 3499,
     originalPrice: 4299,
@@ -516,7 +549,7 @@ export const products: Product[] = [
     discount: 19,
   },
   {
-    id: "34",
+    id: "36",
     name: "Extra Virgin Olive Oil 1L",
     price: 899,
     originalPrice: 1199,
