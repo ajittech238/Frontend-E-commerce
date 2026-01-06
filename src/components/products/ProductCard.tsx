@@ -307,7 +307,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             size="icon"
             variant="ghost"
             className={cn(
-              "absolute top-3 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border",
+              "absolute top-3 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border z-10",
               isHovered ? "opacity-100" : "opacity-0 sm:opacity-100"
             )}
             onClick={(e) => {
@@ -329,7 +329,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             size="icon"
             variant="ghost"
             className={cn(
-              "absolute top-14 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border",
+              "absolute top-14 right-3 rounded-full h-9 w-9 bg-card/90 hover:bg-card shadow-sm transition-all border border-border z-10",
               isHovered ? "opacity-100" : "opacity-0 sm:opacity-100"
             )}
             onClick={handleQuickViewClick}
@@ -363,16 +363,23 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
         {/* Content Section */}
         <div className="p-4 space-y-2.5">
           {/* Shop Name */}
-          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-            Artisan Shop
-          </p>
+          <div className="flex justify-between items-start">
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+              {product.brand || "Premium Brand"}
+            </p>
+          </div>
 
           {/* Product Name with Link */}
-          <Link to={`/product/${product.id}`} className="block mt-1.5">
-            <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
+          <Link to={`/product/${product.id}`} className="block mt-1">
+            <h3 className="text-sm font-bold text-foreground line-clamp-1 hover:text-primary transition-colors leading-snug">
               {product.name}
             </h3>
           </Link>
+
+          {/* Product Description - Single Line */}
+          <p className="text-xs text-muted-foreground line-clamp-1 leading-relaxed">
+            {product.description || "High-quality product with exceptional features."}
+          </p>
 
           {/* Rating */}
           <div className="flex items-center gap-1.5">
