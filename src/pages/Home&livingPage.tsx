@@ -1,4 +1,3 @@
-// Import necessary hooks and components from React and other libraries.
 import React, { useState, useEffect } from "react";
 import { Filter, Home, Plus, Minus } from "lucide-react";
 import ProductCard from "@/components/products/ProductCard";

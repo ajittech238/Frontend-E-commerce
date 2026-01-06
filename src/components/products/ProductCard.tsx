@@ -7,10 +7,10 @@ import { useWishlist } from "@/context/WishlistContext";
 import { cn } from "@/lib/utils";
 import ProductModal from "./ProductModal";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { HomeLivingProduct } from "@/data/Home&living";
+import { Product } from "@/types/product";
 
 interface ProductCardProps {
-  product: HomeLivingProduct;
+  product: Product;
   index?: number;
 }
 
@@ -150,12 +150,12 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-4 space-y-2.5">
-        {/* Shop Name */}
-        <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-          Artisan Shop
-        </p>
+        {/* Content Section */}
+        <div className="p-4 space-y-2.5">
+          {/* Shop Name */}
+          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+            Artisan Shop
+          </p>
 
         <Link to={`/product/${product.id}`} className="block mt-1.5">
           <h3 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem] leading-snug">
@@ -163,20 +163,22 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </h3>
         </Link>
 
-        {/* Rating */}
-        <div className="flex items-center gap-1.5">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={cn(
-                  "h-3 w-3",
-                  i < Math.floor(product.rating)
-                    ? "fill-primary text-primary"
-                    : "fill-muted text-muted"
-                )}
-              />
-            ))}
+          {/* Rating */}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={cn(
+                    "h-3 w-3",
+                    i < Math.floor(product.rating)
+                      ? "fill-primary text-primary"
+                      : "fill-muted text-muted"
+                  )}
+                />
+              ))}
+            </div>
+            <span className="text-xs text-muted-foreground">({product.reviews.toLocaleString()})</span>
           </div>
           <span className="text-xs text-muted-foreground">
             ({product.reviews.toLocaleString()})
@@ -194,10 +196,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           )}
         </div>
 
-        {/* Delivery Info */}
-        <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
-          <Truck className="h-3.5 w-3.5" />
-          <span>FREE delivery</span>
+          {/* Delivery Info */}
+          <div className="flex items-center gap-1.5 text-xs text-accent font-medium">
+            <Truck className="h-3.5 w-3.5" />
+            <span>FREE delivery</span>
+          </div>
         </div>
       </div>
       <ProductModal

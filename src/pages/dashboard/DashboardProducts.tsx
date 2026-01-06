@@ -42,9 +42,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { products, categories } from "@/data/products";
 import { useToast } from "@/hooks/use-toast";
+import { AddProductForm } from "@/components/dashboard/AddProductForm";
 
 export default function DashboardProducts() {
   const { toast } = useToast();
@@ -54,6 +56,7 @@ export default function DashboardProducts() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("newest");
   const [previewProduct, setPreviewProduct] = useState<typeof products[0] | null>(null);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
@@ -126,10 +129,23 @@ export default function DashboardProducts() {
             <Download className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
-          <Button size="sm" className="h-9 bg-pink-gradient hover:bg-pink-gradient/90">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Product
-          </Button>
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm" className="h-9 bg-primary hover:bg-primary/90">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Product
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-[90vw] rounded-md sm:max-w-[900px] max-h-[90vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <DialogHeader>
+                <DialogTitle>Add New Product</DialogTitle>
+                <DialogDescription>
+                  Fill in the details below to add a new product to your inventory.
+                </DialogDescription>
+              </DialogHeader>
+              <AddProductForm onFormSubmit={() => setIsAddDialogOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 

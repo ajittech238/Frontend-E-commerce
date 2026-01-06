@@ -1,19 +1,39 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { DataTable } from "@/components/admin/DataTable";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Eye, Download, FileText } from "lucide-react";
+import { MoreHorizontal, Eye, Download, FileText, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import { StatCard } from "@/components/admin/StatCard";
 import { DollarSign, FileCheck, Clock, AlertCircle } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const mockInvoices = [
+interface Invoice {
+  id: string;
+  orderId: string;
+  customer: string;
+  amount: number;
+  tax: number;
+  status: string;
+  createdAt: string;
+  pdfPath: string | null;
+}
+
+const mockInvoices: Invoice[] = [
   { id: "INV-2024-001", orderId: "ORD-2024-001", customer: "John Doe", amount: 2499, tax: 450, status: "paid", createdAt: "2024-01-15", pdfPath: "/invoices/inv-001.pdf" },
   { id: "INV-2024-002", orderId: "ORD-2024-002", customer: "Jane Smith", amount: 1899, tax: 342, status: "paid", createdAt: "2024-01-14", pdfPath: "/invoices/inv-002.pdf" },
   { id: "INV-2024-003", orderId: "ORD-2024-003", customer: "Bob Wilson", amount: 3299, tax: 594, status: "unpaid", createdAt: "2024-01-13", pdfPath: null },
@@ -31,6 +51,8 @@ const stats = [
 export default function AdminInvoices() {
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [pagination, setPagination] = useState({ page: 1, pageSize: 10 });
+  const [expandedRows, setExpandedRows] = useState(new Set<string>());
 
   const filteredData = mockInvoices.filter(
     (item) =>
@@ -38,49 +60,155 @@ export default function AdminInvoices() {
       item.customer.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
+
+  const paginatedData = filteredData.slice(
+    (pagination.page - 1) * pagination.pageSize,
+    pagination.page * pagination.pageSize
+  );
+
+  const handlePageChange = (page: number) => {
+    setPagination((prev) => ({ ...prev, page }));
+  };
+  
+  const getRowId = (item: Invoice) => item.id;
+
+  const allSelected = paginatedData.length > 0 && paginatedData.every((item) => selectedIds.includes(getRowId(item)));
+  const someSelected = paginatedData.some((item) => selectedIds.includes(getRowId(item)));
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(paginatedData.map(getRowId));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
+  };
+
+  const toggleExpand = (id: string) => {
+    setExpandedRows((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const renderExpandedRow = (item: Invoice) => {
+    // Columns that are visible on tablet but not mobile
+    const tabletOnlyContent = (
+      <>
+        <Label className="text-xs font-medium text-muted-foreground self-center">Order ID</Label>
+        <div className="text-sm">{item.orderId}</div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Customer</Label>
+        <div className="text-sm">{item.customer}</div>
+      </>
+    );
+
+    // Columns that are hidden on both mobile and tablet
+    const hiddenContent = (
+      <>
+        <Label className="text-xs font-medium text-muted-foreground self-center">Amount</Label>
+        <div className="text-sm font-medium">₹{item.amount.toLocaleString()}</div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Tax</Label>
+        <div className="text-sm text-muted-foreground">₹{item.tax}</div>
+        
+        <Label className="text-xs font-medium text-muted-foreground self-center">Total</Label>
+        <div className="text-sm font-semibold text-primary">₹{(item.amount + item.tax).toLocaleString()}</div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Status</Label>
+        <div className="text-sm"><StatusBadge status={item.status} /></div>
+
+        <Label className="text-xs font-medium text-muted-foreground self-center">Date</Label>
+        <div className="text-sm">{new Date(item.createdAt).toLocaleDateString()}</div>
+        
+        <Label className="text-xs font-medium text-muted-foreground self-center">Actions</Label>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-8">
+                Actions <MoreHorizontal className="w-4 h-4 ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem><Eye className="w-4 h-4 mr-2" /> View</DropdownMenuItem>
+              <DropdownMenuItem><Download className="w-4 h-4 mr-2" /> Download PDF</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </>
+    );
+
+    return (
+      <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-3 p-4">
+        {/* On mobile, show tablet content + hidden content. On tablet, show only hidden content. */}
+        <div className="contents md:hidden">{tabletOnlyContent}</div>
+        {hiddenContent}
+      </div>
+    );
+  };
+
   const columns = [
     {
       key: "id",
       header: "Invoice #",
-      render: (item: any) => (
+      render: (item: Invoice) => (
         <div className="flex items-center gap-2">
-          <FileText className="w-4 h-4 text-muted-foreground" />
-          <span className="font-mono font-medium">{item.id}</span>
+          <FileText className="w-4 h-4 text-muted-foreground hidden sm:block" />
+          <span className="font-mono font-medium text-xs sm:text-sm">{item.id}</span>
         </div>
       ),
     },
-    { key: "orderId", header: "Order ID" },
-    { key: "customer", header: "Customer" },
+    { key: "orderId", header: "Order ID", className: "hidden md:table-cell", render: (item: Invoice) => item.orderId },
+    { key: "customer", header: "Customer", className: "hidden md:table-cell", render: (item: Invoice) => item.customer },
     {
       key: "amount",
       header: "Amount",
-      render: (item: any) => <span className="font-medium">₹{item.amount.toLocaleString()}</span>,
+      className: "hidden lg:table-cell",
+      render: (item: Invoice) => <span className="font-medium">₹{item.amount.toLocaleString()}</span>,
     },
     {
       key: "tax",
       header: "Tax",
-      render: (item: any) => <span className="text-muted-foreground">₹{item.tax}</span>,
+      className: "hidden lg:table-cell",
+      render: (item: Invoice) => <span className="text-muted-foreground">₹{item.tax}</span>,
     },
     {
       key: "total",
       header: "Total",
-      render: (item: any) => <span className="font-semibold text-primary">₹{(item.amount + item.tax).toLocaleString()}</span>,
+      className: "hidden lg:table-cell",
+      render: (item: Invoice) => <span className="font-semibold text-primary">₹{(item.amount + item.tax).toLocaleString()}</span>,
     },
     {
       key: "status",
       header: "Status",
-      render: (item: any) => <StatusBadge status={item.status} />,
+      className: "hidden lg:table-cell",
+      render: (item: Invoice) => <StatusBadge status={item.status} />,
     },
     {
       key: "createdAt",
       header: "Date",
-      render: (item: any) => new Date(item.createdAt).toLocaleDateString(),
+      className: "hidden lg:table-cell",
+      render: (item: Invoice) => new Date(item.createdAt).toLocaleDateString(),
     },
     {
       key: "actions",
-      header: "",
+      header: "Actions",
+      className: "hidden lg:table-cell",
       width: "60px",
-      render: (item: any) => (
+      render: (item: Invoice) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="w-8 h-8">
@@ -93,6 +221,11 @@ export default function AdminInvoices() {
           </DropdownMenuContent>
         </DropdownMenu>
       ),
+    },
+    {
+      key: "expander",
+      header: "",
+      width: "50px",
     },
   ];
 
@@ -115,14 +248,169 @@ export default function AdminInvoices() {
         ))}
       </div>
 
-      <DataTable
-        columns={columns}
-        data={filteredData}
-        selectable
-        selectedIds={selectedIds}
-        onSelectionChange={setSelectedIds}
-        pagination={{ page: 1, pageSize: 10, total: filteredData.length, onPageChange: () => {} }}
-      />
+      <div className="space-y-4">
+        <div className="rounded-xl border border-border/50 overflow-hidden">
+          <div className="overflow-x-auto">
+            <Table className="w-full table-auto">
+              <TableHeader>
+                <TableRow className="bg-muted/30 hover:bg-muted/30">
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={allSelected}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Select all"
+                      className={someSelected && !allSelected ? "data-[state=checked]:bg-pink-gradient/50" : ""}
+                    />
+                  </TableHead>
+                  {columns.map((col) => {
+                    const isExpandCol = col.key === 'expander';
+                    return (
+                      <TableHead
+                        key={col.key}
+                        style={{ width: col.width }}
+                        className={`${col.className || ''} ${
+                          isExpandCol ? 'lg:hidden' : ''
+                        } font-semibold text-foreground text-xs sm:text-sm`}
+                      >
+                        {isExpandCol ? '' : col.header}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paginatedData.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length + 1}
+                      className="h-24 sm:h-32 text-center text-xs sm:text-sm text-muted-foreground"
+                    >
+                      No invoices found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  paginatedData.map((item) => {
+                    const id = getRowId(item);
+                    const isSelected = selectedIds.includes(id);
+                    const isExpanded = expandedRows.has(id);
+                    return (
+                      <>
+                        <TableRow
+                          key={id}
+                          className={`transition-colors ${isSelected ? "bg-pink-gradient/5" : ""}`}
+                        >
+                          <TableCell className="w-12" onClick={(e) => e.stopPropagation()}>
+                            <Checkbox
+                              checked={isSelected}
+                              onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
+                              aria-label={`Select row ${id}`}
+                            />
+                          </TableCell>
+                          {columns.map((col) => {
+                             const isExpandCol = col.key === "expander";
+                             let cellContent: ReactNode;
+ 
+                             if (isExpandCol) {
+                               cellContent = (
+                                 <Button
+                                   variant="ghost"
+                                   size="sm"
+                                   className="h-8 w-8 p-0"
+                                   onClick={(e) => {
+                                     e.stopPropagation();
+                                     toggleExpand(id);
+                                   }}
+                                 >
+                                   {isExpanded ? (
+                                     <Minus className="h-4 w-4 text-primary" />
+                                   ) : (
+                                     <Plus className="h-4 w-4 text-primary" />
+                                   )}
+                                 </Button>
+                               );
+                             } else {
+                               cellContent = col.render ? col.render(item) : (item as unknown as Record<string, unknown>)[col.key] as ReactNode;
+                             }
+                            return (
+                              <TableCell
+                                key={col.key}
+                                style={{ width: col.width }}
+                                className={`${col.className || ''} text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words`}
+                              >
+                                {cellContent}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                        {isExpanded && (
+                            <TableRow className="lg:hidden border-l-4 border-primary bg-muted/20 hover:bg-muted/30 rounded-lg">
+                                <TableCell colSpan={columns.length+1} className="p-0">
+                                    {renderExpandedRow(item)}
+                                </TableCell>
+                            </TableRow>
+                        )}
+                      </>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 text-xs sm:text-sm">
+          <p className="text-muted-foreground">
+            Showing {(pagination.page - 1) * pagination.pageSize + 1} to{" "}
+            {Math.min(pagination.page * pagination.pageSize, filteredData.length)} of{" "}
+            {filteredData.length}
+          </p>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(1)}
+              disabled={pagination.page === 1}
+              title="First page"
+            >
+              <ChevronsLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              title="Previous page"
+            >
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <span className="px-2 sm:px-3 font-medium text-xs sm:text-sm">
+              {pagination.page} / {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === totalPages}
+              title="Next page"
+            >
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="w-8 h-8 sm:w-9 sm:h-9"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={pagination.page === totalPages}
+              title="Last page"
+            >
+              <ChevronsRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
