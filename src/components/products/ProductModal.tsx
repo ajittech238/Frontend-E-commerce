@@ -55,7 +55,7 @@ export default function ProductModal({
       setSelectedVariants(initialVariants);
     }
   }, [isOpen, product]);
-  
+
   const handleVariantSelect = (variantName: string, value: string) => {
     setSelectedVariants(prev => ({ ...prev, [variantName]: value }));
   };
@@ -99,8 +99,8 @@ export default function ProductModal({
 
   const discountPercent = product.originalPrice
     ? Math.round(
-        ((product.originalPrice - dynamicPrice) / product.originalPrice) * 100
-      )
+      ((product.originalPrice - dynamicPrice) / product.originalPrice) * 100
+    )
     : 0;
 
   return (
@@ -141,12 +141,12 @@ export default function ProductModal({
                     }}
                   />
                 </div>
-                
+
                 {/* Thumbnails */}
                 <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
                   {imageGallery.map((img, i) => (
-                    <button 
-                      key={i} 
+                    <button
+                      key={i}
                       onClick={() => setSelectedImage(img)}
                       className={cn(
                         "w-20 h-20 rounded-xl bg-slate-50 dark:bg-slate-950 border-2 shrink-0 flex items-center justify-center p-2 transition-all",
@@ -168,19 +168,17 @@ export default function ProductModal({
                       <span>{effectiveStock < 10 ? `Only ${effectiveStock} left!` : 'In Stock'}</span>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <div className="flex gap-0.5">
-                        {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            size={18} 
-                            className={cn(
-                              i < Math.floor(product.rating) ? "fill-pink-500 text-pink-500" : "text-slate-200 dark:text-slate-700"
-                            )} 
-                          />
-                        ))}
-                      </div>
-                      <span className="text-slate-400 text-sm">({product.reviews.toLocaleString()} reviews)</span>
+                  <div className="flex items-center gap-4">
+                    <div className="flex gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          className={cn(
+                            i < Math.floor(product.rating) ? "fill-pink-500 text-pink-500" : "text-slate-200 dark:text-slate-700"
+                          )}
+                        />
+                      ))}
                     </div>
                   </div>
 
@@ -207,27 +205,25 @@ export default function ProductModal({
                 </div>
 
                 {/* Variants Section */}
-                <div className="space-y-6">
-                  {product.variants && product.variants.map(variant => (
-                    <div key={variant.name} className="space-y-3">
-                      <h3 className="font-bold text-lg">{variant.name}: <span className="font-normal text-slate-500">{selectedVariants[variant.name]}</span></h3>
-                      <div className="flex flex-wrap gap-3">
-                        {variant.options.map(option => (
-                          <button
-                            key={option.value}
-                            onClick={() => handleVariantSelect(variant.name, option.value)}
-                            className={cn(
-                              "px-6 py-2.5 rounded-xl border-2 transition-all font-medium min-w-[80px]",
-                              selectedVariants[variant.name] === option.value 
-                                ? "border-pink-500 bg-white text-pink-600" 
-                                : "border-slate-100 dark:border-slate-800 hover:border-slate-200"
-                            )}
-                            disabled={option.stock <= 0}
-                          >
-                            {option.value}
-                          </button>
-                        ))}
-                      </div>
+                {product.variants && product.variants.map(variant => (
+                  <div key={variant.name} className="space-y-3">
+                    <h3 className="font-bold">{variant.name}: <span className="font-normal text-slate-500">{selectedVariants[variant.name]}</span></h3>
+                    <div className="flex flex-wrap gap-3">
+                      {variant.options.map(option => (
+                        <button
+                          key={option.value}
+                          onClick={() => handleVariantSelect(variant.name, option.value)}
+                          className={cn(
+                            "px-6 py-2 rounded-xl border-2 transition-all font-medium",
+                            selectedVariants[variant.name] === option.value
+                              ? "border-pink-500 bg-pink-50/50 dark:bg-pink-900/10 text-pink-600"
+                              : "border-slate-100 dark:border-slate-800 hover:border-slate-200"
+                          )}
+                          disabled={option.stock <= 0}
+                        >
+                          {option.value}
+                        </button>
+                      ))}
                     </div>
                   ))}
                   
@@ -252,14 +248,14 @@ export default function ProductModal({
                 {/* Quantity and Add to Cart */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <div className="flex items-center bg-slate-50 dark:bg-slate-950 rounded-xl p-1 border border-slate-100 dark:border-slate-800">
-                    <button 
+                    <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       className="p-3 hover:text-pink-600 transition-colors"
                     >
                       <Minus size={20} />
                     </button>
                     <span className="w-12 text-center font-bold text-lg">{quantity}</span>
-                    <button 
+                    <button
                       onClick={() => setQuantity(quantity + 1)}
                       className="p-3 hover:text-pink-600 transition-colors"
                     >
@@ -269,7 +265,7 @@ export default function ProductModal({
                   <Button
                     className="flex-1 h-14 bg-pink-600 hover:bg-pink-700 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-pink-600/20 border-none transition-transform active:scale-95"
                     onClick={() => {
-                      for(let i=0; i<quantity; i++) {
+                      for (let i = 0; i < quantity; i++) {
                         addToCart(product);
                       }
                       onOpenChange(false);
@@ -323,17 +319,16 @@ export default function ProductModal({
                   ].map((review, i) => (
                     <div key={i} className="space-y-3 pb-8 border-b border-slate-100 dark:border-slate-800 last:border-0">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-lg">{review.name}</span>
-                        <span className="text-sm text-slate-400">{review.date}</span>
-                      </div>
-                      <div className="flex gap-0.5">
-                        {[...Array(5)].map((_, j) => (
-                          <Star 
-                            key={j} 
-                            size={16} 
-                            className={cn(j < review.rating ? "fill-pink-500 text-pink-500" : "text-slate-200")} 
-                          />
-                        ))}
+                        <span className="font-bold">{review.name}</span>
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, j) => (
+                            <Star
+                              key={j}
+                              size={12}
+                              className={cn(j < review.rating ? "fill-pink-500 text-pink-500" : "text-slate-200")}
+                            />
+                          ))}
+                        </div>
                       </div>
                       <p className="text-base text-slate-500 leading-relaxed">{review.text}</p>
                     </div>
