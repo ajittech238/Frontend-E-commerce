@@ -1,4 +1,16 @@
+/* Hide scrollbar but keep scroll functionality */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lora:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+.scrollbar-hide {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE & Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari */
+}
+
+
 
 @tailwind base;
 @tailwind components;
@@ -75,6 +87,35 @@
     --etsy-cream: 30 25% 97%;
     --etsy-brown: 24 30% 25%;
     --etsy-tan: 30 20% 85%;
+  }
+
+  .dashboard-pink-theme {
+    --background: 330 100% 98%;
+    --foreground: 330 40% 20%;
+    --card: 330 100% 99%;
+    --card-foreground: 330 40% 20%;
+    --popover: 330 100% 99%;
+    --popover-foreground: 330 40% 20%;
+    --primary: 330 81% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 330 30% 95%;
+    --secondary-foreground: 330 40% 25%;
+    --muted: 330 30% 94%;
+    --muted-foreground: 330 20% 45%;
+    --accent: 330 60% 92%;
+    --accent-foreground: 330 40% 25%;
+    --border: 330 30% 90%;
+    --input: 330 30% 90%;
+    --ring: 330 81% 60%;
+
+    --sidebar-background: 330 60% 98%;
+    --sidebar-foreground: 330 40% 25%;
+    --sidebar-primary: 330 81% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 330 60% 94%;
+    --sidebar-accent-foreground: 330 40% 25%;
+    --sidebar-border: 330 30% 90%;
+    --sidebar-ring: 330 81% 60%;
   }
 
   .dark {
@@ -233,12 +274,33 @@
 }
 
 @layer utilities {
+  .bg-pink-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(350 81% 75%) 100%);
+  }
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted)) transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 2px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
   }
 }
 
@@ -300,3 +362,10 @@
   border-radius: 2px;
   transform: scaleX(0.9) rotate(-0.5deg);
 }
+/* Removed problematic global [data-state="closed"] style */
+
+/* Only apply exit animation to toasts, not all Radix components */
+[data-radix-toast-root][data-state="closed"] {
+  animation: toast-exit 0.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+

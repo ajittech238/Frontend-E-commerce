@@ -7,18 +7,24 @@ import DealsSection from "@/components/home/DealsSection";
 import TrendingSection from "@/components/home/TrendingSection";
 import BannerSection from "@/components/home/BannerSection";
 import NewArrivalsSection from "@/components/home/NewArrivalsSection";
+import ReviewsSection from "@/components/home/ReviewSection";
+import SimpleBanner from "@/components/home/SimpleBanner";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
+
         <HeroSection />
         <CategorySection />
         <DealsSection />
         <TrendingSection />
+        <SimpleBanner />
+       
         <BannerSection />
         <NewArrivalsSection />
+        <ReviewsSection />
       </main>
       <Footer />
       <CartSidebar />

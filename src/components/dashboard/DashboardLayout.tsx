@@ -29,49 +29,58 @@ export function DashboardLayout() {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-background dashboard-pink-theme">
         <DashboardSidebar />
         <SidebarInset className="flex-1 flex flex-col">
           {/* Top Header */}
-          <header className="h-12 sm:h-14 md:h-16 border-b border-border/50 flex items-center justify-between px-2 xs:px-3 sm:px-4 md:px-6 bg-card/80 backdrop-blur-md sticky top-0 z-50 gap-2">
-            <div className="flex items-center gap-1 sm:gap-2 md:gap-4 flex-1 min-w-0">
-              <SidebarTrigger className="p-1.5 sm:p-2 hover:bg-accent rounded-lg transition-colors flex-shrink-0">
-                <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+          <header className="h-12 sm:h-14 md:h-16 border-b border-border/50 flex items-center px-2 xs:px-3 sm:px-4 md:px-6 bg-card/80 backdrop-blur-md sticky top-0 z-50 gap-2">
+            <div className="sm:hidden">
+              <SidebarTrigger className="h-10 w-10 text-foreground hover:bg-accent/40">
+                <Menu className="h-6 w-6 stroke-[2px]" />
               </SidebarTrigger>
-              
+            </div>
+            <div>
               <div className={`relative transition-all duration-300 hidden xs:block min-w-0 ${searchFocused ? 'w-40 sm:w-64 md:w-80' : 'w-24 sm:w-48 md:w-64'}`}>
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search..."
-                  className="pl-8 pr-3 py-1.5 sm:py-2 h-8 sm:h-9 md:h-10 bg-accent/50 border-transparent focus:border-primary/50 focus:bg-background transition-all text-xs sm:text-sm"
-                  onFocus={() => setSearchFocused(true)}
-                  onBlur={() => setSearchFocused(false)}
-                />
-                <kbd className="hidden lg:inline-flex absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[9px] font-medium text-muted-foreground">
-                  ⌘K
-                </kbd>
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground stroke-[2px]" />
+                  <Input
+                    placeholder="Search..."
+                    className="pl-10 pr-3 py-1.5 sm:py-2 h-9 sm:h-10 bg-accent/30 border-primary/20 focus:border-primary focus:bg-background transition-all text-xs sm:text-sm"
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setSearchFocused(false)}
+                  />
+                  <kbd className="hidden lg:inline-flex absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[9px] font-medium text-muted-foreground">
+                    ⌘K
+                  </kbd>
               </div>
             </div>
             
-            <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0 ml-auto">
               {/* Theme Toggle */}
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent"
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/20 hover:bg-accent/40 transition-all duration-200"
                 onClick={() => setIsDark(!isDark)}
               >
-                {isDark ? <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                {isDark ? (
+                  <Moon className="w-5 h-5 sm:w-6 sm:h-6 text-foreground stroke-[2px]" />
+                ) : (
+                  <Sun className="w-5 h-5 sm:w-6 sm:h-6 text-foreground stroke-[2px]" />
+                )}
               </Button>
+              
+                  
 
               {/* Notifications */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent">
-                    <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-primary text-primary-foreground text-[8px] sm:text-[10px] rounded-full flex items-center justify-center font-medium animate-pulse">
-                      3
-                    </span>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/20 hover:bg-accent/40 transition-all duration-200"
+                  >
+                    <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-foreground stroke-[2px]" />
+                    <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-rose-600 rounded-full border-2 border-background shadow-sm" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-64 xs:w-72 sm:w-80">
@@ -97,18 +106,19 @@ export function DashboardLayout() {
               </DropdownMenu>
 
               {/* Help */}
-              <Button variant="ghost" size="icon" className="hidden sm:flex w-8 h-8 sm:w-9 sm:h-9 rounded-lg hover:bg-accent">
-                <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <Button variant="ghost" size="icon" className="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/20 hover:bg-accent/40 transition-all duration-200">
+                <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-foreground stroke-[2px]" />
               </Button>
 
               {/* User Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-1.5 sm:gap-2 pl-1 sm:pl-2 pr-2 sm:pr-3 h-8 sm:h-9 rounded-full hover:bg-accent">
-                    <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center flex-shrink-0">
-                      <User className="w-3 h-3 sm:w-4 sm:h-4 text-primary-foreground" />
+                  <Button variant="ghost" className="flex items-center gap-1.5 sm:gap-2 pl-1 sm:pl-2 pr-2 sm:pr-3 h-8 sm:h-9 rounded-full hover:bg-accent transition-all duration-200">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center flex-shrink-0 shadow-sm border border-primary/20">
+                      <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-foreground" />
                     </div>
-                    <span className="hidden md:block text-xs sm:text-sm font-medium">Admin</span>
+                    <span className="text-xs sm:text-sm font-medium">Admin</span>
+                    <span className="hidden md:block text-xs sm:text-sm font-medium text-foreground">Admin</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48 xs:w-56">
@@ -145,3 +155,6 @@ export function DashboardLayout() {
     </SidebarProvider>
   );
 }
+
+
+

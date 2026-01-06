@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+
+import React, { ReactNode, useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,15 +10,16 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface Column<T> {
+export interface Column<T> {
   key: string;
   header: string;
   render?: (item: T) => ReactNode;
   sortable?: boolean;
   width?: string;
+  className?: string;
 }
 
 interface DataTableProps<T> {
@@ -36,6 +38,9 @@ interface DataTableProps<T> {
   };
   emptyMessage?: string;
   onRowClick?: (item: T) => void;
+  showMobileExpand?: boolean;
+  expandColumnKey?: string;
+  renderExpandedRow?: (item: T) => ReactNode;
 }
 
 export function DataTable<T>({
@@ -45,11 +50,15 @@ export function DataTable<T>({
   selectable,
   selectedIds = [],
   onSelectionChange,
-  getRowId = (item: any) => item.id,
+  getRowId = (item: T) => String((item as Record<string, unknown>).id),
   pagination,
   emptyMessage = "No data found",
   onRowClick,
+  showMobileExpand = false,
+  expandColumnKey = "actions",
+  renderExpandedRow,
 }: DataTableProps<T>) {
+  const [expandedRows, setExpandedRows] = useState(new Set<string>());
   const allSelected = data.length > 0 && data.every((item) => selectedIds.includes(getRowId(item)));
   const someSelected = data.some((item) => selectedIds.includes(getRowId(item)));
 
@@ -71,7 +80,21 @@ export function DataTable<T>({
     }
   };
 
+  const toggleExpand = (id: string) => {
+    setExpandedRows((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
   const totalPages = pagination ? Math.ceil(pagination.total / pagination.pageSize) : 1;
+  const selectableClassName = selectable ? "w-12" : "";
+  const emptyColSpan = columns.length + (selectable ? 1 : 0);
 
   if (loading) {
     return (
@@ -79,9 +102,9 @@ export function DataTable<T>({
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/30">
-              {selectable && <TableHead className="w-12" />}
+              {selectable && <TableHead className={selectableClassName} />}
               {columns.map((col) => (
-                <TableHead key={col.key} style={{ width: col.width }}>
+                <TableHead key={col.key} style={{ width: col.width }} className={col.className}>
                   <Skeleton className="h-4 w-20" />
                 </TableHead>
               ))}
@@ -91,12 +114,12 @@ export function DataTable<T>({
             {Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={i}>
                 {selectable && (
-                  <TableCell>
+                  <TableCell className={selectableClassName}>
                     <Skeleton className="h-4 w-4" />
                   </TableCell>
                 )}
                 {columns.map((col) => (
-                  <TableCell key={col.key}>
+                  <TableCell key={col.key} style={{ width: col.width }} className={col.className}>
                     <Skeleton className="h-4 w-full" />
                   </TableCell>
                 ))}
@@ -110,80 +133,132 @@ export function DataTable<T>({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-border/50 overflow-x-auto">
-        <Table className="w-full min-w-max md:min-w-0">
-          <TableHeader>
-            <TableRow className="bg-muted/30 hover:bg-muted/30">
-              {selectable && (
-                <TableHead className="w-12">
-                  <Checkbox
-                    checked={allSelected}
-                    onCheckedChange={handleSelectAll}
-                    aria-label="Select all"
-                    className={someSelected && !allSelected ? "data-[state=checked]:bg-primary/50" : ""}
-                  />
-                </TableHead>
-              )}
-              {columns.map((col) => (
-                <TableHead
-                  key={col.key}
-                  style={{ width: col.width }}
-                  className="font-semibold text-foreground text-xs sm:text-sm"
-                >
-                  {col.header}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length + (selectable ? 1 : 0)}
-                  className="h-24 sm:h-32 text-center text-xs sm:text-sm text-muted-foreground"
-                >
-                  {emptyMessage}
-                </TableCell>
+      <div className="rounded-xl border border-border/50 overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table className="w-full table-auto">
+            <TableHeader>
+              <TableRow className="bg-muted/30 hover:bg-muted/30">
+                {selectable && (
+                  <TableHead className={selectableClassName}>
+                    <Checkbox
+                      checked={allSelected}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Select all"
+                      className={someSelected && !allSelected ? "data-[state=checked]:bg-pink-gradient/50" : ""}
+                    />
+                  </TableHead>
+                )}
+                {columns.map((col) => {
+                  const isExpandCol = showMobileExpand && col.key === expandColumnKey;
+                  return (
+                    <TableHead
+                      key={col.key}
+                      style={{ width: col.width }}
+                      className={`${col.className || ""} ${
+                        isExpandCol ? "lg:hidden" : ""
+                      } font-semibold text-foreground text-xs sm:text-sm`}
+                    >
+                      {isExpandCol ? "" : col.header}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ) : (
-              data.map((item) => {
-                const id = getRowId(item);
-                const isSelected = selectedIds.includes(id);
-                return (
-                  <TableRow
-                    key={id}
-                    className={`transition-colors ${isSelected ? 'bg-primary/5' : ''} ${onRowClick ? 'cursor-pointer' : ''}`}
-                    onClick={() => onRowClick?.(item)}
+            </TableHeader>
+            <TableBody>
+              {data.length === 0 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={emptyColSpan}
+                    className="h-24 sm:h-32 text-center text-xs sm:text-sm text-muted-foreground"
                   >
-                    {selectable && (
-                      <TableCell onClick={(e) => e.stopPropagation()}>
-                        <Checkbox
-                          checked={isSelected}
-                          onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
-                          aria-label={`Select row ${id}`}
-                        />
-                      </TableCell>
-                    )}
-                    {columns.map((col) => (
-                      <TableCell key={col.key} className="text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3">
-                        {col.render
-                          ? col.render(item)
-                          : (item as any)[col.key]}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })
-            )}
-          </TableBody>
-        </Table>
+                    {emptyMessage}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                data.map((item) => {
+                  const id = getRowId(item);
+                  const isSelected = selectedIds.includes(id);
+                  const isExpanded = expandedRows.has(id);
+                  return (
+                    <>
+                      <TableRow
+                        key={id}
+                        className={`transition-colors ${
+                          isSelected ? "bg-pink-gradient/5" : ""
+                        } ${onRowClick ? "cursor-pointer" : ""}`}
+                        onClick={() => onRowClick?.(item)}
+                      >
+                        {selectable && (
+                          <TableCell
+                            className={selectableClassName}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Checkbox
+                              checked={isSelected}
+                              onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
+                              aria-label={`Select row ${id}`}
+                            />
+                          </TableCell>
+                        )}
+                        {columns.map((col) => {
+                          const isExpandCol = showMobileExpand && col.key === expandColumnKey;
+                          let cellContent = col.render ? col.render(item) : (item as Record<string, unknown>)[col.key] as ReactNode;
+
+                          if (isExpandCol) {
+                            cellContent = (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleExpand(id);
+                                }}
+                              >
+                                {isExpanded ? (
+                                  <Minus className="h-4 w-4 text-primary" />
+                                ) : (
+                                  <Plus className="h-4 w-4 text-primary" />
+                                )}
+                              </Button>
+                            );
+                          }
+
+                          return (
+                            <TableCell
+                              key={col.key}
+                              style={{ width: col.width }}
+                              className={`${col.className || ""} ${isExpandCol ? "lg:hidden" : ""} text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words`}
+                              onClick={(e) => {
+                                if (isExpandCol) e.stopPropagation();
+                              }}
+                            >
+                              {cellContent}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                      {showMobileExpand && isExpanded && renderExpandedRow && (
+                        <TableRow className="lg:hidden border-l-4 border-primary bg-muted/20 hover:bg-muted/30 rounded-lg">
+                          <TableCell colSpan={emptyColSpan} className="p-0">
+                            {renderExpandedRow(item)}
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       {pagination && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 text-xs sm:text-sm">
           <p className="text-muted-foreground">
-            Showing {(pagination.page - 1) * pagination.pageSize + 1} to{' '}
-            {Math.min(pagination.page * pagination.pageSize, pagination.total)} of{' '}
+            Showing {(pagination.page - 1) * pagination.pageSize + 1} to{" "}
+            {Math.min(pagination.page * pagination.pageSize, pagination.total)} of{" "}
             {pagination.total}
           </p>
           <div className="flex items-center gap-1">

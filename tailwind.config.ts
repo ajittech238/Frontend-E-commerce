@@ -9,6 +9,7 @@ export default {
       center: true,
       padding: "1rem",
       screens: {
+        xs: "480px",
         sm: "640px",
         md: "768px",
         lg: "1024px",
@@ -99,6 +100,7 @@ export default {
         glow: "var(--shadow-glow)",
         "card-hover": "var(--shadow-card-hover)",
       },
+      
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -135,18 +137,7 @@ export default {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    function ({ addUtilities }: any) {
-      addUtilities({
-        ".scrollbar-hide": {
-          "-ms-overflow-style": "none",
-          "scrollbar-width": "none",
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
-        },
-      });
-    },
-  ],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
+

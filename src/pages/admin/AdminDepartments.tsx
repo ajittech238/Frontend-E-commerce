@@ -119,7 +119,7 @@ export default function AdminDepartments() {
                 <TableRow key={dept.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
                         <Building2 className="h-5 w-5 text-primary" />
                       </div>
                       <div>
@@ -131,7 +131,7 @@ export default function AdminDepartments() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Avatar className="h-7 w-7">
-                        <AvatarFallback className="text-xs bg-primary/10">{dept.manager.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                        <AvatarFallback className="text-xs bg-pink-gradient/10">{dept.manager.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                       </Avatar>
                       {dept.manager}
                     </div>

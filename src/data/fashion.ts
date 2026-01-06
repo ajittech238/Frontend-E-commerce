@@ -16,6 +16,7 @@ export const fashionProducts: Product[] = [
     badge: "Bestseller",
     description: "Comfortable 100% cotton t-shirt perfect for casual wear.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -31,6 +32,7 @@ export const fashionProducts: Product[] = [
     reviews: 892,
     description: "Premium formal shirt suitable for office and events.",
     inStock: true,
+    stock: 50,
     discount: 32,
   },
   {
@@ -47,6 +49,7 @@ export const fashionProducts: Product[] = [
     badge: "Trending",
     description: "Classic blue denim shirt for versatile styling.",
     inStock: true,
+    stock: 50,
     discount: 32,
   },
   {
@@ -62,6 +65,7 @@ export const fashionProducts: Product[] = [
     reviews: 1456,
     description: "Cozy hoodie for casual and sporty looks.",
     inStock: true,
+    stock: 50,
     discount: 34,
   },
   {
@@ -122,6 +126,7 @@ export const fashionProducts: Product[] = [
     reviews: 734,
     description: "Premium oxford shirt with subtle stripes.",
     inStock: true,
+    stock: 50,
     discount: 26,
   },
 
@@ -140,6 +145,7 @@ export const fashionProducts: Product[] = [
     badge: "Bestseller",
     description: "Lightweight casual dress perfect for summer.",
     inStock: true,
+    stock: 50,
     discount: 35,
   },
   {
@@ -155,6 +161,7 @@ export const fashionProducts: Product[] = [
     reviews: 1234,
     description: "Long elegant maxi dress for special occasions.",
     inStock: true,
+    stock: 50,
     discount: 34,
   },
   {
@@ -170,6 +177,7 @@ export const fashionProducts: Product[] = [
     reviews: 892,
     description: "Beautiful floral A-line dress for casual and casual events.",
     inStock: true,
+    stock: 50,
     discount: 32,
   },
   {
@@ -186,6 +194,7 @@ export const fashionProducts: Product[] = [
     badge: "Trending",
     description: "Stylish black bodycon dress for party and clubbing.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -246,6 +255,7 @@ export const fashionProducts: Product[] = [
     reviews: 1456,
     description: "Glamorous sequin dress for parties and celebrations.",
     inStock: true,
+    stock: 50,
     discount: 37,
   },
 
@@ -329,6 +339,7 @@ export const fashionProducts: Product[] = [
     reviews: 845,
     description: "Comfortable t-shirt for active boys.",
     inStock: true,
+    stock: 50,
     discount: 43,
   },
   {
@@ -344,6 +355,7 @@ export const fashionProducts: Product[] = [
     reviews: 567,
     description: "Casual shorts for summer wear.",
     inStock: true,
+    stock: 50,
     discount: 42,
   },
   {
@@ -359,6 +371,7 @@ export const fashionProducts: Product[] = [
     reviews: 789,
     description: "Durable boys jeans for daily wear.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -373,6 +386,23 @@ export const fashionProducts: Product[] = [
     rating: 4.6,
     reviews: 445,
     description: "Smart formal shirt for occasions.",
+    inStock: true,
+    stock: 50,
+    discount: 40,
+  },
+  {
+    id: "f-k-5",
+    name: "Girls Dress",
+    price: 599,
+    originalPrice: 999,
+    image: "https://plus.unsplash.com/premium_photo-1681997402334-b86d36db6a55?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8a2lkc2Zhc2hpb258ZW58MHx8MHx8fDA%3D",
+    category: "fashion",
+    subcategory: ["kids", "girls"],
+    sizes: ["2Y", "4Y", "6Y", "8Y", "10Y", "12Y"],
+    rating: 4.8,
+    reviews: 1123,
+    badge: "Bestseller",
+    description: "Cute and colorful dress for girls.",
     inStock: true,
     discount: 40,
   },
@@ -392,6 +422,7 @@ export const fashionProducts: Product[] = [
     badge: "Bestseller",
     description: "Premium denim jeans with comfortable fit.",
     inStock: true,
+    stock: 50,
     discount: 35,
   },
   {
@@ -407,6 +438,7 @@ export const fashionProducts: Product[] = [
     reviews: 845,
     description: "Elegant formal trousers for office wear.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -422,6 +454,7 @@ export const fashionProducts: Product[] = [
     reviews: 678,
     description: "Versatile khaki chinos perfect for casual outings.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
 
@@ -440,6 +473,7 @@ export const fashionProducts: Product[] = [
     badge: "Trending",
     description: "Stylish white sneakers for everyday wear.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
   {
@@ -455,6 +489,7 @@ export const fashionProducts: Product[] = [
     reviews: 1234,
     description: "Premium formal shoes for professional occasions.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
   {
@@ -470,6 +505,7 @@ export const fashionProducts: Product[] = [
     reviews: 789,
     description: "Comfortable loafers for casual settings.",
     inStock: true,
+    stock: 50,
     discount: 33,
   },
 
@@ -488,6 +524,7 @@ export const fashionProducts: Product[] = [
     badge: "Bestseller",
     description: "Beautiful traditional saree with elegant design.",
     inStock: true,
+    stock: 50,
     discount: 42,
   },
   {
@@ -503,6 +540,7 @@ export const fashionProducts: Product[] = [
     reviews: 1567,
     description: "Comfortable salwar kameez for daily wear.",
     inStock: true,
+    stock: 50,
     discount: 43,
   },
   {
@@ -519,6 +557,7 @@ export const fashionProducts: Product[] = [
     badge: "Trending",
     description: "Stunning designer lehenga for special occasions.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
   {
@@ -534,6 +573,7 @@ export const fashionProducts: Product[] = [
     reviews: 945,
     description: "Beautifully embroidered kurti for casual wear.",
     inStock: true,
+    stock: 50,
     discount: 41,
   },
 
@@ -552,6 +592,7 @@ export const fashionProducts: Product[] = [
     badge: "Trending",
     description: "Elegant heels perfect for parties and events.",
     inStock: true,
+    stock: 50,
     discount: 43,
   },
   {
@@ -567,6 +608,7 @@ export const fashionProducts: Product[] = [
     reviews: 1234,
     description: "Lightweight flats for everyday comfort.",
     inStock: true,
+    stock: 50,
     discount: 41,
   },
   {
@@ -582,6 +624,7 @@ export const fashionProducts: Product[] = [
     reviews: 856,
     description: "Stylish sandals perfect for summer days.",
     inStock: true,
+    stock: 50,
     discount: 42,
   },
 
@@ -599,6 +642,7 @@ export const fashionProducts: Product[] = [
     reviews: 1456,
     description: "Perfect denim jacket for casual outfits.",
     inStock: true,
+    stock: 50,
     discount: 37,
   },
   {
@@ -614,6 +658,7 @@ export const fashionProducts: Product[] = [
     reviews: 892,
     description: "Trendy crop top for casual wear.",
     inStock: true,
+    stock: 50,
     discount: 46,
   },
   {
@@ -630,6 +675,7 @@ export const fashionProducts: Product[] = [
     badge: "Bestseller",
     description: "Professional black blazer for office and events.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
 
@@ -648,6 +694,7 @@ export const fashionProducts: Product[] = [
     badge: "Trending",
     description: "Premium stainless steel watch with elegance.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -664,6 +711,7 @@ export const fashionProducts: Product[] = [
     reviews: 734,
     description: "Quality leather belt for formal and casual wear.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
   {
@@ -680,6 +728,7 @@ export const fashionProducts: Product[] = [
     reviews: 1089,
     description: "Elegant designer handbag for daily use.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
 
@@ -698,6 +747,7 @@ export const fashionProducts: Product[] = [
     reviews: 1023,
     description: "Traditional kurta perfect for ethnic occasions.",
     inStock: true,
+    stock: 50,
     discount: 38,
   },
   {
@@ -715,6 +765,7 @@ export const fashionProducts: Product[] = [
     badge: "Bestseller",
     description: "Sophisticated navy blazer for formal events.",
     inStock: true,
+    stock: 50,
     discount: 36,
   },
   {
@@ -731,6 +782,7 @@ export const fashionProducts: Product[] = [
     reviews: 1245,
     description: "Comfortable polo shirt for smart casual look.",
     inStock: true,
+    stock: 50,
     discount: 40,
   },
 ];

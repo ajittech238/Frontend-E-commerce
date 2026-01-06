@@ -1,9 +1,9 @@
 import { useState, useMemo, useCallback } from "react";
-import { 
-  Plus, 
-  Search, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
   MoreHorizontal,
   Filter,
   Grid,
@@ -42,9 +42,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { products, categories } from "@/data/products";
 import { useToast } from "@/hooks/use-toast";
+import { AddProductForm } from "@/components/dashboard/AddProductForm";
 
 export default function DashboardProducts() {
   const { toast } = useToast();
@@ -54,6 +56,7 @@ export default function DashboardProducts() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("newest");
   const [previewProduct, setPreviewProduct] = useState<typeof products[0] | null>(null);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(product => {
@@ -89,7 +92,7 @@ export default function DashboardProducts() {
   }, [selectedProducts.length, filteredProducts]);
 
   const toggleSelect = useCallback((id: string) => {
-    setSelectedProducts(prev => 
+    setSelectedProducts(prev =>
       prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
     );
   }, []);
@@ -114,41 +117,58 @@ export default function DashboardProducts() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Products</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage your product inventory</p>
+          <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tighter">Products</h1>
+          <p className="text-sm text-muted-foreground mt-1 font-medium tracking-tight">Manage your product inventory</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <Button variant="outline" size="sm" className="h-9">
-            <Upload className="w-4 h-4 mr-2" />
+          <Button variant="outline" size="sm" className="h-9 font-bold text-xs uppercase tracking-widest border-border/50 hover:bg-accent">
+            <Upload className="w-3.5 h-3.5 mr-2" />
             <span className="hidden sm:inline">Import</span>
           </Button>
-          <Button variant="outline" size="sm" className="h-9">
-            <Download className="w-4 h-4 mr-2" />
+          <Button variant="outline" size="sm" className="h-9 font-bold text-xs uppercase tracking-widest border-border/50 hover:bg-accent">
+            <Download className="w-3.5 h-3.5 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
-          <Button size="sm" className="h-9 bg-primary hover:bg-primary/90">
+          <Button size="sm" className="h-9 bg-pink-gradient hover:bg-pink-gradient/90 font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20">
             <Plus className="w-4 h-4 mr-2" />
             Add Product
           </Button>
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm" className="h-9 bg-primary hover:bg-primary/90">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Product
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-[90vw] rounded-md sm:max-w-[900px] max-h-[90vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <DialogHeader>
+                <DialogTitle>Add New Product</DialogTitle>
+                <DialogDescription>
+                  Fill in the details below to add a new product to your inventory.
+                </DialogDescription>
+              </DialogHeader>
+              <AddProductForm onFormSubmit={() => setIsAddDialogOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: "Total Products", value: stats.total, icon: Package, color: "text-blue-500" },
-          { label: "Active", value: stats.active, icon: TrendingUp, color: "text-emerald-500" },
-          { label: "Low Stock", value: stats.lowStock, icon: AlertCircle, color: "text-amber-500" },
-          { label: "Out of Stock", value: stats.outOfStock, icon: AlertCircle, color: "text-destructive" },
+          { label: "Total Products", value: stats.total, icon: Package, color: "text-blue-500", bgColor: "bg-blue-500/10" },
+          { label: "Active", value: stats.active, icon: TrendingUp, color: "text-emerald-500", bgColor: "bg-emerald-500/10" },
+          { label: "Low Stock", value: stats.lowStock, icon: AlertCircle, color: "text-amber-500", bgColor: "bg-amber-500/10" },
+          { label: "Out of Stock", value: stats.outOfStock, icon: AlertCircle, color: "text-destructive", bgColor: "bg-destructive/10" },
         ].map((stat) => (
-          <Card key={stat.label} className="border-border/50">
+          <Card key={stat.label} className="border-border/50 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
             <CardContent className="p-3 sm:p-4 flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-lg bg-accent flex items-center justify-center ${stat.color}`}>
+              <div className={`w-10 h-10 rounded-xl ${stat.bgColor} flex items-center justify-center ${stat.color} shrink-0`}>
                 <stat.icon className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-lg sm:text-xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
+                <p className="text-xl sm:text-2xl font-black text-foreground tabular-nums tracking-tighter">{stat.value}</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">{stat.label}</p>
               </div>
             </CardContent>
           </Card>
@@ -217,7 +237,7 @@ export default function DashboardProducts() {
 
       {/* Bulk Actions */}
       {selectedProducts.length > 0 && (
-        <div className="flex items-center justify-between p-3 bg-primary/10 rounded-lg border border-primary/20 animate-fade-in">
+        <div className="flex items-center justify-between p-3 bg-pink-gradient/10 rounded-lg border border-primary/20 animate-fade-in">
           <span className="text-sm font-medium text-foreground">
             {selectedProducts.length} products selected
           </span>
@@ -237,8 +257,8 @@ export default function DashboardProducts() {
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filteredProducts.map((product) => (
-            <Card 
-              key={product.id} 
+            <Card
+              key={product.id}
               className={`group overflow-hidden border-border/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 ${
                 selectedProducts.includes(product.id) ? 'ring-2 ring-primary' : ''
               }`}
@@ -258,7 +278,7 @@ export default function DashboardProducts() {
                   />
                 </div>
                 {product.badge && (
-                  <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
+                  <Badge className="absolute top-3 right-3 bg-pink-gradient text-primary-foreground">
                     {product.badge}
                   </Badge>
                 )}
@@ -277,12 +297,12 @@ export default function DashboardProducts() {
                 </div>
               </div>
               <CardContent className="p-3 sm:p-4">
-                <h3 className="font-semibold text-foreground text-sm sm:text-base truncate">{product.name}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground capitalize">{product.category}</p>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-base sm:text-lg font-bold text-primary">₹{product.price.toLocaleString()}</span>
-                  <div className="flex items-center gap-1 text-xs sm:text-sm text-amber-500">
-                    <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                <h3 className="font-black text-foreground text-sm sm:text-base truncate tracking-tight">{product.name}</h3>
+                <p className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">{product.category}</p>
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-base sm:text-xl font-black text-primary tabular-nums tracking-tighter">₹{product.price.toLocaleString()}</span>
+                  <div className="flex items-center gap-1 text-[11px] font-black text-amber-500 tabular-nums bg-amber-500/10 px-2 py-0.5 rounded-md">
+                    <Star className="w-3 h-3 fill-current" />
                     {product.rating}
                   </div>
                 </div>
@@ -294,7 +314,7 @@ export default function DashboardProducts() {
         <Card className="border-border/50 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-accent/50">
+              <thead className="bg-muted/40 border-b border-border/50">
                 <tr>
                   <th className="p-3 sm:p-4 text-left w-12">
                     <Checkbox
@@ -302,20 +322,20 @@ export default function DashboardProducts() {
                       onCheckedChange={toggleSelectAll}
                     />
                   </th>
-                  <th className="p-3 sm:p-4 text-left font-semibold text-foreground text-sm">Product</th>
-                  <th className="p-3 sm:p-4 text-left font-semibold text-foreground text-sm hidden md:table-cell">Category</th>
-                  <th className="p-3 sm:p-4 text-left font-semibold text-foreground text-sm">Price</th>
-                  <th className="p-3 sm:p-4 text-left font-semibold text-foreground text-sm hidden sm:table-cell">Rating</th>
-                  <th className="p-3 sm:p-4 text-left font-semibold text-foreground text-sm hidden lg:table-cell">Status</th>
-                  <th className="p-3 sm:p-4 text-left font-semibold text-foreground text-sm w-20">Actions</th>
+                  <th className="p-3 sm:p-4 text-left font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px]">Product</th>
+                  <th className="p-3 sm:p-4 text-left font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] hidden md:table-cell">Category</th>
+                  <th className="p-3 sm:p-4 text-left font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px]">Price</th>
+                  <th className="p-3 sm:p-4 text-left font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] hidden sm:table-cell">Rating</th>
+                  <th className="p-3 sm:p-4 text-left font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] hidden lg:table-cell">Status</th>
+                  <th className="p-3 sm:p-4 text-left font-black uppercase tracking-[0.2em] text-muted-foreground/60 text-[10px] w-20">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/50">
+              <tbody className="divide-y divide-border/30">
                 {filteredProducts.map((product) => (
-                  <tr 
-                    key={product.id} 
-                    className={`hover:bg-accent/30 transition-colors ${
-                      selectedProducts.includes(product.id) ? 'bg-primary/5' : ''
+                  <tr
+                    key={product.id}
+                    className={`hover:bg-accent/20 transition-colors group ${
+                      selectedProducts.includes(product.id) ? 'bg-pink-gradient/5' : ''
                     }`}
                   >
                     <td className="p-3 sm:p-4">
@@ -329,32 +349,32 @@ export default function DashboardProducts() {
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover"
+                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform"
                           loading="lazy"
                         />
                         <div className="min-w-0">
-                          <p className="font-medium text-foreground text-sm truncate max-w-[150px] sm:max-w-none">{product.name}</p>
-                          <p className="text-xs text-muted-foreground md:hidden capitalize">{product.category}</p>
+                          <p className="font-black text-foreground text-sm truncate max-w-[150px] sm:max-w-none tracking-tight">{product.name}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground/50 md:hidden uppercase tracking-widest">{product.category}</p>
                         </div>
                       </div>
                     </td>
                     <td className="p-3 sm:p-4 hidden md:table-cell">
-                      <Badge variant="outline" className="capitalize">{product.category}</Badge>
+                      <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md border-border/50">{product.category}</Badge>
                     </td>
                     <td className="p-3 sm:p-4">
-                      <span className="font-bold text-primary text-sm">₹{product.price.toLocaleString()}</span>
+                      <span className="font-black text-primary text-sm tabular-nums tracking-tighter">₹{product.price.toLocaleString()}</span>
                     </td>
                     <td className="p-3 sm:p-4 hidden sm:table-cell">
-                      <div className="flex items-center gap-1 text-amber-500 text-sm">
-                        <Star className="w-4 h-4 fill-current" />
+                      <div className="flex items-center gap-1 text-amber-500 text-[11px] font-black tabular-nums">
+                        <Star className="w-3.5 h-3.5 fill-current" />
                         {product.rating}
                       </div>
                     </td>
                     <td className="p-3 sm:p-4 hidden lg:table-cell">
                       {product.badge ? (
-                        <Badge className="bg-primary/10 text-primary">{product.badge}</Badge>
+                        <Badge className="bg-pink-gradient/10 text-primary text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md border-primary/20">{product.badge}</Badge>
                       ) : (
-                        <Badge variant="secondary">In Stock</Badge>
+                        <Badge variant="secondary" className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md">In Stock</Badge>
                       )}
                     </td>
                     <td className="p-3 sm:p-4">
@@ -429,11 +449,11 @@ export default function DashboardProducts() {
                   <span className="text-muted-foreground">({previewProduct.reviews} reviews)</span>
                 </div>
                 {previewProduct.badge && (
-                  <Badge className="bg-primary">{previewProduct.badge}</Badge>
+                  <Badge className="bg-pink-gradient">{previewProduct.badge}</Badge>
                 )}
                 <p className="text-sm text-muted-foreground">{previewProduct.description}</p>
                 <div className="flex gap-2 pt-4">
-                  <Button className="flex-1 bg-primary">
+                  <Button className="flex-1 bg-pink-gradient">
                     <Edit className="w-4 h-4 mr-2" /> Edit Product
                   </Button>
                   <Button variant="outline">

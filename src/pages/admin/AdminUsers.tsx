@@ -56,23 +56,24 @@ export default function AdminUsers() {
       header: "User",
       render: (user: any) => (
         <div className="flex items-center gap-3">
-          <Avatar className="w-9 h-9">
+          <Avatar className="w-8 h-8 sm:w-9 sm:h-9">
             <AvatarImage src={user.avatar} />
-            <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+            <AvatarFallback className="bg-pink-gradient/10 text-primary text-[10px] sm:text-sm font-medium">
               {user.name.split(" ").map((n: string) => n[0]).join("")}
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-medium text-foreground">{user.name}</p>
-            <p className="text-xs text-muted-foreground">{user.email}</p>
+            <p className="font-medium text-foreground text-xs sm:text-sm">{user.name}</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">{user.email}</p>
           </div>
         </div>
       ),
     },
-    { key: "phone", header: "Phone" },
+    { key: "phone", header: "Phone", className: "hidden lg:table-cell" },
     {
       key: "role",
       header: "Role",
+      className: "hidden md:table-cell",
       render: (user: any) => (
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4 text-muted-foreground" />
@@ -83,11 +84,13 @@ export default function AdminUsers() {
     {
       key: "status",
       header: "Status",
+      className: "hidden sm:table-cell",
       render: (user: any) => <StatusBadge status={user.status} />,
     },
     {
       key: "createdAt",
       header: "Joined",
+      className: "hidden xl:table-cell",
       render: (user: any) => new Date(user.createdAt).toLocaleDateString(),
     },
     {
@@ -116,7 +119,7 @@ export default function AdminUsers() {
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in min-h-[calc(100vh-80px)] pb-10">
       <AdminPageHeader
         title="User Management"
         description="Manage all users, roles, and permissions"

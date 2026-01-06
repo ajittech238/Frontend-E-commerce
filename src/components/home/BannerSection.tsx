@@ -16,15 +16,15 @@ const BannerSection = () => {
             {/* Animated background gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/5 to-primary/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
             
-            <div className="relative p-8 md:p-10 z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 mb-6">
-                <Heart className="h-5 w-5 text-white fill-white" />
-                <span className="text-sm font-semibold text-white">Perfect Gifts</span>
+            <div className="relative p-8 md:p-10 z-10 ">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-Red/20 backdrop-blur-md border border-white/30 mb-6 bg-red-100/100 ">
+                <Heart className="h-5 w-5 text-white  fill-pink-400 " />
+                <span className="text-sm font-semibold text-red-400">Perfect Gifts</span>
               </div>
-              <h3 className="font-display text-4xl md:text-5xl font-bold text-white mb-3 leading-tight">
+              <h3 className="font-display text-4xl md:text-5xl font-bold text-pink-500 mb-3 leading-tight">
                 Unique Gift Ideas
               </h3>
-              <p className="text-white/80 text-lg mb-6 max-w-xs font-light">
+              <p className="text-Black/80 text-lg mb-6 max-w-xs font-light">
                 Thoughtful, handcrafted presents they'll actually love
               </p>
               <Button className="group/btn bg-white text-primary hover:bg-white/90 font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 gap-2 hover:-translate-y-1">
@@ -115,7 +115,7 @@ const BannerSection = () => {
           ].map((feature, i) => (
             <div
               key={i}
-              className={`group flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-5 md:p-6 rounded-2xl bg-gradient-to-br ${feature.bgColor} border-2 border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4 duration-500`}
+              className={`group flex flex-col md:flex-row md:items-center gap-3 md:gap-4 p-5 md:p-6 rounded-2xl bg-gradient-to-br ${feature.bgColor} border-2 border-border hover:border-primary/30 transition-all  hover:shadow-lg hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4 duration-500`}
               style={{ animationDelay: `${i * 50}ms` }}
             >
               <div className={`h-14 w-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform`}>

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { 
-  User, 
-  Bell, 
-  Lock, 
-  Palette, 
+import {
+  User,
+  Bell,
+  Lock,
+  Palette,
   Globe,
   Save,
   Camera,
@@ -108,14 +108,14 @@ export default function DashboardSettings() {
                   <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center shadow-lg">
                     <User className="w-8 h-8 sm:w-10 sm:h-10 text-primary-foreground" />
                   </div>
-                  <button className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
+                  <button className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-pink-gradient text-primary-foreground flex items-center justify-center shadow-lg hover:bg-pink-gradient/90 transition-colors">
                     <Camera className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="text-center sm:text-left">
                   <h3 className="font-semibold text-foreground text-lg">{profile.name}</h3>
                   <p className="text-sm text-muted-foreground">{profile.email}</p>
-                  <Badge className="mt-2 bg-primary/10 text-primary">Admin</Badge>
+                  <Badge className="mt-2 bg-pink-gradient/10 text-primary">Admin</Badge>
                 </div>
               </div>
 
@@ -166,7 +166,7 @@ export default function DashboardSettings() {
                 </div>
               </div>
 
-              <Button onClick={handleSave} className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+              <Button onClick={handleSave} className="w-full sm:w-auto bg-pink-gradient hover:bg-pink-gradient/90">
                 <Save className="w-4 h-4 mr-2" />
                 Save Changes
               </Button>
@@ -192,7 +192,7 @@ export default function DashboardSettings() {
               ].map((item) => (
                 <div key={item.id} className="flex items-center justify-between p-3 sm:p-4 rounded-xl bg-accent/30 hover:bg-accent/50 transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
                       <item.icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
@@ -202,14 +202,14 @@ export default function DashboardSettings() {
                   </div>
                   <Switch
                     checked={notifications[item.id as keyof typeof notifications]}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       setNotifications({ ...notifications, [item.id]: checked })
                     }
                   />
                 </div>
               ))}
 
-              <Button onClick={handleSave} className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+              <Button onClick={handleSave} className="w-full sm:w-auto bg-pink-gradient hover:bg-pink-gradient/90">
                 <Save className="w-4 h-4 mr-2" />
                 Save Preferences
               </Button>
@@ -228,9 +228,9 @@ export default function DashboardSettings() {
               <div className="space-y-2">
                 <Label htmlFor="current" className="text-sm">Current Password</Label>
                 <div className="relative">
-                  <Input 
-                    id="current" 
-                    type={showCurrentPassword ? "text" : "password"} 
+                  <Input
+                    id="current"
+                    type={showCurrentPassword ? "text" : "password"}
                     className="pr-10 h-10"
                   />
                   <button
@@ -245,9 +245,9 @@ export default function DashboardSettings() {
               <div className="space-y-2">
                 <Label htmlFor="new" className="text-sm">New Password</Label>
                 <div className="relative">
-                  <Input 
-                    id="new" 
-                    type={showNewPassword ? "text" : "password"} 
+                  <Input
+                    id="new"
+                    type={showNewPassword ? "text" : "password"}
                     className="pr-10 h-10"
                   />
                   <button
@@ -272,7 +272,7 @@ export default function DashboardSettings() {
                 <Label htmlFor="confirm" className="text-sm">Confirm New Password</Label>
                 <Input id="confirm" type="password" className="h-10" />
               </div>
-              <Button onClick={handleSave} className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+              <Button onClick={handleSave} className="w-full sm:w-auto bg-pink-gradient hover:bg-pink-gradient/90">
                 <Lock className="w-4 h-4 mr-2" />
                 Update Password
               </Button>
@@ -298,7 +298,7 @@ export default function DashboardSettings() {
                 <Switch />
               </div>
 
-              <div className="p-3 sm:p-4 rounded-xl bg-primary/5 border border-primary/20">
+              <div className="p-3 sm:p-4 rounded-xl bg-pink-gradient/5 border border-primary/20">
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary mt-0.5" />
                   <div>
@@ -368,8 +368,8 @@ export default function DashboardSettings() {
                       key={theme.id}
                       onClick={() => setSelectedTheme(theme.id)}
                       className={`p-3 sm:p-4 rounded-xl border transition-all flex flex-col items-center gap-2 ${
-                        selectedTheme === theme.id 
-                          ? "border-primary bg-primary/10 ring-2 ring-primary/20" 
+                        selectedTheme === theme.id
+                          ? "border-primary bg-pink-gradient/10 ring-2 ring-primary/20"
                           : "border-border hover:border-primary/50 bg-accent/30"
                       }`}
                     >
@@ -397,8 +397,8 @@ export default function DashboardSettings() {
                       key={item.color}
                       onClick={() => setSelectedColor(item.color)}
                       className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl transition-all hover:scale-110 ${
-                        selectedColor === item.color 
-                          ? "ring-2 ring-offset-2 ring-offset-background ring-foreground scale-110" 
+                        selectedColor === item.color
+                          ? "ring-2 ring-offset-2 ring-offset-background ring-foreground scale-110"
                           : ""
                       }`}
                       style={{ backgroundColor: item.color }}
@@ -408,7 +408,7 @@ export default function DashboardSettings() {
                 </div>
               </div>
 
-              <Button onClick={handleSave} className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+              <Button onClick={handleSave} className="w-full sm:w-auto bg-pink-gradient hover:bg-pink-gradient/90">
                 <Save className="w-4 h-4 mr-2" />
                 Save Theme
               </Button>

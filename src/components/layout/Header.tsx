@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useCustomerAuth } from "@/customer/context/CustomerAuthContext";
 import { categories, products } from "@/data/products";
 import { fashionProducts } from "@/data/fashion";
 import { electronicsProducts } from "@/data/electronics";
@@ -29,6 +30,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { totalItems, setIsCartOpen } = useCart();
   const { items: wishlistItems } = useWishlist();
+  const { isAuthenticated } = useCustomerAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -219,23 +221,22 @@ const Header = () => {
               </Button>
 
               {/* Account */}
-              <Link to="/dashboard">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
-                >
-                  <User className="h-5 w-5" />
-                  <span className="hidden md:block">Account</span>
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(isAuthenticated ? "/customer" : "/login")}
+                className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
+              >
+                <User className="h-5 w-5" />
+                <span className="hidden md:block">Account</span>
+              </Button>
 
               {/* Login Button */}
               <Link to="/login">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-primary/5 font-semibold text-sm transition-all duration-300"
+                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 font-semibold text-sm transition-all duration-300"
                 >
                   Sign In
                 </Button>
@@ -260,7 +261,7 @@ const Header = () => {
                 >
                   <Heart className="h-5 w-5" />
                   {wishlistItems.length > 0 && (
-                    <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                    <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-pink-gradient text-primary-foreground text-xs font-bold">
                       {wishlistItems.length}
                     </Badge>
                   )}
@@ -398,11 +399,33 @@ const Header = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
+            <li>
+              <Link
+                to="/grocery"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>🛒</span>
+                Grocery
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
+            {/* Books */}
+            <li>
+              <Link
+                to="/books"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>📚</span>
+                Books
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
 
             {categories.slice(2, 6).map((category) => (
               <li key={category.id}>
                 <Link
-                  to={`/category/${category.id}`}
+                  to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                   className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group"
                 >
                   {category.name}
@@ -413,7 +436,7 @@ const Header = () => {
             <li className="ml-auto">
               <Link
                 to="/products"
-                className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1 bg-primary/10 px-4 py-2 rounded-lg"
+                className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1 bg-pink-gradient/10 px-4 py-2 rounded-lg"
               >
                 Explore All
                 <ChevronDown className="h-4 w-4" />
@@ -431,11 +454,11 @@ const Header = () => {
             <div className="space-y-3">
               <h3 className="font-display font-bold text-lg">Quick Access</h3>
               <Link
-                to="/dashboard"
+                to="/customer"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-primary/10 to-transparent transition-colors"
               >
-                <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                <div className="h-10 w-10 rounded-lg bg-pink-gradient/20 flex items-center justify-center">
                   <User className="h-5 w-5 text-primary" />
                 </div>
                 <div>
@@ -496,11 +519,21 @@ const Header = () => {
                   <span className="font-medium text-foreground hover:text-primary transition-colors">Electronics</span>
                 </Link>
 
+                {/* Books */}
+                <Link
+                  to="/books"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+                >
+                  <span className="text-lg">📚</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">Books</span>
+                </Link>
+
                 {/* Other Categories */}
                 {categories.slice(2).map((category) => (
                   <Link
                     key={category.id}
-                    to={`/category/${category.id}`}
+                    to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                   >
@@ -531,7 +564,7 @@ const Header = () => {
                   className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors"
                 >
                   <span className="font-medium">Wishlist</span>
-                  {wishlistItems.length > 0 && <Badge className="bg-primary">{wishlistItems.length}</Badge>}
+                  {wishlistItems.length > 0 && <Badge className="bg-pink-gradient">{wishlistItems.length}</Badge>}
                 </Link>
               </div>
             </div>
