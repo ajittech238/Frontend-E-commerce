@@ -311,17 +311,6 @@
   border-radius: 2px;
   transform: scaleX(0.9) rotate(-0.5deg);
 }
-[data-state="closed"] {
-  animation: toast-exit 0.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
+/* Removed problematic global [data-state="closed"] style */
 
-@keyframes toast-exit {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-}
+

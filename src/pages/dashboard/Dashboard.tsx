@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 import {
   TrendingUp,
@@ -97,8 +98,8 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-1">Welcome back! Here's what's happening today.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">Welcome back! Here's what's happening today.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <Select value={timeRange} onValueChange={setTimeRange}>

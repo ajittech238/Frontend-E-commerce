@@ -205,27 +205,27 @@ const Header = () => {
             </div>
 
             {/* Right Section - Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               {/* Notifications */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative hidden md:flex h-10 w-10 rounded-lg hover:bg-accent"
+                className="relative flex h-10 w-10 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground flex-shrink-0 group"
               >
-                <Bell className="h-5 w-5" />
+                <Bell className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                 <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-destructive text-white text-xs flex items-center justify-center font-bold animate-pulse">
                   3
                 </span>
               </Button>
 
               {/* Account */}
-              <Link to="/dashboard">
+              <Link to="/dashboard" className="flex-shrink-0 group">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
+                  className="flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm text-muted-foreground hover:text-foreground group-hover:bg-accent"
                 >
-                  <User className="h-5 w-5" />
+                  <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                   <span className="hidden md:block">Account</span>
                 </Button>
               </Link>
@@ -252,13 +252,13 @@ const Header = () => {
               </Link>
 
               {/* Wishlist */}
-              <Link to="/wishlist">
+              <Link to="/wishlist" className="flex-shrink-0 group">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative h-10 w-10 rounded-lg hover:bg-accent"
+                  className="relative h-10 w-10 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground group-hover:bg-accent"
                 >
-                  <Heart className="h-5 w-5" />
+                  <Heart className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                   {wishlistItems.length > 0 && (
                     <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-pink-gradient text-primary-foreground text-xs font-bold">
                       {wishlistItems.length}
@@ -268,7 +268,7 @@ const Header = () => {
               </Link>
 
               {/* Cart */}
-              <Link to="/cart">
+              <Link to="/cart" className="flex-shrink-0">
                 <Button
                   size="sm"
                   className="relative flex items-center gap-1 md:gap-2 h-8 md:h-9 px-2 md:px-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-sm font-semibold shadow-sm text-xs md:text-sm"

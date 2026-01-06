@@ -18,6 +18,8 @@ import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import NotFound from "./pages/NotFound";
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
+import { DashboardLayout as CustomerDashboardLayout } from "./components/Customer/DashboardLayout";
+import { ThemeProvider as CustomerThemeProvider } from "./components/Customer/useTheme";
 import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
@@ -90,6 +92,7 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import SportsPage from "./pages/SportsPage";
+import CustomerDash from "./pages/customer-dashboard/CustomerDash";
 
 
 const queryClient = new QueryClient();
@@ -252,6 +255,16 @@ const App = () => (
                     path="integrations/whatsapp"
                     element={<WhatsAppIntegration />}
                   />
+                </Route>
+                <Route
+                  path="/customerdash"
+                  element={
+                    <CustomerThemeProvider>
+                      <CustomerDashboardLayout />
+                    </CustomerThemeProvider>
+                  }
+                >
+                  <Route index element={<CustomerDash />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
