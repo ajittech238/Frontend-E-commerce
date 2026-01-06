@@ -36,11 +36,11 @@ import { groceryProducts } from "@/data/grocery";
 // import { fashionProducts } from "@/data/fashion";
 // import { beautyProducts } from "@/data/beauty";
 
-const MAGNIFIER_SIZE = 150;
-
+const MAGNIFIER_SIZE = 100;
+const ZOOM_LEVEL = 2;
 const ProductDetail = () => {
   const { id } = useParams();
-  
+
   // ========================================
   // STEP 2: Combine all product arrays
   // ========================================
@@ -51,7 +51,7 @@ const ProductDetail = () => {
     groceryProducts,
     // Add more arrays here
   ];
-  
+
   // ========================================
   // STEP 3: Search product in all arrays
   // ========================================
@@ -60,13 +60,13 @@ const ProductDetail = () => {
     product = productArray.find((p) => p.id === id);
     if (product) break;
   }
-  
+
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string }>({});
-  
+
   // Magnifier states
   const imgRef = useRef<HTMLImageElement>(null);
   const [showMagnifier, setShowMagnifier] = useState(false);
@@ -92,7 +92,7 @@ const ProductDetail = () => {
   }
 
   const inWishlist = isInWishlist(product.id);
-  
+
   // Initialize variants on mount
   if (product.variants && Object.keys(selectedVariants).length === 0) {
     const initialVariants: { [key: string]: string } = {};
@@ -103,7 +103,7 @@ const ProductDetail = () => {
     });
     setSelectedVariants(initialVariants);
   }
-  
+
   const handleVariantSelect = (variantName: string, value: string) => {
     setSelectedVariants(prev => ({ ...prev, [variantName]: value }));
     setQuantity(1);
@@ -132,7 +132,7 @@ const ProductDetail = () => {
     const selectedOptionValue = selectedVariants[primaryVariant.name];
     const selectedOption = primaryVariant.options.find(opt => opt.value === selectedOptionValue);
     currentStock = selectedOption?.stock ?? 999;
-    
+
     if (product.variants.length > 1) {
       const secondaryVariant = product.variants[1];
       const selectedOptionValue2 = selectedVariants[secondaryVariant.name];
@@ -143,20 +143,20 @@ const ProductDetail = () => {
     }
     return currentStock;
   }, [product, selectedVariants]);
-  
+
   // Combine all products for related products
   const allProducts = allProductArrays.flat();
-  
+
   let relatedProducts = allProducts.filter(
     (p) => p.category === product.category && p.id !== product.id
   ).slice(0, 4);
-  
+
   if (relatedProducts.length === 0) {
     relatedProducts = allProducts.filter(
       (p) => p.subcategory?.some(sub => product.subcategory?.includes(sub)) && p.id !== product.id
     ).slice(0, 4);
   }
-  
+
   if (relatedProducts.length === 0) {
     relatedProducts = allProducts
       .filter((p) => p.id !== product.id)
@@ -187,12 +187,19 @@ const ProductDetail = () => {
   // Magnifier handlers
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imgRef.current) return;
+
     const rect = imgRef.current.getBoundingClientRect();
-    setMagnifierPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
+    // 🔒 clamp — image ke bahar na jaaye
+    x = Math.max(0, Math.min(x, rect.width));
+    y = Math.max(0, Math.min(y, rect.height));
+
+    setMagnifierPosition({ x, y });
   };
+
 
   const handleMouseOver = () => {
     setShowMagnifier(true);
@@ -263,7 +270,7 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
           {/* Product Images with Magnifier */}
           <div className="space-y-4 w-full">
-            <div 
+            <div
               className="relative w-full max-w-full aspect-square rounded-2xl overflow-hidden bg-secondary/50 cursor-crosshair"
               onMouseMove={handleMouseMove}
               onMouseOver={handleMouseOver}
@@ -275,25 +282,34 @@ const ProductDetail = () => {
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
-              
+
               {/* Magnifier Lens */}
               {showMagnifier && (
                 <div
                   className="hidden md:block absolute border-2 border-primary rounded-full pointer-events-none z-10"
                   style={{
-                    left: magnifierPosition.x - MAGNIFIER_SIZE / 2,
-                    top: magnifierPosition.y - MAGNIFIER_SIZE / 2,
                     width: MAGNIFIER_SIZE,
                     height: MAGNIFIER_SIZE,
+                    left: magnifierPosition.x - MAGNIFIER_SIZE / 2,
+                    top: magnifierPosition.y - MAGNIFIER_SIZE / 2,
+
                     backgroundImage: `url(${imageGallery[selectedImage]})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: `${imgRef.current?.width ? imgRef.current.width * 2 : 100}% ${imgRef.current?.height ? imgRef.current.height * 2 : 100}%`,
-                    backgroundPositionX: `${-magnifierPosition.x * 2 + MAGNIFIER_SIZE / 2}px`,
-                    backgroundPositionY: `${-magnifierPosition.y * 2 + MAGNIFIER_SIZE / 2}px`,
+                    backgroundRepeat: "no-repeat",
+
+                    backgroundSize: `
+        ${imgRef.current!.width * ZOOM_LEVEL}px
+        ${imgRef.current!.height * ZOOM_LEVEL}px
+      `,
+
+                    backgroundPosition: `
+        ${-magnifierPosition.x * ZOOM_LEVEL + MAGNIFIER_SIZE / 2}px
+        ${-magnifierPosition.y * ZOOM_LEVEL + MAGNIFIER_SIZE / 2}px
+      `,
                   }}
-                ></div>
+                />
               )}
-              
+
+
               {product.badge && (
                 <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground">
                   {product.badge}
@@ -305,7 +321,7 @@ const ProductDetail = () => {
                 </Badge>
               )}
             </div>
-            
+
             {/* Thumbnail Gallery */}
             <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
               {imageGallery.map((img, i) => (
@@ -434,7 +450,7 @@ const ProductDetail = () => {
                 </div>
 
                 <Button
-                  
+
                   className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground h-12 text-base font-semibold gap-2"
                   onClick={handleAddToCart}
                   disabled={effectiveStock <= 0}
@@ -590,7 +606,7 @@ const ProductDetail = () => {
                   )}
                 </ul>
               </div>
-              
+
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg text-foreground">Why Choose This?</h3>
                 <ul className="space-y-3">
@@ -635,3 +651,8 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
+
+
+
+
