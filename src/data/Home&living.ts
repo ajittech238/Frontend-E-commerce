@@ -16,6 +16,7 @@ export interface ProductVariant {
 // Extend the base product type for Home & Living specific attributes
 export interface HomeLivingProduct extends Product {
   stock: number;
+  images360?: string[];
   variants?: ProductVariant[];
   specifications?: { name: string; value: string }[];
   detailedReviews?: {

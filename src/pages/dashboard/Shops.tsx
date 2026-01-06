@@ -39,13 +39,13 @@ export default function Shops() {
       header: "Shop Name",
       render: (shop: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
-            <Store className="w-5 h-5 text-primary" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center flex-shrink-0">
+            <Store className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
           </div>
           <div>
-            <p className="font-medium text-foreground">{shop.name}</p>
-            <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-              <MapPin className="w-3 h-3" /> {shop.location}
+            <p className="font-medium text-foreground text-xs sm:text-sm">{shop.name}</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1 mt-0.5 sm:mt-1">
+              <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> {shop.location}
             </p>
           </div>
         </div>
@@ -54,8 +54,9 @@ export default function Shops() {
     {
       key: "status",
       header: "Status",
+      className: "hidden xs:table-cell",
       render: (shop: any) => (
-        <Badge className={shop.status === "active" ? "bg-emerald-500/10 text-emerald-600" : "bg-gray-500/10 text-gray-600"}>
+        <Badge className={shop.status === "active" ? "bg-emerald-500/10 text-emerald-600 text-[10px] sm:text-xs" : "bg-gray-500/10 text-gray-600 text-[10px] sm:text-xs"}>
           {shop.status}
         </Badge>
       ),
@@ -63,14 +64,15 @@ export default function Shops() {
     {
       key: "phone",
       header: "Contact",
+      className: "hidden md:table-cell",
       render: (shop: any) => (
-        <div className="flex items-center gap-2 text-sm text-foreground">
-          <Phone className="w-4 h-4 text-muted-foreground" />
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-foreground">
+          <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" />
           {shop.phone}
         </div>
       ),
     },
-    { key: "employees", header: "Staff" },
+    { key: "employees", header: "Staff", className: "hidden sm:table-cell" },
     {
       key: "actions",
       header: "",
@@ -96,41 +98,42 @@ export default function Shops() {
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in px-1 xs:px-0">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Shops</h1>
-          <p className="text-muted-foreground mt-1">Manage all store locations</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Shops</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">Manage all store locations</p>
         </div>
-        <Button onClick={() => { setEditingShop(null); setIsDialogOpen(true); }} className="gap-2">
-          <Plus className="w-4 h-4" />
-          Add Shop
+        <Button onClick={() => { setEditingShop(null); setIsDialogOpen(true); }} className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4">
+          <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden xs:inline">Add Shop</span>
+          <span className="xs:hidden">Add</span>
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: "Total Shops", value: "4", color: "text-blue-600" },
           { label: "Active Shops", value: "3", color: "text-emerald-600" },
           { label: "Total Employees", value: "53", color: "text-purple-600" },
         ].map((stat) => (
           <Card key={stat.label}>
-            <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-              <p className={`text-3xl font-bold mt-2 ${stat.color}`}>{stat.value}</p>
+            <CardContent className="p-4 sm:p-6">
+              <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
+              <p className={`text-xl sm:text-3xl font-bold mt-1 sm:mt-2 ${stat.color}`}>{stat.value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Shops Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Store Locations</CardTitle>
-          <CardDescription>All your shop branches and locations</CardDescription>
+      <Card className="mx-0">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl">Store Locations</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">All your shop branches and locations</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 sm:p-6">
           <DataTable
             columns={columns}
             data={shops}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, ShoppingCart, Filter, BookOpen, Eye, X } from "lucide-react";
+import { Heart, ShoppingCart, Filter, BookOpen, Eye, X, Truck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/context/CartContext";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ProductModal from "@/components/products/ProductModal";
 
 interface GroupedProducts {
   [key: string]: typeof booksProducts;
@@ -68,6 +69,18 @@ const BooksPage = () => {
             />
           </Link>
 
+          {/* Add to Cart Button Overlay */}
+          <div className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 pointer-events-none group-hover:pointer-events-auto text-center">
+            <Button
+              className="w-auto btn-etsy text-sm h-10"
+              onClick={() => addToCart(product)}
+              disabled={!product.inStock}
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              {product.inStock ? "Add to Cart" : "Out of Stock"}
+            </Button>
+          </div>
+
           <div className="absolute top-3 right-3 flex flex-col gap-2">
             <Button
               size="icon"
@@ -95,14 +108,16 @@ const BooksPage = () => {
             </Button>
           </div>
 
-          {product.discount && (
-            <div className="absolute top-3 left-3 bg-destructive text-white text-xs font-bold px-2.5 py-1 rounded-lg">
-              -{product.discount}%
-            </div>
-          )}
+          <div className="absolute top-3 left-3 flex flex-col gap-2">
+            {product.discount && (
+              <div className="bg-destructive text-white text-xs font-bold px-2.5 py-1 rounded-lg w-fit">
+                -{product.discount}%
+              </div>
+            )}
+          </div>
 
           {product.badge && (
-            <div className="absolute bottom-3 left-3 bg-primary/90 text-white text-[11px] font-bold px-2 py-0.5 rounded-lg">
+            <div className="absolute bottom-3 left-3 bg-primary/90 text-white text-[11px] font-bold px-2 py-0.5 rounded-lg w-fit transition-opacity duration-300 group-hover:opacity-0">
               {product.badge}
             </div>
           )}
@@ -115,24 +130,27 @@ const BooksPage = () => {
         </div>
 
         <div className="p-4 flex flex-col flex-grow space-y-2.5">
-          <Link to={`/product/${product.id}`}>
-            <h3 className="text-sm font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem]">
-              {product.name}
-            </h3>
-          </Link>
+          <div>
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">
+              {product.author || "Author"}
+            </p>
+            <Link to={`/product/${product.id}`}>
+              <h3 className="text-sm font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors min-h-[2.5rem]">
+                {product.name}
+              </h3>
+            </Link>
+          </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex gap-0.5">
+            <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <span
+                <Star
                   key={i}
                   className={cn(
-                    "text-xs",
-                    i < Math.floor(product.rating) ? "text-yellow-400" : "text-gray-300"
+                    "h-3 w-3",
+                    i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted-foreground"
                   )}
-                >
-                  ★
-                </span>
+                />
               ))}
             </div>
             <span className="text-xs text-muted-foreground">({product.reviews})</span>
@@ -147,14 +165,10 @@ const BooksPage = () => {
             )}
           </div>
 
-          <Button
-            className="w-full mt-auto bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => addToCart(product)}
-            disabled={!product.inStock}
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            {product.inStock ? "Add to Cart" : "Out of Stock"}
-          </Button>
+          <div className="flex items-center gap-1.5 text-xs text-accent font-medium mt-auto">
+            <Truck className="h-3.5 w-3.5" />
+            <span>FREE delivery</span>
+          </div>
         </div>
       </div>
     );
@@ -300,143 +314,12 @@ const BooksPage = () => {
         </div>
       </div>
 
-      {showModal && selectedProduct && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-card rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div className="sticky top-0 flex items-center justify-between p-6 border-b border-border bg-card">
-              <h2 className="text-2xl font-bold text-foreground">{selectedProduct.name}</h2>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => setShowModal(false)}
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-
-            <div className="p-6">
-              <div className="grid grid-cols-3 gap-6">
-                <div className="col-span-1 aspect-square overflow-hidden rounded-lg bg-secondary/30">
-                  <img
-                    src={selectedProduct.image}
-                    alt={selectedProduct.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                <div className="col-span-2 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <span
-                        key={i}
-                        className={cn(
-                          "text-lg",
-                          i < Math.floor(selectedProduct.rating) ? "text-yellow-400" : "text-gray-300"
-                        )}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <span className="text-sm text-muted-foreground">({selectedProduct.reviews} reviews)</span>
-                </div>
-
-                <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-bold text-foreground">{formatPrice(selectedProduct.price)}</span>
-                  {selectedProduct.originalPrice && (
-                    <span className="text-lg text-muted-foreground line-through">
-                      {formatPrice(selectedProduct.originalPrice)}
-                    </span>
-                  )}
-                  {selectedProduct.discount && (
-                    <Badge className="bg-destructive text-white">
-                      Save {selectedProduct.discount}%
-                    </Badge>
-                  )}
-                </div>
-
-                {selectedProduct.description && (
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-foreground">Description</h3>
-                    <p className="text-muted-foreground leading-relaxed">{selectedProduct.description}</p>
-                  </div>
-                )}
-
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
-                  {selectedProduct.author && (
-                    <div>
-                      <p className="text-xs text-muted-foreground font-medium mb-1">Author</p>
-                      <p className="text-sm font-medium text-foreground">{selectedProduct.author}</p>
-                    </div>
-                  )}
-
-                  {selectedProduct.publisher && (
-                    <div>
-                      <p className="text-xs text-muted-foreground font-medium mb-1">Publisher</p>
-                      <p className="text-sm font-medium text-foreground">{selectedProduct.publisher}</p>
-                    </div>
-                  )}
-
-                  {selectedProduct.pages && (
-                    <div>
-                      <p className="text-xs text-muted-foreground font-medium mb-1">Pages</p>
-                      <p className="text-sm font-medium text-foreground">{selectedProduct.pages}</p>
-                    </div>
-                  )}
-
-                  {selectedProduct.language && (
-                    <div>
-                      <p className="text-xs text-muted-foreground font-medium mb-1">Language</p>
-                      <p className="text-sm font-medium text-foreground">{selectedProduct.language}</p>
-                    </div>
-                  )}
-
-                  {selectedProduct.publicationYear && (
-                    <div>
-                      <p className="text-xs text-muted-foreground font-medium mb-1">Published</p>
-                      <p className="text-sm font-medium text-foreground">{selectedProduct.publicationYear}</p>
-                    </div>
-                  )}
-
-                  {selectedProduct.isbn && (
-                    <div>
-                      <p className="text-xs text-muted-foreground font-medium mb-1">ISBN</p>
-                      <p className="text-sm font-medium text-foreground font-mono">{selectedProduct.isbn}</p>
-                    </div>
-                  )}
-                </div>
-
-                  <div className="flex gap-3 pt-4">
-                    <Button
-                      className="flex-1 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold"
-                      onClick={() => {
-                        addToCart(selectedProduct);
-                        setShowModal(false);
-                      }}
-                      disabled={!selectedProduct.inStock}
-                    >
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      {selectedProduct.inStock ? "Add to Cart" : "Out of Stock"}
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => toggleWishlist(selectedProduct)}
-                    >
-                      <Heart
-                        className={cn(
-                          "h-5 w-5",
-                          isInWishlist(selectedProduct.id) ? "fill-primary text-primary" : "text-muted-foreground"
-                        )}
-                      />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          isOpen={showModal}
+          onOpenChange={setShowModal}
+        />
       )}
 
       <Footer />

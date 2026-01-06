@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 import { products } from "@/data/products";
 import { electronicsProducts } from "@/data/electronics";
 import { homeLivingProducts } from "@/data/Home&living";
-import { groceryProducts } from "@/data/grocery";
+// import { groceryProducts } from "@/data/grocery";
 // Add your other imports below:
 // import { fashionProducts } from "@/data/fashion";
 // import { beautyProducts } from "@/data/beauty";
@@ -48,7 +48,7 @@ const ProductDetail = () => {
     products,
     electronicsProducts,
     homeLivingProducts,
-    groceryProducts,
+    
     // Add more arrays here
   ];
   
@@ -125,7 +125,7 @@ const ProductDetail = () => {
   // Calculate effective stock based on variants
   const effectiveStock = useMemo(() => {
     if (!product.variants || product.variants.length === 0) {
-      return product.stock || 999;
+      return product.stock ?? 999;
     }
     let currentStock = 999;
     const primaryVariant = product.variants[0];
