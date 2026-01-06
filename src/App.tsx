@@ -9,7 +9,6 @@ import { OrderProvider } from "@/context/OrderContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
-// import Category from "./pages/BeautyCategory";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -75,6 +74,7 @@ import WhatsAppIntegration from "./pages/admin/integrations/WhatsAppIntegration"
 import FashionCategoryPage from "./pages/FashionCategoryPage";
 import ElectronicsPage from "./pages/ElectronicsPage";
 // import BeautyPage from "./pages/BeautyPage";
+// import { beautyCategories } from "./data/beauty";
 import GroceryPage from "./pages/Grocerypage";
 import HomeLivingPage from "./pages/Home&livingPage";
 import MenTopWear from "./pages/fashion/MenTopWear";
@@ -91,7 +91,10 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import JewelleryPage from "./pages/JewelleryPage";
+import BeautyPage from "./pages/BeautyPage";
+import PerfumePage from "./pages/PerfumePage";
 // import BeautyCategory from "./pages/BeautyCatego.ry";
+// import JewelleryPage from "./pages/JewelleryPage";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -136,6 +139,11 @@ const App = () => (
                 <Route path="/electronics" element={<ElectronicsPage />} />
                 <Route path="/grocery" element={<GroceryPage />} />
                 <Route path="/homeliving" element={<HomeLivingPage />} />
+                <Route path="/beauty" element={<BeautyPage/>}/>
+                <Route path="/jewellery" element={<JewelleryPage/>}/>
+                {/* <Route path "/jewellery" element={<JewelleryPage />} />  */}
+                <Route path="/perfumes" element={<PerfumePage />} />
+
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
                 <Route path="/login" element={<Login />} />
