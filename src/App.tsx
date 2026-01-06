@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { OrderProvider } from "@/context/OrderContext";
+import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -92,10 +93,8 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import JewelleryPage from "./pages/JewelleryPage";
-import BeautyPage from "./pages/BeautyPage";
 import PerfumePage from "./pages/PerfumePage";
-// import BeautyCategory from "./pages/BeautyCatego.ry";
-// import JewelleryPage from "./pages/JewelleryPage";
+// import PerfumePage from "./pages/PerfumePage";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -112,16 +111,18 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
-                {/* <Route path="/category/:id" element={<BeautyCategory />} /> */}
+                <Route path="/category/:id" element={<Products />} />
                 <Route path="/fashion" element={<FashionCategoryPage />} />
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
                 <Route path="/electronics" element={<ElectronicsPage />} />
                 <Route path="/grocery" element={<GroceryPage />} />
                 <Route path="/homeliving" element={<HomeLivingPage />} />
-                <Route path="/beauty" element={<BeautyPage/>}/>
+                <Route path="/beauty" element={<BeautyPage />} />
+
                 <Route path="/jewellery" element={<JewelleryPage/>}/>
                 {/* <Route path "/jewellery" element={<JewelleryPage />} />  */}
-                <Route path="/perfumes" element={<PerfumePage />} />
+                <Route path="/perfume" element={<PerfumePage/>}/>
+              
 
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
