@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   Star,
@@ -72,6 +72,56 @@ const ProductDetail = () => {
   const [showMagnifier, setShowMagnifier] = useState(false);
   const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 });
 
+  // Initialize variants on mount
+  useEffect(() => {
+    if (product?.variants && Object.keys(selectedVariants).length === 0) {
+      const initialVariants: { [key: string]: string } = {};
+      product.variants.forEach(variant => {
+        if (variant.options.length > 0) {
+          initialVariants[variant.name] = variant.options[0].value;
+        }
+      });
+      setSelectedVariants(initialVariants);
+    }
+  }, [product, selectedVariants]);
+
+  // Calculate dynamic price based on variants
+  const dynamicPrice = useMemo(() => {
+    if (!product) return 0;
+    let finalPrice = product.price;
+    product.variants?.forEach(variant => {
+      const selectedOptionValue = selectedVariants[variant.name];
+      const selectedOption = variant.options.find(opt => opt.value === selectedOptionValue);
+      if (selectedOption?.priceModifier) {
+        finalPrice += selectedOption.priceModifier;
+      }
+    });
+    return finalPrice;
+  }, [product, selectedVariants]);
+
+  // Calculate effective stock based on variants
+  const effectiveStock = useMemo(() => {
+    if (!product) return 0;
+    if (!product.variants || product.variants.length === 0) {
+      return product.stock ?? 999;
+    }
+    let currentStock = 999;
+    const primaryVariant = product.variants[0];
+    const selectedOptionValue = primaryVariant ? selectedVariants[primaryVariant.name] : undefined;
+    const selectedOption = primaryVariant?.options.find(opt => opt.value === selectedOptionValue);
+    currentStock = selectedOption?.stock ?? 999;
+    
+    if (product.variants.length > 1) {
+      const secondaryVariant = product.variants[1];
+      const selectedOptionValue2 = secondaryVariant ? selectedVariants[secondaryVariant.name] : undefined;
+      const selectedOption2 = secondaryVariant?.options.find(opt => opt.value === selectedOptionValue2);
+      if (selectedOption2) {
+        currentStock = Math.min(currentStock, selectedOption2.stock);
+      }
+    }
+    return currentStock;
+  }, [product, selectedVariants]);
+
   // Product not found case
   if (!product) {
     return (
@@ -93,56 +143,10 @@ const ProductDetail = () => {
 
   const inWishlist = isInWishlist(product.id);
   
-  // Initialize variants on mount
-  if (product.variants && Object.keys(selectedVariants).length === 0) {
-    const initialVariants: { [key: string]: string } = {};
-    product.variants.forEach(variant => {
-      if (variant.options.length > 0) {
-        initialVariants[variant.name] = variant.options[0].value;
-      }
-    });
-    setSelectedVariants(initialVariants);
-  }
-  
   const handleVariantSelect = (variantName: string, value: string) => {
     setSelectedVariants(prev => ({ ...prev, [variantName]: value }));
     setQuantity(1);
   };
-
-  // Calculate dynamic price based on variants
-  const dynamicPrice = useMemo(() => {
-    let finalPrice = product.price;
-    product.variants?.forEach(variant => {
-      const selectedOptionValue = selectedVariants[variant.name];
-      const selectedOption = variant.options.find(opt => opt.value === selectedOptionValue);
-      if (selectedOption?.priceModifier) {
-        finalPrice += selectedOption.priceModifier;
-      }
-    });
-    return finalPrice;
-  }, [product, selectedVariants]);
-
-  // Calculate effective stock based on variants
-  const effectiveStock = useMemo(() => {
-    if (!product.variants || product.variants.length === 0) {
-      return product.stock ?? 999;
-    }
-    let currentStock = 999;
-    const primaryVariant = product.variants[0];
-    const selectedOptionValue = selectedVariants[primaryVariant.name];
-    const selectedOption = primaryVariant.options.find(opt => opt.value === selectedOptionValue);
-    currentStock = selectedOption?.stock ?? 999;
-    
-    if (product.variants.length > 1) {
-      const secondaryVariant = product.variants[1];
-      const selectedOptionValue2 = selectedVariants[secondaryVariant.name];
-      const selectedOption2 = secondaryVariant.options.find(opt => opt.value === selectedOptionValue2);
-      if (selectedOption2) {
-        currentStock = Math.min(currentStock, selectedOption2.stock);
-      }
-    }
-    return currentStock;
-  }, [product, selectedVariants]);
   
   // Combine all products for related products
   const allProducts = allProductArrays.flat();
