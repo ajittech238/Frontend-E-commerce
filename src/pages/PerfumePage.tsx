@@ -11,7 +11,7 @@ import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 
 // Import data for the page.
-import { jewelleryCategories, jewelleryProducts } from "@/data/Jewellery";
+import { perfumeCategories, perfumeProducts } from "@/data/perfume";
 import { Product } from "@/types/product";
 
 // Define an interface for the object that will hold products grouped by sub-category.
@@ -33,7 +33,7 @@ export default function PerfumePage() {
 
   // Recalculate filtering and grouping whenever filters change
   useEffect(() => {
-    const filtered = jewelleryProducts.filter((product) => {
+    const filtered = perfumeProducts.filter((product) => {
       const matchesPrice = product.price <= priceRange;
       const matchesCategory =
         selectedCategory === "all" ||
@@ -46,7 +46,7 @@ export default function PerfumePage() {
     const grouped: GroupedProducts = {};
     filtered.forEach((product) => {
       const subcatName =
-        jewelleryCategories.find(
+        perfumeCategories.find(
           (c) => c.id === product.subCategoryId
         )?.name || "Other";
 
@@ -129,7 +129,7 @@ export default function PerfumePage() {
                       "max-h-48 overflow-y-auto scrollbar-hide pr-2"
                   )}
                 >
-                  {jewelleryCategories.map((cat, index) => {
+                  {perfumeCategories.map((cat, index) => {
                     if (!isExpanded && index >= 5) return null;
                     return (
                       <button
@@ -148,7 +148,7 @@ export default function PerfumePage() {
                   })}
                 </div>
 
-                {jewelleryCategories.length > 5 && (
+                {perfumeCategories.length > 5 && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-sm font-semibold text-primary flex items-center gap-1 pt-2"
@@ -185,7 +185,7 @@ export default function PerfumePage() {
             {Object.keys(groupedProducts).length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-xl text-muted-foreground">
-                  No jewellery found with the selected filters.
+                  No perfume found with the selected filters.
                 </p>
               </div>
             ) : (
@@ -228,48 +228,3 @@ export default function PerfumePage() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
