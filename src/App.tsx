@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { OrderProvider } from "@/context/OrderContext";
+import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -104,6 +105,12 @@ import BeautyPage from "./pages/BeautyPage";
 // import PerfumePage from "./pages/PerfumePage";
 // import BeautyCategory from "./pages/BeautyCatego.ry";
 // import JewelleryPage from "./pages/JewelleryPage";
+import JewelleryPage from "./pages/JewelleryPage";
+import PerfumePage from "./pages/PerfumePage";
+import BeautyPage from "./pages/BeautyPage";
+import BooksPage from "./pages/BooksPage"; // Uncommented this line
+import ScrollToTop from "./components/utils/ScrollToTop"; // Import ScrollToTop
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -116,11 +123,12 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ScrollToTop /> {/* Place ScrollToTop here */}
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
-                {/* <Route path="/category/:id" element={<BeautyCategory />} /> */}
+                <Route path="/category/:id" element={<Products />} />
                 <Route path="/fashion" element={<FashionCategoryPage />} />
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
                 <Route path="/electronics" element={<ElectronicsPage />} />
@@ -130,6 +138,12 @@ const App = () => (
                 {/* <Route path="/jewellery" element={<JewelleryPage/>}/> */}
                 {/* <Route path "/jewellery" element={<JewelleryPage />} />  */}
                 {/* <Route path="/perfumes" element={<PerfumePage />} /> */}
+                <Route path="/beauty" element={<BeautyPage/>} />
+
+                <Route path="/jewellery" element={<JewelleryPage/>}/>
+                <Route path="/perfume" element={<PerfumePage/>}/>
+                <Route path="/sports" element={<SportsPage />} /> {/* Added SportsPage route */}
+                <Route path="/books" element={<BooksPage />} /> {/* Added BooksPage route */}
 
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/deals" element={<Products />} />
@@ -246,6 +260,16 @@ const App = () => (
                 </Route>
                 <Route path="/customer/*" element={<CustomerRoutes />} />
 
+                <Route
+                  path="/customerdash"
+                  element={
+                    <CustomerThemeProvider>
+                      <CustomerDashboardLayout />
+                    </CustomerThemeProvider>
+                  }
+                >
+                  <Route index element={<CustomerDash />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

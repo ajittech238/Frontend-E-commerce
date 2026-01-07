@@ -1,40 +1,35 @@
 import { useState } from "react";
-import { Filter, Plus, Minus } from "lucide-react";
+import { Filter, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { beautyProducts } from "@/data/Jewellery";
+import { jewelleryCategories, jewelleryProducts } from "@/data/Jewellery";
 import { cn } from "@/lib/utils";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
-import skincaren from "/a/skincaren.png";
-import skincare2 from "/a/skincare2.png";
-import beautylogo from "/a/beautylogo.png";
 
 interface GroupedProducts {
-  [key: string]: typeof beautyProducts;
+  [key: string]: typeof jewelleryProducts;
 }
 
 const JewelleryPage = () => {
-  const [priceRange, setPriceRange] = useState(3000);
+  const [priceRange, setPriceRange] = useState(500000);
   const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
   const [showMore, setShowMore] = useState(false);
 
-  const mainCategories = Array.from(
-    new Set(beautyProducts.flatMap((p) => p.subcategory?.[0] || "other"))
-  ).sort();
+  const mainCategories = jewelleryCategories.map(category => category.name);
 
-  const filteredProducts = beautyProducts.filter((p) => {
+  const filteredProducts = jewelleryProducts.filter((p) => {
     const priceMatch = p.price <= priceRange;
     const categoryMatch = selectedMainCategory
-      ? p.subcategory?.[0] === selectedMainCategory
+      ? jewelleryCategories.find(c => c.name === selectedMainCategory)?.id === p.subCategoryId
       : true;
     return priceMatch && categoryMatch;
   });
 
   const groupedBySubcategory: GroupedProducts = {};
   filteredProducts.forEach((product) => {
-    const subcat = product.subcategory?.[0];
+    const subcat = jewelleryCategories.find(c => c.id === product.subCategoryId)?.name;
     if (subcat) {
       if (!groupedBySubcategory[subcat]) {
         groupedBySubcategory[subcat] = [];
@@ -55,20 +50,17 @@ const JewelleryPage = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
 
-      {/* Hero Section with Skincare Image */}
-      <div className="bg-gradient-to-r from-pink-100/50 to-purple-100/50 border-b border-border/50 py-8">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-yellow-100/50 to-amber-100/50 border-b border-border/50 py-8">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-foreground flex items-center gap-3">
-                <span className="text-5xl">
-                  <img src={beautylogo} alt="" width={70} height={70} />
-                </span>
-                Beauty & Skincare
+                <Gem className="h-10 w-10 text-yellow-600" />
+                Exquisite Jewellery
               </h1>
               <p className="text-muted-foreground mt-2 text-lg">
-                Discover premium beauty products and skincare essentials for
-                your glowing skin
+                Discover our stunning collection of fine jewellery.
               </p>
               <Badge className="text-base px-4 py-2 bg-primary text-primary-foreground mt-4">
                 {filteredProducts.length} Products
@@ -76,16 +68,16 @@ const JewelleryPage = () => {
             </div>
             <div className="hidden lg:block">
               <img
-                src={skincaren}
-                alt="Beauty and Skincare"
-                className="rounded-xl shadow-lg w-full h-[280px]"
+                src="https://i.pinimg.com/736x/7c/38/7f/7c387fc9653e32d07d4175308a3f18d3.jpg"
+                alt="Jewellery"
+                className="rounded-xl shadow-lg w-full h-[280px] object-cover"
               />
             </div>
             <div className="block lg:hidden">
               <img
-                src={skincare2}
-                alt="Beauty and Skincare"
-                className="rounded-xl shadow-lg w-full h-[220px]"
+                src="https://i.pinimg.com/736x/59/83/e5/5983e51a49f2bd629f6e1e3a493e132d.jpg"
+                alt="Jewellery"
+                className="rounded-xl shadow-lg w-full h-[220px] object-cover"
               />
             </div>
           </div>
@@ -112,7 +104,7 @@ const JewelleryPage = () => {
                 <input
                   type="range"
                   min="0"
-                  max="3000"
+                  max="500000"
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
                   className="w-full"
@@ -126,7 +118,7 @@ const JewelleryPage = () => {
                 variant="outline"
                 className="w-full"
                 onClick={() => {
-                  setPriceRange(3000);
+                  setPriceRange(500000);
                   setSelectedMainCategory(null);
                 }}
               >
@@ -202,9 +194,9 @@ const JewelleryPage = () => {
       {/* Bottom Banner */}
       <div className="bg-gradient-to-r from-primary/90 to-primary text-primary-foreground mt-16 py-8">
         <div className="container text-center space-y-3">
-          <h3 className="text-3xl font-bold">Premium Beauty Products</h3>
+          <h3 className="text-3xl font-bold">Premium Jewellery</h3>
           <p className="text-lg opacity-90">
-            Get 20% off on your first beauty purchase with code BEAUTY20
+            Get 20% off on your first purchase with code JEWEL20
           </p>
         </div>
       </div>

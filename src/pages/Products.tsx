@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import {
   SlidersHorizontal,
   Grid3X3,
