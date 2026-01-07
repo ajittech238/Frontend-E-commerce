@@ -129,10 +129,7 @@ export default function DashboardProducts() {
             <Download className="w-3.5 h-3.5 mr-2" />
             <span className="hidden sm:inline">Export</span>
           </Button>
-          <Button size="sm" className="h-9 bg-pink-gradient hover:bg-pink-gradient/90 font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Product
-          </Button>
+          {/*  */}
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" className="h-9 bg-primary hover:bg-primary/90">

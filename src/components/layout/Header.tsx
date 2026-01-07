@@ -14,6 +14,7 @@ import {
   Package,
   Star,
   Loader,
+  Home,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -224,7 +225,7 @@ const Header = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate(isAuthenticated ? "/customer" : "/login")}
+                onClick={() => navigate(isAuthenticated ? "/dashboard" : "/login")}
                 className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
               >
                 <User className="h-5 w-5" />
@@ -410,6 +411,18 @@ const Header = () => {
               </Link>
             </li>
 
+
+            <li>
+              <Link
+                to="/homeliving"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span><Home className="h-4 w-4 text-gray-500" /></span>
+                Home & Living
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
+
             {/* Books */}
             <li>
               <Link
@@ -444,19 +457,20 @@ const Header = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
+            {/* Sports */}
+            <li>
+              <Link
+                to="/sports"
+                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
+              >
+                <span>⚽</span>
+                Sports
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
+              </Link>
+            </li>
             
 
-            {categories.slice(2, 6).map((category) => (
-              <li key={category.id}>
-                <Link
-                  to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
-                  className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group"
-                >
-                  {category.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
-                </Link>
-              </li>
-            ))}
+            
             <li className="ml-auto">
               <Link
                 to="/products"

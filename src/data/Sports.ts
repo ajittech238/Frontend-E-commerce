@@ -20,7 +20,7 @@ export interface SportsProduct extends Product {
 
 /* ===== SPORTS CATEGORIES ===== */
 export const sportsCategories = [
-  { id: "all", name: "All Sports" },
+  
   { id: "cricket", name: "Cricket" },
   { id: "football", name: "Football" },
   { id: "badminton", name: "Badminton" },
