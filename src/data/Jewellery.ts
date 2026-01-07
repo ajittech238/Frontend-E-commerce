@@ -23,11 +23,11 @@ export const jewelleryProducts: Product[] = [
 
   //GOLD JEWELLERY 
   {
-    id: "j1",
+    id: "j1-1",
     name: "22K Gold Necklace Set",
     price: 185000,
     originalPrice: 195000,
-    image: "https://i.pinimg.com/736x/7c/38/7f/7c387fc9653e32d07d4175308a3f18d3.jpg",
+    image: "https://5.imimg.com/data5/SELLER/Default/2023/7/327226296/ZI/JA/HI/15521616/artificial-jewellery.jpg",
     category: "jewellery",
     subCategoryId: "gold",
     rating: 4.9,
@@ -39,7 +39,7 @@ export const jewelleryProducts: Product[] = [
     stock: 10,
   },
   {
-    id: "j1",
+    id: "j1-2",
     name: "22K Gold Necklace Set",
     price: 185000,
     originalPrice: 195000,
@@ -55,7 +55,7 @@ export const jewelleryProducts: Product[] = [
     stock: 10,
   },
   {
-    id: "j1",
+    id: "j1-3",
     name: "22K Gold Necklace Set",
     price: 185000,
     originalPrice: 195000,
@@ -71,7 +71,7 @@ export const jewelleryProducts: Product[] = [
     stock: 10,
   },
   {
-    id: "j1",
+    id: "j1-4",
     name: "22K Gold Necklace Set",
     price: 185000,
     originalPrice: 195000,
@@ -89,7 +89,7 @@ export const jewelleryProducts: Product[] = [
 
   // diamond jewellery
   {
-    id: "j2",
+    id: "j2-1",
     name: "Diamond Stud Necklace",
     price: 65000,
     originalPrice: 70000,
@@ -104,7 +104,7 @@ export const jewelleryProducts: Product[] = [
     stock: 15,
   },
   {
-    id: "j2",
+    id: "j2-2",
     name: "Diamond Stud Necklace",
     price: 65000,
     originalPrice: 70000,
@@ -119,7 +119,7 @@ export const jewelleryProducts: Product[] = [
     stock: 15,
   },
   {
-    id: "j2",
+    id: "j2-3",
     name: "Diamond Stud Necklace",
     price: 65000,
     originalPrice: 70000,
@@ -134,7 +134,7 @@ export const jewelleryProducts: Product[] = [
     stock: 15,
   },
   {
-    id: "j2",
+    id: "j2-4",
     name: "Diamond Stud Necklace",
     price: 65000,
     originalPrice: 70000,
@@ -149,7 +149,7 @@ export const jewelleryProducts: Product[] = [
     stock: 15,
   },
   {
-    id: "j2",
+    id: "j2-5",
     name: "Diamond Stud Necklace",
     price: 65000,
     originalPrice: 70000,
@@ -166,7 +166,7 @@ export const jewelleryProducts: Product[] = [
 
   //silver jewellery
   {
-    id: "j3",
+    id: "j3-1",
     name: "Silver Anklet Pair",
     price: 4500,
     originalPrice: 5000,
@@ -182,7 +182,7 @@ export const jewelleryProducts: Product[] = [
     stock: 30,
   },
   {
-    id: "j3",
+    id: "j3-2",
     name: "Silver Anklet Pair",
     price: 4500,
     originalPrice: 5000,
@@ -198,7 +198,7 @@ export const jewelleryProducts: Product[] = [
     stock: 30,
   },
   {
-    id: "j3",
+    id: "j3-3",
     name: "Silver Anklet Pair",
     price: 4500,
     originalPrice: 5000,
@@ -214,7 +214,7 @@ export const jewelleryProducts: Product[] = [
     stock: 30,
   },
   {
-    id: "j3",
+    id: "j3-4",
     name: "Silver Anklet Pair",
     price: 4500,
     originalPrice: 5000,
@@ -232,7 +232,7 @@ export const jewelleryProducts: Product[] = [
 
   //platinum jewellery
   {
-    id: "j4",
+    id: "j4-1",
     name: "platinum earings",
     price: 98000,
     originalPrice: 105000,
@@ -247,7 +247,7 @@ export const jewelleryProducts: Product[] = [
     stock: 8,
   },
   {
-    id: "j4",
+    id: "j4-2",
     name: "floral platinum plated ring",
     price: 98000,
     originalPrice: 105000,
@@ -262,7 +262,7 @@ export const jewelleryProducts: Product[] = [
     stock: 8,
   },
   {
-    id: "j4",
+    id: "j4-3",
     name: "diamond platinum necklace",
     price: 98000,
     originalPrice: 105000,
@@ -277,7 +277,7 @@ export const jewelleryProducts: Product[] = [
     stock: 8,
   },
   {
-    id: "j4",
+    id: "j4-4",
     name: "platinum bracelet",
     price: 98000,
     originalPrice: 105000,
@@ -294,7 +294,7 @@ export const jewelleryProducts: Product[] = [
 
   //rings
   {
-    id: "j5",
+    id: "j5-1",
     name: "Gold Engagement Ring",
     price: 42000,
     originalPrice: 45000,
@@ -309,7 +309,7 @@ export const jewelleryProducts: Product[] = [
     stock: 20,
   },
   {
-    id: "j5",
+    id: "j5-2",
     name: "Gold Engagement Ring",
     price: 42000,
     originalPrice: 45000,
@@ -324,7 +324,7 @@ export const jewelleryProducts: Product[] = [
     stock: 20,
   },
   {
-    id: "j5",
+    id: "j5-3",
     name: "Gold Engagement Ring",
     price: 42000,
     originalPrice: 45000,
@@ -339,7 +339,7 @@ export const jewelleryProducts: Product[] = [
     stock: 20,
   },
   {
-    id: "j5",
+    id: "j5-4",
     name: "Gold Engagement Ring",
     price: 42000,
     originalPrice: 45000,
@@ -356,7 +356,7 @@ export const jewelleryProducts: Product[] = [
 
   //necklaces
   {
-    id: "j6",
+    id: "j6-1",
     name: "classic pearl necklace",
     price: 88000,
     originalPrice: 95000,
@@ -374,7 +374,7 @@ export const jewelleryProducts: Product[] = [
 
   //earings
   {
-    id: "j7",
+    id: "j7-1",
     name: "Gold Hoop Earrings",
     price: 28000,
     originalPrice: 30000,
@@ -389,7 +389,7 @@ export const jewelleryProducts: Product[] = [
     stock: 25,
   },
   {
-    id: "j7",
+    id: "j7-2",
     name: "Gold Hoop Earrings",
     price: 28000,
     originalPrice: 30000,
@@ -404,7 +404,7 @@ export const jewelleryProducts: Product[] = [
     stock: 25,
   },
   {
-    id: "j7",
+    id: "j7-3",
     name: "Gold Hoop Earrings",
     price: 28000,
     originalPrice: 30000,
@@ -419,7 +419,7 @@ export const jewelleryProducts: Product[] = [
     stock: 25,
   },
   {
-    id: "j7",
+    id: "j7-4",
     name: "Gold Hoop Earrings",
     price: 28000,
     originalPrice: 30000,
@@ -436,7 +436,7 @@ export const jewelleryProducts: Product[] = [
 
   //bracelet ans bangles
   {
-    id: "j8",
+    id: "j8-1",
     name: "Asthetic Bangles Styling",
     price: 135000,
     originalPrice: 145000,
@@ -451,7 +451,7 @@ export const jewelleryProducts: Product[] = [
     stock: 10,
   },
   {
-    id: "j8",
+    id: "j8-2",
     name: "Minimalist Design Metallic Leaf Shaped Open Cuff Bracelet",
     price: 135000,
     originalPrice: 145000,
@@ -466,7 +466,7 @@ export const jewelleryProducts: Product[] = [
     stock: 10,
   },
   {
-    id: "j8",
+    id: "j8-3",
     name: "Asthetic Bracelet Styling",
     price: 135000,
     originalPrice: 145000,
@@ -481,7 +481,7 @@ export const jewelleryProducts: Product[] = [
     stock: 10,
   },
   {
-    id: "j8",
+    id: "j8-4",
     name: "Asthetic Bangles Styling",
     price: 135000,
     originalPrice: 145000,
@@ -498,7 +498,7 @@ export const jewelleryProducts: Product[] = [
 
   //Bridal gold jewellery set
   {
-    id: "j9",
+    id: "j9-1",
     name: "Bridal Gold Jewellery Set",
     price: 320000,
     originalPrice: 350000,
@@ -514,7 +514,7 @@ export const jewelleryProducts: Product[] = [
     stock: 5,
   },
   {
-    id: "j9",
+    id: "j9-2",
     name: "Bridal Gold Jewellery Set",
     price: 320000,
     originalPrice: 350000,
@@ -530,7 +530,7 @@ export const jewelleryProducts: Product[] = [
     stock: 5,
   },
   {
-    id: "j9",
+    id: "j9-3",
     name: "Bridal Gold Holiday Diamond Necklace",
     price: 320000,
     originalPrice: 350000,
@@ -546,7 +546,7 @@ export const jewelleryProducts: Product[] = [
     stock: 5,
   },
   {
-    id: "j9",
+    id: "j9-4",
     name: "Bridal Gold Jewellery Set",
     price: 320000,
     originalPrice: 350000,
@@ -563,7 +563,7 @@ export const jewelleryProducts: Product[] = [
   },
   //KIDS JEWELLERY
   {
-    id: "j10",
+    id: "j10-1",
     name: "Kids Butterfly Charm Bracelet",
     price: 15000,
     originalPrice: 16500,
@@ -578,7 +578,7 @@ export const jewelleryProducts: Product[] = [
     stock: 18,
   },
   {
-    id: "j10",
+    id: "j10-2",
     name: "Kids Gold Bracelet",
     price: 15000,
     originalPrice: 16500,
@@ -593,7 +593,7 @@ export const jewelleryProducts: Product[] = [
     stock: 18,
   },
   {
-    id: "j10",
+    id: "j10-3",
     name: "Pookie Hair Accessories",
     price: 15000,
     originalPrice: 16500,
@@ -608,7 +608,7 @@ export const jewelleryProducts: Product[] = [
     stock: 18,
   },
   {
-    id: "j10",
+    id: "j10-4",
     name: "cute hair style clips",
     price: 15000,
     originalPrice: 16500,

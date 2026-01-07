@@ -2,7 +2,7 @@ import { useState, ReactNode } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Eye, Download, FileText, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus } from "lucide-react";
+import { MoreHorizontal, Eye, Download, FileText, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -272,10 +272,13 @@ export default function AdminInvoices() {
                           isExpandCol ? 'lg:hidden' : ''
                         } font-semibold text-foreground text-xs sm:text-sm`}
                       >
-                        {isExpandCol ? '' : col.header}
+                        {isExpandCol ? <ChevronDown className="w-4 h-4" /> : col.header}
                       </TableHead>
                     );
                   })}
+                  <TableHead className="w-12 md:hidden">
+                    <ChevronDown className="w-4 h-4" />
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -321,11 +324,9 @@ export default function AdminInvoices() {
                                      toggleExpand(id);
                                    }}
                                  >
-                                   {isExpanded ? (
-                                     <Minus className="h-4 w-4 text-primary" />
-                                   ) : (
-                                     <Plus className="h-4 w-4 text-primary" />
-                                   )}
+                                   <ChevronDown 
+                                     className={`h-4 w-4 text-primary transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
+                                   />
                                  </Button>
                                );
                              } else {
