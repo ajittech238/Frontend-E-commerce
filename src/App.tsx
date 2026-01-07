@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
 import { DashboardLayout as CustomerDashboardLayout } from "./components/Customer/DashboardLayout";
 import { ThemeProvider as CustomerThemeProvider } from "./components/Customer/useTheme";
+import { CustomerAuthProvider } from "./customer/context/CustomerAuthContext";
 import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
@@ -75,6 +76,10 @@ import RazorpayIntegration from "./pages/admin/integrations/RazorpayIntegration"
 import WhatsAppIntegration from "./pages/admin/integrations/WhatsAppIntegration";
 import FashionCategoryPage from "./pages/FashionCategoryPage";
 import ElectronicsPage from "./pages/ElectronicsPage";
+// import BeautyPage from "./pages/BeautyPage";
+// import SportsPage from "./pages/SportsPage";
+// import BeautyPage from "./pages/BeautyPage";
+// import { beautyCategories } from "./data/beauty";
 import GroceryPage from "./pages/Grocerypage";
 import HomeLivingPage from "./pages/Home&livingPage";
 import MenTopWear from "./pages/fashion/MenTopWear";
@@ -92,6 +97,14 @@ import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import SportsPage from "./pages/SportsPage";
 import CustomerDash from "./pages/customer-dashboard/CustomerDash";
+import CustomerRoutes from "./customer/routes/CustomerRoutes";
+
+
+// import JewelleryPage from "./pages/JewelleryPage";
+import BeautyPage from "./pages/BeautyPage";
+// import PerfumePage from "./pages/PerfumePage";
+// import BeautyCategory from "./pages/BeautyCatego.ry";
+// import JewelleryPage from "./pages/JewelleryPage";
 import JewelleryPage from "./pages/JewelleryPage";
 import PerfumePage from "./pages/PerfumePage";
 import BeautyPage from "./pages/BeautyPage";
@@ -121,6 +134,10 @@ const App = () => (
                 <Route path="/electronics" element={<ElectronicsPage />} />
                 <Route path="/grocery" element={<GroceryPage />} />
                 <Route path="/homeliving" element={<HomeLivingPage />} />
+                <Route path="/beauty" element={<BeautyPage/>}/>
+                {/* <Route path="/jewellery" element={<JewelleryPage/>}/> */}
+                {/* <Route path "/jewellery" element={<JewelleryPage />} />  */}
+                {/* <Route path="/perfumes" element={<PerfumePage />} /> */}
                 <Route path="/beauty" element={<BeautyPage/>} />
 
                 <Route path="/jewellery" element={<JewelleryPage/>}/>
@@ -241,6 +258,8 @@ const App = () => (
                     element={<WhatsAppIntegration />}
                   />
                 </Route>
+                <Route path="/customer/*" element={<CustomerRoutes />} />
+
                 <Route
                   path="/customerdash"
                   element={
