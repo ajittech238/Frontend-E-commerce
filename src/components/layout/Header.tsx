@@ -15,6 +15,8 @@ import {
   Star,
   Loader,
   Home,
+  Diamond,
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -441,7 +443,7 @@ const Header = () => {
                 to="/jewellery"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span>📚</span>
+                <span><Diamond className="h-4 w-4 text-gray-500"/></span>
                 Jewellery
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
@@ -452,7 +454,7 @@ const Header = () => {
                 to="/perfume"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span>📚</span>
+                <span>🧴</span>
                 PerFume
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
