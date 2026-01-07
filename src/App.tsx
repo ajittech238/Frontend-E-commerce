@@ -97,6 +97,8 @@ import PerfumePage from "./pages/PerfumePage";
 import BeautyPage from "./pages/BeautyPage";
 import BooksPage from "./pages/BooksPage"; // Uncommented this line
 import ScrollToTop from "./components/utils/ScrollToTop"; // Import ScrollToTop
+import MensFashionPage from "./pages/MensFashionPage";
+import WomenFashionPage from "./pages/WomenFashionPage";
 
 const queryClient = new QueryClient();
 
@@ -122,7 +124,8 @@ const App = () => (
                 <Route path="/grocery" element={<GroceryPage />} />
                 <Route path="/homeliving" element={<HomeLivingPage />} />
                 <Route path="/beauty" element={<BeautyPage/>} />
-
+                <Route path="/menfashion" element={<MensFashionPage/>}/>
+                <Route path="/womenfashion" element={<WomenFashionPage/>}/>
                 <Route path="/jewellery" element={<JewelleryPage/>}/>
                 <Route path="/perfume" element={<PerfumePage/>}/>
                 <Route path="/sports" element={<SportsPage />} /> {/* Added SportsPage route */}
