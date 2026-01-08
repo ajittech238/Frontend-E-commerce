@@ -363,7 +363,7 @@ export default function AdminCoupons() {
                               {col.render ? col.render(item) : item[col.key as keyof Coupon] as ReactNode}
                             </TableCell>
                           ))}
-                          <TableCell className="w-12 md:hidden">
+                          <TableCell className="w-12 lg:hidden">
                             <Button
                               variant="ghost"
                               size="icon"
@@ -377,7 +377,7 @@ export default function AdminCoupons() {
                           </TableCell>
                         </TableRow>
                         {isExpanded && (
-                          <TableRow className="md:hidden">
+                          <TableRow className="lg:hidden">
                             <TableCell colSpan={columns.length + 2} className="p-0">
                               {renderExpandedRow(item)}
                             </TableCell>

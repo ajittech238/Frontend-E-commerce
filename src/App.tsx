@@ -110,8 +110,7 @@ import PerfumePage from "./pages/PerfumePage";
 import BeautyPage from "./pages/BeautyPage";
 import BooksPage from "./pages/BooksPage"; // Uncommented this line
 import ScrollToTop from "./components/utils/ScrollToTop"; // Import ScrollToTop
-import MensFashionPage from "./pages/MensFashionPage";
-import WomenFashionPage from "./pages/WomenFashionPage";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const queryClient = new QueryClient();
 
@@ -152,6 +151,7 @@ const App = () => (
                 <Route path="/deals" element={<Products />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/forgotpass" element={<ForgotPassword/>}/>
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />

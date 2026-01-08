@@ -1,4 +1,3 @@
-
 import { useOrder } from "@/context/OrderContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -352,7 +351,7 @@ const AdminOrders = () => {
                           {col.header}
                         </TableHead>
                       ))}
-                      <TableHead className="w-12 md:hidden">
+                      <TableHead className="w-12 lg:hidden">
                         <ChevronDown className="w-4 h-4" />
                       </TableHead>
                     </TableRow>
@@ -394,7 +393,7 @@ const AdminOrders = () => {
                                   {col.render ? col.render(item) : item[col.key as keyof typeof item] as ReactNode}
                                 </TableCell>
                               ))}
-                              <TableCell className="w-12 md:hidden">
+                              <TableCell className="w-12 lg:hidden">
                                 <Button
                                   variant="ghost"
                                   size="icon"
@@ -408,7 +407,7 @@ const AdminOrders = () => {
                               </TableCell>
                             </TableRow>
                             {isExpanded && (
-                              <TableRow className="md:hidden">
+                              <TableRow className="lg:hidden">
                                 <TableCell colSpan={columns.length + 2} className="p-0">
                                   {renderExpandedRow(item)}
                                 </TableCell>
