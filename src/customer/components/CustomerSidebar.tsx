@@ -118,8 +118,10 @@ const CustomerSidebar: React.FC<CustomerSidebarProps> = ({ onAction }) => {
         >
           <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
           <span>Logout Session</span>
+  
         </button>
       </div>
+
     </div>
   );
 };
