@@ -3,26 +3,19 @@ import { useState, MouseEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Mail,
-  Lock,
-  Eye,
-  EyeOff,
   ArrowRight,
   Sparkles,
+  ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 
-const Login = () => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+  const [email, setEmail] = useState("");
 
   /* ---------------- Aurora Effect ---------------- */
   const mouseX = useMotionValue(0);
@@ -47,27 +40,19 @@ const Login = () => {
   `;
 
   /* ---------------- Handlers ---------------- */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     setTimeout(() => {
-      if (formData.email && formData.password) {
-        toast.success("Login successful 🎉");
-        navigate("/");
+      if (email) {
+        toast.success(`Password reset link sent to ${email} 🎉`);
+        navigate("/login");
       } else {
-        toast.error("Please fill all fields");
+        toast.error("Please enter your email address");
       }
       setIsLoading(false);
-    }, 800);
+    }, 1000);
   };
 
   return (
@@ -80,8 +65,8 @@ const Login = () => {
         className="pointer-events-none absolute inset-0"
         style={{ background: auroraBackground }}
       />
-  {/* main card */}
-      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl bg-card/60 backdrop-blur-xl border border-white/10">
+      {/* main card */}
+      <div className="relative z-10 w-full h-[500px] max-w-5xl grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl bg-card/60 backdrop-blur-xl border border-white/10">
         
         {/* ================= LEFT IMAGE PANEL ================= */}
         <motion.div
@@ -117,10 +102,10 @@ const Login = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
           >
             <h2 className="text-4xl font-extrabold text-white leading-tight">
-              Discover products <br /> made for you
+              Regain access <br /> to your account
             </h2>
             <p className="mt-4 text-white/80 text-lg">
-              Shop premium, handcrafted items trusted by thousands of customers.
+              Enter your email to receive a secure link to reset your password.
             </p>
           </motion.div>
         </motion.div>
@@ -133,13 +118,13 @@ const Login = () => {
           className="p-8 md:p-10"
         >
           <h1 className="text-4xl font-extrabold text-foreground mb-2">
-            Welcome back
+            Forgot Password?
           </h1>
           <p className="text-muted-foreground mb-8">
-            Login to continue shopping
+            No worries, we'll send you reset instructions.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div className="space-y-2">
               <label className="text-sm font-semibold flex items-center gap-2">
@@ -149,59 +134,11 @@ const Login = () => {
               <Input
                 name="email"
                 type="email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 className="h-12 rounded-xl"
               />
-            </div>
-
-            {/* Password */}
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <label className="text-sm font-semibold flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
-                  Password
-                </label>
-                <Link
-                  to="/forgotpass"
-                  className="text-xs font-semibold text-primary hover:underline"
-                >
-                  Forgot?
-                </Link>
-              </div>
-
-              <div className="relative">
-                <Input
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="h-12 rounded-xl pr-12"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-                >
-                  {showPassword ? <EyeOff /> : <Eye />}
-                </button>
-              </div>
-            </div>
-
-            {/* Remember */}
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                className="h-4 w-4 accent-primary"
-              />
-              <span className="text-sm text-muted-foreground">
-                Keep me logged in
-              </span>
             </div>
 
             {/* Submit */}
@@ -210,18 +147,18 @@ const Login = () => {
               disabled={isLoading}
               className="w-full h-12 rounded-xl bg-gradient-to-r from-primary to-purple-500 text-white font-bold shadow-lg hover:shadow-primary/40"
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Sending link..." : "Send Reset Link"}
               {!isLoading && <ArrowRight className="ml-2 h-5 w-5" />}
             </Button>
           </form>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Don’t have an account?{" "}
             <Link
-              to="/signup"
-              className="font-bold text-primary hover:underline"
+              to="/login"
+              className="font-bold text-primary hover:underline flex items-center justify-center gap-2"
             >
-              Create one
+              <ArrowLeft className="h-4 w-4" />
+              Back to Login
             </Link>
           </p>
         </motion.div>
@@ -230,4 +167,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

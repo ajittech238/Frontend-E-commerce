@@ -3,7 +3,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MoreHorizontal, Eye, RotateCcw, Package, DollarSign, AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { MoreHorizontal, Eye, RotateCcw, Package, DollarSign, AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,14 +51,19 @@ export default function AdminReturns() {
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pagination, setPagination] = useState({ page: 1, pageSize: 10 });
-  
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+
+
+
+
   const filteredData = mockReturns.filter(
     (item) =>
       item.id.toLowerCase().includes(search.toLowerCase()) ||
       item.productName.toLowerCase().includes(search.toLowerCase()) ||
       item.customer.toLowerCase().includes(search.toLowerCase())
   );
-  
+
   const totalPages = Math.ceil(filteredData.length / pagination.pageSize);
 
   const paginatedData = filteredData.slice(
@@ -92,6 +97,75 @@ export default function AdminReturns() {
   };
 
 
+
+
+  // table response code 
+
+  const toggleExpand = (id: string) => {
+    setExpandedRows((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);   // close
+      } else {
+        newSet.add(id);      // open
+      }
+      return newSet;
+    });
+  };
+
+
+
+
+
+  const renderExpandedRow = (item: Return) => (
+    <div className="bg-muted/50 dark:bg-muted/80 p-4 mx-2 my-2 rounded-lg border animate-in slide-in-from-top-2">
+      <div className="space-y-3">
+
+        <div className="bg-card p-3 rounded border">
+          <p className="text-xs text-muted-foreground">Product</p>
+          <p className="font-medium text-sm">{item.productName}</p>
+          <p className="text-xs text-muted-foreground">{item.orderId}</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-card p-3 rounded border">
+            <p className="text-xs text-muted-foreground">Customer</p>
+            <p className="font-medium text-sm">{item.customer}</p>
+          </div>
+
+          <div className="bg-card p-3 rounded border">
+            <p className="text-xs text-muted-foreground">Refund</p>
+            <p className="font-medium text-sm">₹{item.refundAmount}</p>
+          </div>
+        </div>
+
+        <div className="bg-card p-3 rounded border">
+          <p className="text-xs text-muted-foreground">Reason</p>
+          <p className="text-sm">{item.reason}</p>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <StatusBadge status={item.status} />
+
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline">
+              <Eye className="w-4 h-4 mr-1" />
+              View
+            </Button>
+
+            <Button size="sm" variant="outline">
+              <RotateCcw className="w-4 h-4 mr-1" />
+              Process Refund
+            </Button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  );
+
+
   const columns = [
     {
       key: "id",
@@ -101,6 +175,7 @@ export default function AdminReturns() {
     {
       key: "product",
       header: "Product",
+      className: "hidden md:table-cell",
       render: (item: Return) => (
         <div>
           <p className="font-medium text-foreground text-xs sm:text-sm">{item.productName}</p>
@@ -113,7 +188,7 @@ export default function AdminReturns() {
     {
       key: "refundAmount",
       header: "Refund",
-      className: "hidden sm:table-cell",
+      className: "hidden lg:table-cell",
       render: (item: Return) => <span className="font-medium">₹{item.refundAmount.toLocaleString()}</span>,
     },
     {
@@ -132,6 +207,7 @@ export default function AdminReturns() {
       key: "actions",
       header: "",
       width: "60px",
+      className: "table-cell md:hidden",
       render: (item: Return) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -156,8 +232,8 @@ export default function AdminReturns() {
         searchPlaceholder="Search returns..."
         searchValue={search}
         onSearchChange={setSearch}
-        onExport={() => {}}
-        onRefresh={() => {}}
+        onExport={() => { }}
+        onRefresh={() => { }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -166,13 +242,13 @@ export default function AdminReturns() {
         ))}
       </div>
 
-       <div className="space-y-4">
+      <div className="space-y-4">
         <div className="rounded-xl border border-border/50 overflow-hidden">
           <div className="overflow-x-auto">
             <Table className="w-full table-auto">
               <TableHeader>
                 <TableRow className="bg-muted/30 hover:bg-muted/30">
-                  <TableHead className="w-12">
+                  <TableHead className="w-12 lg:hidden">
                     <Checkbox
                       checked={allSelected}
                       onCheckedChange={handleSelectAll}
@@ -201,29 +277,59 @@ export default function AdminReturns() {
                   paginatedData.map((item) => {
                     const id = getRowId(item);
                     const isSelected = selectedIds.includes(id);
+                    const isExpanded = expandedRows.has(id);
+
                     return (
-                      <TableRow
-                        key={id}
-                        className={`transition-colors ${isSelected ? "bg-pink-gradient/5" : ""}`}
-                      >
-                        <TableCell className="w-12" onClick={(e) => e.stopPropagation()}>
-                          <Checkbox
-                            checked={isSelected}
-                            onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
-                            aria-label={`Select row ${id}`}
-                          />
-                        </TableCell>
-                        {columns.map((col) => (
-                          <TableCell
-                            key={col.key}
-                            style={{ width: col.width }}
-                            className={`${col.className || ''} text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words`}
-                          >
-                            {col.render ? col.render(item) : item[col.key as keyof typeof item] as ReactNode}
+                      <>
+                        {/* MAIN ROW */}
+                        <TableRow
+                          key={id}
+                          className={`transition-colors ${isSelected ? "bg-pink-gradient/5" : ""}`}
+                        >
+                          <TableCell className="w-12" onClick={(e) => e.stopPropagation()}>
+                            <Checkbox
+                              checked={isSelected}
+                              onCheckedChange={(checked) => handleSelectRow(id, !!checked)}
+                            />
                           </TableCell>
-                        ))}
-                      </TableRow>
+
+                          {columns.map((col) => (
+                            <TableCell
+                              key={col.key}
+                              style={{ width: col.width }}
+                              className={`${col.className || ''} text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3`}
+                            >
+                              {col.render ? col.render(item) : item[col.key as keyof Return] as ReactNode}
+                            </TableCell>
+                          ))}
+
+                          {/* CHEVRON */}
+                          <TableCell className="w-12 lg:hidden">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="w-8 h-8"
+                              onClick={() => toggleExpand(id)}
+                            >
+                              <ChevronDown
+                                className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""
+                                  }`}
+                              />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+
+                        {/* EXPANDED ROW */}
+                        {isExpanded && (
+                          <TableRow className="lg:hidden">
+                            <TableCell colSpan={columns.length + 2} className="p-0">
+                              {renderExpandedRow(item)}
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </>
                     );
+
                   })
                 )}
               </TableBody>

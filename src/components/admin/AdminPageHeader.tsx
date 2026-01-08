@@ -35,8 +35,8 @@ export function AdminPageHeader({
   children,
 }: AdminPageHeaderProps) {
   return (
-    <div className="space-y-3 md:space-y-4 mb-6">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div className="space-y-3 md:space-y-4 mb-6 ">
+      <div className="flex flex-col gap-3  md:flex-row md:items-center md:justify-between">
         <div className="min-w-0">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground truncate">{title}</h1>
           {description && (
