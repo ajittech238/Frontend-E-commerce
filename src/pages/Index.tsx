@@ -4,11 +4,12 @@ import CartSidebar from "@/components/cart/CartSidebar";
 import HeroSection from "@/components/home/HeroSection";
 import CategorySection from "@/components/home/CategorySection";
 import DealsSection from "@/components/home/DealsSection";
-import TrendingSection from "@/components/home/TrendingSection";
-import BannerSection from "@/components/home/BannerSection";
 import NewArrivalsSection from "@/components/home/NewArrivalsSection";
 import ReviewsSection from "@/components/home/ReviewSection";
 import SimpleBanner from "@/components/home/SimpleBanner";
+import BannerSection from "@/components/home/BannerSection";
+import TrendingSection from "@/components/home/TrendingSection";
+import ExperienceSection from "@/components/home/ExperienceSection";
 
 const Index = () => {
   return (
@@ -21,7 +22,7 @@ const Index = () => {
         <DealsSection />
         <TrendingSection />
         <SimpleBanner />
-       
+       <ExperienceSection />
         <BannerSection />
         <NewArrivalsSection />
         <ReviewsSection />
@@ -32,4 +33,6 @@ const Index = () => {
   );
 };
 
+
 export default Index;
+

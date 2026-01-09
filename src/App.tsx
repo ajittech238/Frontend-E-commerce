@@ -95,6 +95,8 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
+import JewelleryPage from "./pages/JewelleryPage";
+import PerfumePage from "./pages/PerfumePage";
 import SportsPage from "./pages/SportsPage";
 import CustomerDash from "./pages/customer-dashboard/CustomerDash";
 import CustomerRoutes from "./customer/routes/CustomerRoutes";
