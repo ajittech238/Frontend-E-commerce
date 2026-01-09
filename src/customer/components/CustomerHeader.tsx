@@ -1,16 +1,44 @@
 import React, { useState } from "react";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
-import { Bell, Search, Menu, ShoppingCart } from "lucide-react";
+import { 
+  Bell, 
+  Search, 
+  Menu, 
+  ShoppingCart, 
+  ChevronDown, 
+  UserCircle, 
+  ShoppingBag, 
+  Gift, 
+  Star, 
+  HelpCircle, 
+  Settings, 
+  LogOut 
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface CustomerHeaderProps {
   onMenuClick?: () => void;
 }
 
 const CustomerHeader: React.FC<CustomerHeaderProps> = ({ onMenuClick }) => {
-  const { user } = useCustomerAuth();
+  const { user, logout } = useCustomerAuth();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -91,17 +119,63 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({ onMenuClick }) => {
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-white" />
           </button>
 
-          <div
-            onClick={() => navigate('/customer/profile')}
-            className="flex items-center gap-3 pl-3 border-l border-border cursor-pointer group"
+          <div 
+            className="relative group"
+            onMouseEnter={() => setIsAccountOpen(true)}
+            onMouseLeave={() => setIsAccountOpen(false)}
           >
-            <div className="text-right hidden md:block">
-              <p className="text-sm font-black text-foreground leading-tight group-hover:text-primary transition-colors">{user?.name}</p>
-              <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{user?.role}</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-primary/10 overflow-hidden border-2 border-primary/20 shadow-sm group-hover:border-primary transition-all">
-              <img src={user?.avatar} alt="Profile" className="w-full h-full object-cover" />
-            </div>
+            <DropdownMenu open={isAccountOpen} onOpenChange={setIsAccountOpen}>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-3 pl-3 border-l border-border cursor-pointer group">
+                  <div className="text-right hidden md:block">
+                    <p className="text-sm font-black text-foreground leading-tight group-hover:text-primary transition-colors">{user?.name}</p>
+                    <p className="text-[10px] font-bold text-primary uppercase tracking-widest">{user?.role}</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 overflow-hidden border-2 border-primary/20 shadow-sm group-hover:border-primary transition-all relative">
+                    <img src={user?.avatar} alt="Profile" className="w-full h-full object-cover" />
+                  </div>
+                  <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform duration-300", isAccountOpen ? "rotate-180" : "")} />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 mt-2 p-2 bg-white dark:bg-zinc-950 border border-border/50 rounded-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200" align="end">
+                <DropdownMenuLabel className="px-3 py-2">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-black text-foreground">My Account</span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{user?.email}</span>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator className="my-1 bg-border/50" />
+                <DropdownMenuItem onClick={() => navigate("/customer/profile")} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                  <UserCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  <span className="text-sm font-bold">Profile</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/customer/orders")} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                  <ShoppingBag className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  <span className="text-sm font-bold">Orders</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/customer/refer-earn")} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                  <Gift className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  <span className="text-sm font-bold">Refer & Earn</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/customer/rewards")} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                  <Star className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  <span className="text-sm font-bold">Rewards</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/customer/qa")} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                  <HelpCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  <span className="text-sm font-bold">Help & Support</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/customer/profile")} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                  <Settings className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  <span className="text-sm font-bold">Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="my-1 bg-border/50" />
+                <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-all group text-destructive">
+                  <LogOut className="h-4 w-4" />
+                  <span className="text-sm font-bold">Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

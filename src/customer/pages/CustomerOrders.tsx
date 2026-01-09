@@ -1,53 +1,26 @@
 import React, { useState } from "react";
 import { ShoppingBag, ChevronRight, Package, Clock, Search, Filter, Truck, CheckCircle2, AlertCircle, FileText } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useCustomerAuth } from "../context/CustomerAuthContext";
 
 const CustomerOrders: React.FC = () => {
+  const { user } = useCustomerAuth();
   const [searchParams] = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filters = ["All", "Processing", "In Transit", "Delivered", "Cancelled"];
 
-  const allOrders = [
-    {
-      id: "#ZN-98231",
-      date: "Mar 12, 2024",
-      total: "₹4,299.00",
-      status: "In Transit",
-      items: 3,
-      products: ["Premium Wireless Headphones", "USB-C Fast Charger", "Leather Laptop Sleeve"],
-      progress: 65
-    },
-    {
-      id: "#ZN-98210",
-      date: "Mar 05, 2024",
-      total: "₹1,850.00",
-      status: "Processing",
-      items: 1,
-      products: ["Cotton Slim Fit T-shirt"],
-      progress: 25
-    },
-    {
-      id: "#ZN-98192",
-      date: "Feb 28, 2024",
-      total: "₹12,490.00",
-      status: "Delivered",
-      items: 2,
-      products: ["Mechanical Gaming Keyboard", "Gaming Mouse Pad"],
-      progress: 100
-    },
-    {
-      id: "#ZN-98150",
-      date: "Feb 15, 2024",
-      total: "₹2,100.00",
-      status: "Cancelled",
-      items: 1,
-      products: ["Polarized Sunglasses"],
-      progress: 0
-    },
-  ];
+  const allOrders = user?.orders?.map((order: any) => ({
+    id: order.id,
+    date: new Date(order.createdAt).toLocaleDateString(),
+    total: `₹${order.total.toLocaleString()}`,
+    status: order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1),
+    items: order.items.length,
+    products: order.items.map((i: any) => i.name),
+    progress: order.orderStatus === 'delivered' ? 100 : 50
+  })) || [];
 
   const filteredOrders = allOrders.filter(order => {
     const matchesSearch = order.id.toLowerCase().includes(initialSearch.toLowerCase()) ||
