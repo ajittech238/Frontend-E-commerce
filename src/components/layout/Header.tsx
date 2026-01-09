@@ -21,6 +21,8 @@ import {
   HelpCircle,
   ShoppingBag,
   UserCircle,
+  Diamond,
+
   Diamond
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -268,7 +270,7 @@ const Header = () => {
 
               {/* Account Dropdown */}
               {isAuthenticated ? (
-                <div 
+                <div
                   className="relative group"
                   onMouseEnter={() => setIsAccountOpen(true)}
                   onMouseLeave={() => setIsAccountOpen(false)}

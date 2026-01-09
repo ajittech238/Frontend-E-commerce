@@ -241,9 +241,9 @@
 //                     />
 //                   </TableHead>
 //                   {columns.map((col) => (
-//                     <TableHead 
-//                       key={col.key} 
-//                       style={{ width: col.width }} 
+//                     <TableHead
+//                       key={col.key}
+//                       style={{ width: col.width }}
 //                       className={`font-semibold text-foreground text-xs sm:text-sm ${col.showOnMobile === false ? 'hidden md:table-cell' : ''}`}
 //                     >
 //                       {col.header}
@@ -723,7 +723,7 @@ export default function AdminCategories() {
       showOnMobile: true,
       render: (item: Category) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
+          <div className="w-10 h-10 bg-pink-gradient/10 flex items-center justify-center">
             <FolderTree className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -812,7 +812,7 @@ export default function AdminCategories() {
         onExport={() => { }}
       />
       <div className="space-y-4">
-        <div className="rounded-xl border border-border/50 overflow-hidden">
+        <div className="border border-border/50 overflow-hidden">
           <div className="overflow-x-auto">
             <Table className="w-full table-auto">
               <TableHeader>
@@ -826,9 +826,9 @@ export default function AdminCategories() {
                     />
                   </TableHead>
                   {columns.map((col) => (
-                    <TableHead 
-                      key={col.key} 
-                      style={{ width: col.width }} 
+                    <TableHead
+                      key={col.key}
+                      style={{ width: col.width }}
                       className={`font-semibold text-foreground text-xs sm:text-sm ${col.showOnMobile === false ? 'hidden md:table-cell' : ''}`}
                     >
                       {col.header}
@@ -883,8 +883,8 @@ export default function AdminCategories() {
                               className="w-8 h-8"
                               onClick={() => setExpandedRow(isExpanded ? null : id)}
                             >
-                              <ChevronDown 
-                                className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
+                              <ChevronDown
+                                className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
                               />
                             </Button>
                           </TableCell>
@@ -892,30 +892,30 @@ export default function AdminCategories() {
                         {isExpanded && (
                           <TableRow className="md:hidden">
                             <TableCell colSpan={columns.length + 2} className="p-0">
-                              <div className="bg-muted/50 dark:bg-muted/80 p-4 mx-2 my-1 rounded-lg border border-border/50 animate-in slide-in-from-top-2">
+                              <div className="bg-muted/50 dark:bg-muted/80 p-4 mx-2 my-1 border border-border/50 animate-in slide-in-from-top-2">
                                 <div className="space-y-3">
                                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                    <div className="bg-card p-3 rounded-md border border-border/30">
+                                    <div className="bg-card p-3 border border-border/30">
                                       <p className="text-xs text-muted-foreground mb-1 font-medium">Parent</p>
                                       <p className="text-sm font-semibold text-foreground flex items-center gap-2">
                                         <FolderTree className="w-4 h-4 text-muted-foreground" />
                                         {item.parent || "—"}
                                       </p>
                                     </div>
-                                    <div className="bg-card p-3 rounded-md border border-border/30">
+                                    <div className="bg-card p-3 border border-border/30">
                                       <p className="text-xs text-muted-foreground mb-1 font-medium">Products</p>
                                       <p className="text-sm font-semibold text-foreground flex items-center gap-2 justify-center">
                                         <PackageCheck className="w-4 h-4 text-primary" />
                                         {item.productCount}
                                       </p>
                                     </div>
-                                    <div className="bg-card p-3 rounded-md border border-border/30 flex  flex-col items-center justify-center gap-2 ">
+                                    <div className="bg-card p-3 border border-border/30 flex  flex-col items-center justify-center gap-2 ">
                                     <p className="text-sm text-muted-foreground mb-1 font-medium">Status</p>
                                       <StatusBadge status={item.status} />
                                     </div>
                                   </div>
-                                  
-                                  <div className="bg-card p-3 rounded-md border border-border/30">
+
+                                  <div className="bg-card p-3 border border-border/30">
                                     <p className="text-xs text-muted-foreground mb-2 font-medium">Description</p>
                                     <p className="text-sm text-foreground line-clamp-2">{item.description}</p>
                                   </div>
@@ -1064,12 +1064,12 @@ export default function AdminCategories() {
         </DialogContent>
       </Dialog>
       <Dialog open={isProductsDialogOpen} onOpenChange={setIsProductsDialogOpen}>
-        <DialogContent className="w-[95vw] max-w-6xl h-[90vh] overflow-hidden p-0 rounded-2xl shadow-2xl">
+        <DialogContent className="w-[95vw] max-w-6xl h-[90vh] overflow-hidden p-0 shadow-2xl">
           <div className="flex flex-col h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
             <DialogHeader className="p-6 border-b border-border/20 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
                     <PackageCheck className="w-6 h-6 text-white" />
                   </div>
                   <div>

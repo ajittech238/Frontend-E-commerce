@@ -291,7 +291,7 @@ export const electronicsProducts: Product[] = [
     id: "e-17",
     name: "Apple AirPods Pro 2",
     brand: "Apple",
-    price: 29999,
+    price: 12999,
     originalPrice: 34999,
     image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500",
     category: "electronics",
