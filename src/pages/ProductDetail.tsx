@@ -10,7 +10,7 @@ import ProductDisplay from "@/components/products/ProductDisplay";
 import { products } from "@/data/products";
 import { electronicsProducts } from "@/data/electronics";
 import { homeLivingProducts } from "@/data/Home&living";
-import { groceryProducts } from "@/data/grocery";
+import { groceryProducts } from "@/data/Grocery";
 import { booksProducts } from "@/data/books";
 import { perfumeProducts } from "@/data/perfume";
 import { jewelleryProducts } from "@/data/Jewellery";
