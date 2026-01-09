@@ -38,7 +38,7 @@ export default function EventLogs() {
       header: "Action",
       render: (event: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-md bg-pink-gradient/10 flex items-center justify-center">
             <FileText className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -72,62 +72,64 @@ export default function EventLogs() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Event Logs</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">Event Logs</h1>
           <p className="text-muted-foreground mt-1">System activity and user actions</p>
         </div>
-        <Button className="gap-2">
+        <Button className="gap-2 w-full sm:w-auto rounded-md">
           <Download className="w-4 h-4" />
           Export Logs
         </Button>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2">
+      <div className="flex flex-col md:flex-row gap-3">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search events..."
-            className="pl-9"
+            className="pl-9 rounded-md"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-40">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Events</SelectItem>
-            <SelectItem value="login">Login</SelectItem>
-            <SelectItem value="create">Create</SelectItem>
-            <SelectItem value="delete">Delete</SelectItem>
-            <SelectItem value="error">Error</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button variant="outline" className="gap-2">
-          <Filter className="w-4 h-4" />
-          More Filters
-        </Button>
+        <div className="flex gap-2">
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="w-full md:w-40 rounded-md">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Events</SelectItem>
+              <SelectItem value="login">Login</SelectItem>
+              <SelectItem value="create">Create</SelectItem>
+              <SelectItem value="delete">Delete</SelectItem>
+              <SelectItem value="error">Error</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline" className="gap-2 rounded-md flex-1 md:flex-none">
+            <Filter className="w-4 h-4" />
+            More Filters
+          </Button>
+        </div>
       </div>
 
       {/* Event Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Total Events", value: "2,345", icon: FileText },
           { label: "Today", value: "145", icon: FileText },
           { label: "Errors", value: "12", icon: AlertCircle },
           { label: "Warnings", value: "23", icon: AlertCircle },
         ].map((stat) => (
-          <Card key={stat.label}>
+          <Card key={stat.label} className="rounded-md">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
                   <p className="text-2xl font-bold text-foreground mt-2">{stat.value}</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-pink-gradient/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-md bg-pink-gradient/10 flex items-center justify-center">
                   <stat.icon className="w-6 h-6 text-primary" />
                 </div>
               </div>
@@ -137,7 +139,7 @@ export default function EventLogs() {
       </div>
 
       {/* Events Table */}
-      <Card>
+      <Card className="rounded-md">
         <CardHeader>
           <CardTitle>Recent Events</CardTitle>
           <CardDescription>Latest system activities and user actions</CardDescription>

@@ -15,17 +15,14 @@ import {
   Star,
   Loader,
   Home,
-<<<<<<< HEAD
   LogOut,
   Settings,
   Gift,
   HelpCircle,
   ShoppingBag,
-  UserCircle
-=======
+  UserCircle,
   Diamond,
-  
->>>>>>> b97111a0eb8a30b3792b445f164941d29486b62c
+
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -270,34 +267,12 @@ const Header = () => {
                 </span>
               </Button>
 
-<<<<<<< HEAD
               {/* Account Dropdown */}
               {isAuthenticated ? (
-                <div 
+                <div
                   className="relative group"
                   onMouseEnter={() => setIsAccountOpen(true)}
                   onMouseLeave={() => setIsAccountOpen(false)}
-=======
-              {/* Account */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() =>
-                  navigate(isAuthenticated ? "/dashboard" : "/login")
-                }
-                className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
-              >
-                <User className="h-5 w-5" />
-                <span className="hidden md:block">Account</span>
-              </Button>
-
-              {/* Login Button */}
-              <Link to="/login">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 font-semibold text-sm transition-all duration-300"
->>>>>>> b97111a0eb8a30b3792b445f164941d29486b62c
                 >
                   <DropdownMenu open={isAccountOpen} onOpenChange={setIsAccountOpen}>
                     <DropdownMenuTrigger asChild>
