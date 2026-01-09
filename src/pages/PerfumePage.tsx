@@ -1,6 +1,7 @@
 // Import necessary hooks and components from React and other libraries.
 import React, { useState, useEffect } from "react";
 import { Filter, Sparkles, Plus, Minus } from "lucide-react";
+import { Filter, Gem, Plus, Minus } from "lucide-react";
 
 // Import UI components and utilities.
 import ProductCard from "@/components/products/ProductCard";
@@ -73,18 +74,20 @@ export default function PerfumePage() {
 
       {/* Page Header Section */}
       <section className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-b border-border/50 py-8">
+      <section className="bg-gradient-to-r from-yellow-500/10 to-amber-500/10 border-b border-border/50 py-8">
         <div className="container">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-foreground flex items-center gap-3">
                 <Sparkles className="h-10 w-10 text-purple-600" />
+                <Gem className="h-10 w-10 text-yellow-600" />
                 Perfume
               </h1>
               <p className="text-muted-foreground mt-2 text-lg">
                 Where fragrance meets personality.
               </p>
             </div>
-            <Badge className="text-base px-4 py-2 bg-purple-600 text-white">
+            <Badge className="text-base px-4 py-2 bg-yellow-600 text-white">
               {productCount} Products
             </Badge>
           </div>
@@ -151,6 +154,8 @@ export default function PerfumePage() {
                           selectedCategory === cat.id
                             ? "text-primary bg-primary/10"
                             : "text-foreground hover:bg-accent"
+                            ? "text-primary"
+                            : "text-foreground"
                         )}
                       >
                         {cat.name}
@@ -196,7 +201,7 @@ export default function PerfumePage() {
             {Object.keys(groupedProducts).length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-xl text-muted-foreground">
-                  No perfumes found with the selected filters.
+                  No perfume found with the selected filters.
                 </p>
               </div>
             ) : (
@@ -204,11 +209,11 @@ export default function PerfumePage() {
                 ([subcategory, products]) => (
                   <div key={subcategory} className="space-y-4">
                     {selectedCategory === "all" && (
-                      <div className="flex items-center gap-3 pb-3 border-b-2 border-purple-500/30">
+                      <div className="flex items-center gap-3 pb-3 border-b-2 border-yellow-500/30">
                         <h2 className="text-2xl md:text-3xl font-bold capitalize">
                           {subcategory}
                         </h2>
-                        <Badge className="bg-purple-500/20 text-purple-700">
+                        <Badge className="bg-yellow-500/20 text-yellow-700">
                           {products.length}
                         </Badge>
                       </div>

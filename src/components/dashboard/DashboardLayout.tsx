@@ -117,6 +117,7 @@ export function DashboardLayout() {
                     <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center flex-shrink-0 shadow-sm border border-primary/20">
                       <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-foreground" />
                     </div>
+                    <span className="text-xs sm:text-sm font-medium">Admin</span>
                     <span className="hidden md:block text-xs sm:text-sm font-medium text-foreground">Admin</span>
                   </Button>
                 </DropdownMenuTrigger>

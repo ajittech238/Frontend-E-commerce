@@ -2,7 +2,7 @@ import { useState, ReactNode } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Eye, Download, FileText, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus } from "lucide-react";
+import { MoreHorizontal, Eye, Download, FileText, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -70,7 +70,7 @@ export default function AdminInvoices() {
   const handlePageChange = (page: number) => {
     setPagination((prev) => ({ ...prev, page }));
   };
-  
+
   const getRowId = (item: Invoice) => item.id;
 
   const allSelected = paginatedData.length > 0 && paginatedData.every((item) => selectedIds.includes(getRowId(item)));
@@ -104,61 +104,66 @@ export default function AdminInvoices() {
     });
   };
 
-  const renderExpandedRow = (item: Invoice) => {
-    // Columns that are visible on tablet but not mobile
-    const tabletOnlyContent = (
-      <>
-        <Label className="text-xs font-medium text-muted-foreground self-center">Order ID</Label>
-        <div className="text-sm">{item.orderId}</div>
+  const renderExpandedRow = (item: Invoice) => (
+    <div className="bg-muted/50 dark:bg-muted/80 p-3 mx-2 my-1 rounded-lg border border-border/50 animate-in slide-in-from-top-2">
+      <div className="space-y-3">
 
-        <Label className="text-xs font-medium text-muted-foreground self-center">Customer</Label>
-        <div className="text-sm">{item.customer}</div>
-      </>
-    );
-
-    // Columns that are hidden on both mobile and tablet
-    const hiddenContent = (
-      <>
-        <Label className="text-xs font-medium text-muted-foreground self-center">Amount</Label>
-        <div className="text-sm font-medium">₹{item.amount.toLocaleString()}</div>
-
-        <Label className="text-xs font-medium text-muted-foreground self-center">Tax</Label>
-        <div className="text-sm text-muted-foreground">₹{item.tax}</div>
-        
-        <Label className="text-xs font-medium text-muted-foreground self-center">Total</Label>
-        <div className="text-sm font-semibold text-primary">₹{(item.amount + item.tax).toLocaleString()}</div>
-
-        <Label className="text-xs font-medium text-muted-foreground self-center">Status</Label>
-        <div className="text-sm"><StatusBadge status={item.status} /></div>
-
-        <Label className="text-xs font-medium text-muted-foreground self-center">Date</Label>
-        <div className="text-sm">{new Date(item.createdAt).toLocaleDateString()}</div>
-        
-        <Label className="text-xs font-medium text-muted-foreground self-center">Actions</Label>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8">
-                Actions <MoreHorizontal className="w-4 h-4 ml-2" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem><Eye className="w-4 h-4 mr-2" /> View</DropdownMenuItem>
-              <DropdownMenuItem><Download className="w-4 h-4 mr-2" /> Download PDF</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        {/* TOP INFO */}
+        <div className="bg-card p-3 rounded-md border border-border/30">
+          <p className="text-xs text-muted-foreground mb-1 font-medium">Invoice</p>
+          <p className="text-sm font-semibold text-foreground">{item.id}</p>
+          <p className="text-xs text-muted-foreground">{item.orderId}</p>
         </div>
-      </>
-    );
 
-    return (
-      <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-3 p-4">
-        {/* On mobile, show tablet content + hidden content. On tablet, show only hidden content. */}
-        <div className="contents md:hidden">{tabletOnlyContent}</div>
-        {hiddenContent}
+        {/* GRID INFO (Coupons style) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="bg-card p-3 rounded-md border border-border/30">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Customer</p>
+            <p className="text-sm font-semibold">{item.customer}</p>
+          </div>
+
+          <div className="bg-card p-3 rounded-md border border-border/30">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Amount</p>
+            <p className="text-sm font-semibold">₹{item.amount.toLocaleString()}</p>
+          </div>
+
+          <div className="bg-card p-3 rounded-md border border-border/30">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Tax</p>
+            <p className="text-sm font-semibold">₹{item.tax.toLocaleString()}</p>
+          </div>
+        </div>
+
+        {/* TOTAL + STATUS */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-card p-3 rounded-md border border-border/30">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Total</p>
+            <p className="text-sm font-semibold text-primary">
+              ₹{(item.amount + item.tax).toLocaleString()}
+            </p>
+          </div>
+
+          <div className="bg-card p-3 rounded-md border border-border/30 flex items-center justify-center">
+            <StatusBadge status={item.status} />
+          </div>
+        </div>
+
+        {/* ACTIONS (VERY IMPORTANT) */}
+        <div className="flex gap-2 pt-1">
+          <Button size="sm" variant="outline" className="flex-1">
+            <Eye className="w-4 h-4 mr-1" />
+            View
+          </Button>
+
+          <Button size="sm" variant="outline" className="flex-1">
+            <Download className="w-4 h-4 mr-1" />
+            Download
+          </Button>
+        </div>
+
       </div>
-    );
-  };
+    </div>
+  );
+
 
   const columns = [
     {
@@ -237,9 +242,9 @@ export default function AdminInvoices() {
         searchPlaceholder="Search invoices..."
         searchValue={search}
         onSearchChange={setSearch}
-        onAdd={() => {}}
+        onAdd={() => { }}
         addLabel="Generate Invoice"
-        onExport={() => {}}
+        onExport={() => { }}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -268,14 +273,14 @@ export default function AdminInvoices() {
                       <TableHead
                         key={col.key}
                         style={{ width: col.width }}
-                        className={`${col.className || ''} ${
-                          isExpandCol ? 'lg:hidden' : ''
-                        } font-semibold text-foreground text-xs sm:text-sm`}
+                        className={`${col.className || ''} ${isExpandCol ? 'lg:hidden' : ''
+                          } font-semibold text-foreground text-xs sm:text-sm`}
                       >
-                        {isExpandCol ? '' : col.header}
+                        {isExpandCol ? <ChevronDown className="w-4 h-4" /> : col.header}
                       </TableHead>
                     );
                   })}
+                 
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -307,30 +312,28 @@ export default function AdminInvoices() {
                             />
                           </TableCell>
                           {columns.map((col) => {
-                             const isExpandCol = col.key === "expander";
-                             let cellContent: ReactNode;
- 
-                             if (isExpandCol) {
-                               cellContent = (
-                                 <Button
-                                   variant="ghost"
-                                   size="sm"
-                                   className="h-8 w-8 p-0"
-                                   onClick={(e) => {
-                                     e.stopPropagation();
-                                     toggleExpand(id);
-                                   }}
-                                 >
-                                   {isExpanded ? (
-                                     <Minus className="h-4 w-4 text-primary" />
-                                   ) : (
-                                     <Plus className="h-4 w-4 text-primary" />
-                                   )}
-                                 </Button>
-                               );
-                             } else {
-                               cellContent = col.render ? col.render(item) : (item as unknown as Record<string, unknown>)[col.key] as ReactNode;
-                             }
+                            const isExpandCol = col.key === "expander";
+                            let cellContent: ReactNode;
+
+                            if (isExpandCol) {
+                              cellContent = (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleExpand(id);
+                                  }}
+                                >
+                                  <ChevronDown
+                                    className={`h-4 w-4 text-primary transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                                  />
+                                </Button>
+                              );
+                            } else {
+                              cellContent = col.render ? col.render(item) : (item as unknown as Record<string, unknown>)[col.key] as ReactNode;
+                            }
                             return (
                               <TableCell
                                 key={col.key}
@@ -343,11 +346,11 @@ export default function AdminInvoices() {
                           })}
                         </TableRow>
                         {isExpanded && (
-                            <TableRow className="lg:hidden border-l-4 border-primary bg-muted/20 hover:bg-muted/30 rounded-lg">
-                                <TableCell colSpan={columns.length+1} className="p-0">
-                                    {renderExpandedRow(item)}
-                                </TableCell>
-                            </TableRow>
+                          <TableRow className="lg:hidden border-l-4 border-primary bg-muted/20 hover:bg-muted/30 rounded-lg">
+                            <TableCell colSpan={columns.length + 1} className="p-0">
+                              {renderExpandedRow(item)}
+                            </TableCell>
+                          </TableRow>
                         )}
                       </>
                     );

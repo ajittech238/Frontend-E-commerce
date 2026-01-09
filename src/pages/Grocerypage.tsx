@@ -11,7 +11,7 @@ import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 
 // Import data for the page.
-import { groceryCategories, groceryProducts } from "@/data/grocery";
+import { groceryCategories, groceryProducts } from "@/data/Grocery";
 import { Product } from "@/types/product";
 
 // Define an interface for the object that will hold products grouped by sub-category.
