@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Bell, Mail, MessageSquare, AlertTriangle, CheckCircle, Trash2, MoreHorizontal, Eye, Settings, ChevronDown } from "lucide-react";
+import { Search, Bell, Mail, MessageSquare, AlertTriangle, CheckCircle, Trash2, MoreHorizontal, Eye, Settings, ChevronDown, Send, User, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const notifications = [
   { id: "N001", type: "order", title: "New Order Received", message: "Order #ORD-2024-001 has been placed by John Doe", recipient: "Admin Team", channel: "email", sentAt: "2024-12-12 10:30", status: "delivered" },
@@ -20,6 +23,29 @@ const notifications = [
 export default function AdminNotifications() {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [isSendNotificationDialogOpen, setIsSendNotificationDialogOpen] = useState(false);
+  const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
+  const [isResendOpen, setIsResendOpen] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState<any>(null);
+
+  const notificationopen = () => {
+    setIsSendNotificationDialogOpen(true)
+  }
+
+  const notificationclose = () => {
+    setIsSendNotificationDialogOpen(false)
+  }
+
+  const handleViewDetails = (notification: any) => {
+    setSelectedNotification(notification);
+    setIsViewDetailsOpen(true);
+  }
+
+  const handleResend = (notification: any) => {
+    setSelectedNotification(notification);
+    setIsResendOpen(true);
+  }
+
 
   const toggleExpand = (id: string) => {
     setExpandedRows(prev => {
@@ -69,8 +95,8 @@ export default function AdminNotifications() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem><Eye className="h-4 w-4 mr-2" /> View</DropdownMenuItem>
-          <DropdownMenuItem><Mail className="h-4 w-4 mr-2" /> Resend</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleViewDetails(n)}><Eye className="h-4 w-4 mr-2" /> View</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleResend(n)}><Mail className="h-4 w-4 mr-2" /> Resend</DropdownMenuItem>
           <DropdownMenuItem className="text-destructive">
             <Trash2 className="h-4 w-4 mr-2" /> Delete
           </DropdownMenuItem>
@@ -90,6 +116,25 @@ export default function AdminNotifications() {
     };
     return icons[type] || <Bell className="h-4 w-4" />;
   };
+
+  const getStatusIcon = (status: string) => {
+    const icons: Record<string, JSX.Element> = {
+      delivered: <CheckCircle className="h-5 w-5 text-emerald-500" />,
+      pending: <AlertTriangle className="h-5 w-5 text-amber-500" />,
+      failed: <AlertTriangle className="h-5 w-5 text-destructive" />,
+    };
+    return icons[status] || <Bell className="h-5 w-5" />;
+  };
+
+  const getChannelIcon = (channel: string) => {
+    const icons: Record<string, JSX.Element> = {
+      email: <Mail className="h-5 w-5 text-blue-500" />,
+      push: <Bell className="h-5 w-5 text-purple-500" />,
+      sms: <MessageSquare className="h-5 w-5 text-emerald-500" />,
+    };
+    return icons[channel] || <Bell className="h-5 w-5" />;
+  };
+
 
   const getChannelBadge = (channel: string) => {
     const styles: Record<string, string> = {
@@ -118,11 +163,152 @@ export default function AdminNotifications() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline"><Settings className="h-4 w-4 mr-2" />Settings</Button>
-          <Button>Send Notification</Button>
+          <Button onClick={() => { notificationopen() }} variant="default">Send Notification</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+      {/* send notification form */}
+      <Dialog open={isSendNotificationDialogOpen} onOpenChange={notificationopen}>
+        <DialogContent className="max-w-[90vw] rounded-md md:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              <h2 className="text-xl font-semibold">Send Notification</h2>
+              <DialogDescription>
+                Fill Notification Form Here
+              </DialogDescription>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-grow overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="to">To</Label>
+                <Input id="to" placeholder="Enter recipients separated by commas" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="subject">Subject</Label>
+                <Input id="subject" placeholder="Enter subject" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="message">Message</Label>
+                <Textarea id="message" placeholder="Type your message here..." className="min-h-[150px]" />
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="p-4 mt-auto border-t bg-background flex-row justify-end gap-2">
+            <Button variant="outline" onClick={notificationclose}>Cancel</Button>
+            <Button >Send</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* View Notification Details Dialog */}
+      <Dialog open={isViewDetailsOpen} onOpenChange={setIsViewDetailsOpen}>
+        <DialogContent className="max-w-[95vw] max-h-[90vh] rounded-lg md:max-w-lg md:max-h-[90vh] shadow-lg flex flex-col">
+          <DialogHeader className="p-6">
+            <DialogTitle className="flex items-center text-xl">
+              {selectedNotification && getTypeIcon(selectedNotification.type)}
+              <span className="ml-3">{selectedNotification?.title}</span>
+            </DialogTitle>
+            <DialogDescription>
+              Notification ID: {selectedNotification?.id}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedNotification && (
+            <div className="px-6 pb-6 space-y-6 flex-grow overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+              <div className="p-4 bg-muted/50 rounded-lg border">
+                <Label className="text-sm font-medium text-muted-foreground flex items-center mb-2">
+                  <MessageSquare className="h-4 w-4 mr-2" /> Message
+                </Label>
+                <p className="text-base">{selectedNotification.message}</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg border">
+                  <div className="mt-1">
+                    <User className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Recipient</Label>
+                    <p className="text-base font-medium">{selectedNotification.recipient}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg border">
+                  <div>
+                    {getStatusIcon(selectedNotification.status)}
+                  </div>
+                  <div className="flex flex-col">
+                    <Label className="text-sm font-medium text-muted-foreground">Status</Label>
+                    {getStatusBadge(selectedNotification.status)}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg border">
+                  <div>
+                    {getChannelIcon(selectedNotification.channel)}
+                  </div>
+                  <div className="flex flex-col">
+                    <Label className="text-sm font-medium text-muted-foreground">Channel</Label>
+                    {getChannelBadge(selectedNotification.channel)}
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg border">
+                  <div className="mt-1">
+                    <Calendar className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Sent At</Label>
+                    <p className="text-base font-medium">{selectedNotification.sentAt}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter className="p-4 border-t">
+            <Button variant="outline" onClick={() => setIsViewDetailsOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Resend Notification Dialog */}
+      <Dialog open={isResendOpen} onOpenChange={setIsResendOpen}>
+        <DialogContent className="max-w-[90vw] rounded-md md:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Resend Notification</DialogTitle>
+            <DialogDescription>
+              Edit and resend the notification.
+            </DialogDescription>
+          </DialogHeader>
+          {selectedNotification && (
+            <div className="flex-grow overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+              <div className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="to-resend">To</Label>
+                  <Input id="to-resend" defaultValue={selectedNotification.recipient} />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="subject-resend">Subject</Label>
+                  <Input id="subject-resend" defaultValue={selectedNotification.title} />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="message-resend">Message</Label>
+                  <Textarea id="message-resend" defaultValue={selectedNotification.message} className="min-h-[150px]" />
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter className="p-4 mt-auto border-t bg-background flex-row justify-end gap-2">
+            <Button variant="outline" onClick={() => setIsResendOpen(false)}>Cancel</Button>
+            <Button>Resend</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
           <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Total Sent</CardTitle></CardHeader>
           <CardContent><div className="text-2xl font-bold">{notifications.length}</div></CardContent>
@@ -170,7 +356,7 @@ export default function AdminNotifications() {
                 <TableHead className="hidden lg:table-cell text-right">Sent At</TableHead>
                 <TableHead className="hidden lg:table-cell text-right">Status</TableHead>
                 <TableHead className="hidden lg:table-cell text-right">Actions</TableHead>
-                
+
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -208,8 +394,8 @@ export default function AdminNotifications() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem><Eye className="h-4 w-4 mr-2" />View Details</DropdownMenuItem>
-                          <DropdownMenuItem><Mail className="h-4 w-4 mr-2" />Resend</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleViewDetails(notification)}><Eye className="h-4 w-4 mr-2" />View Details</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleResend(notification)}><Mail className="h-4 w-4 mr-2" />Resend</DropdownMenuItem>
                           <DropdownMenuItem className="text-destructive">
                             <Trash2 className="h-4 w-4 mr-2" />Delete
                           </DropdownMenuItem>

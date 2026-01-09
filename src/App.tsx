@@ -9,7 +9,7 @@ import { OrderProvider } from "@/context/OrderContext";
 // import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
-// import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./pages/ProductDetail";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 // import Signup from "./pages/Signup";
@@ -52,6 +52,7 @@ import AdminEmployees from "./pages/admin/AdminEmployees";
 import AdminDepartments from "./pages/admin/AdminDepartments";
 import AdminSalaries from "./pages/admin/AdminSalaries";
 import AdminLeaves from "./pages/admin/AdminLeaves";
+import StaffAttendance from "./pages/admin/Attendence";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminTransactions from "./pages/admin/AdminTransactions";
 import AdminIntegrations from "./pages/admin/AdminIntegrations";
@@ -95,8 +96,6 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
-import JewelleryPage from "./pages/JewelleryPage";
-import PerfumePage from "./pages/PerfumePage";
 import SportsPage from "./pages/SportsPage";
 import CustomerDash from "./pages/customer-dashboard/CustomerDash";
 import CustomerRoutes from "./customer/routes/CustomerRoutes";
@@ -130,7 +129,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
-                {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
+                <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/category/:id" element={<Products />} />
                 <Route path="/fashion" element={<FashionCategoryPage />} />
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
@@ -144,6 +143,7 @@ const App = () => (
                 <Route path="/beauty" element={<BeautyPage/>} />
                 {/* <Route path="/menfashion" element={<MensFashionPage/>}/> */}
                 {/* <Route path="/womenfashion" element={<WomenFashionPage/>}/> */}
+              
                 <Route path="/jewellery" element={<JewelleryPage/>}/>
                   {/* <Route path="/beauty" element={<BeautyPage/>}/> */}
                 <Route path="/sports" element={<SportsPage />} /> {/* Added SportsPage route */}
@@ -222,6 +222,7 @@ const App = () => (
                   <Route path="departments" element={<AdminDepartments />} />
                   <Route path="salaries" element={<AdminSalaries />} />
                   <Route path="leaves" element={<AdminLeaves />} />
+                  <Route path="attendence" element={<StaffAttendance />} />
                   <Route
                     path="notifications"
                     element={<AdminNotifications />}
