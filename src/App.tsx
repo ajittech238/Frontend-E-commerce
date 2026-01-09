@@ -52,6 +52,7 @@ import AdminEmployees from "./pages/admin/AdminEmployees";
 import AdminDepartments from "./pages/admin/AdminDepartments";
 import AdminSalaries from "./pages/admin/AdminSalaries";
 import AdminLeaves from "./pages/admin/AdminLeaves";
+import StaffAttendance from "./pages/admin/Attendence";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminTransactions from "./pages/admin/AdminTransactions";
 import AdminIntegrations from "./pages/admin/AdminIntegrations";
@@ -219,6 +220,7 @@ const App = () => (
                   <Route path="departments" element={<AdminDepartments />} />
                   <Route path="salaries" element={<AdminSalaries />} />
                   <Route path="leaves" element={<AdminLeaves />} />
+                  <Route path="attendence" element={<StaffAttendance />} />
                   <Route
                     path="notifications"
                     element={<AdminNotifications />}
