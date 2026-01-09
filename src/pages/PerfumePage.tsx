@@ -1,7 +1,5 @@
-// Import necessary hooks and components from React and other libraries.
 import React, { useState, useEffect } from "react";
-import { Filter, Sparkles, Plus, Minus } from "lucide-react";
-import { Filter, Gem, Plus, Minus } from "lucide-react";
+import { Filter, Sparkles, Plus, Minus, Gem } from "lucide-react";
 
 // Import UI components and utilities.
 import ProductCard from "@/components/products/ProductCard";
@@ -73,7 +71,6 @@ export default function PerfumePage() {
       <Header />
 
       {/* Page Header Section */}
-      <section className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-b border-border/50 py-8">
       <section className="bg-gradient-to-r from-yellow-500/10 to-amber-500/10 border-b border-border/50 py-8">
         <div className="container">
           <div className="flex items-center justify-between">
@@ -154,8 +151,6 @@ export default function PerfumePage() {
                           selectedCategory === cat.id
                             ? "text-primary bg-primary/10"
                             : "text-foreground hover:bg-accent"
-                            ? "text-primary"
-                            : "text-foreground"
                         )}
                       >
                         {cat.name}
