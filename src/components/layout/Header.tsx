@@ -15,6 +15,12 @@ import {
   Star,
   Loader,
   Home,
+  LogOut,
+  Settings,
+  Gift,
+  HelpCircle,
+  ShoppingBag,
+  UserCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,17 +32,26 @@ import { fashionProducts } from "@/data/fashion";
 import { electronicsProducts } from "@/data/electronics";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const navigate = useNavigate();
   const { totalItems, setIsCartOpen } = useCart();
   const { items: wishlistItems } = useWishlist();
-  const { isAuthenticated } = useCustomerAuth();
+  const { isAuthenticated, user, logout } = useCustomerAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -87,6 +102,11 @@ const Header = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -221,37 +241,87 @@ const Header = () => {
                 </span>
               </Button>
 
-              {/* Account */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate(isAuthenticated ? "/dashboard" : "/login")}
-                className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
-              >
-                <User className="h-5 w-5" />
-                <span className="hidden md:block">Account</span>
-              </Button>
-
-              {/* Login Button */}
-              <Link to="/login">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 font-semibold text-sm transition-all duration-300"
+              {/* Account Dropdown */}
+              {isAuthenticated ? (
+                <div 
+                  className="relative group"
+                  onMouseEnter={() => setIsAccountOpen(true)}
+                  onMouseLeave={() => setIsAccountOpen(false)}
                 >
-                  Sign In
-                </Button>
-              </Link>
+                  <DropdownMenu open={isAccountOpen} onOpenChange={setIsAccountOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm transition-all duration-300"
+                      >
+                        <User className="h-5 w-5 text-primary" />
+                        <span className="hidden md:block">Account</span>
+                        <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isAccountOpen ? "rotate-180" : "")} />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56 mt-1 p-2 bg-white dark:bg-zinc-900 border border-border/50 rounded-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200" align="end">
+                      <DropdownMenuLabel className="px-3 py-2">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-black text-foreground">My Account</span>
+                          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{user?.email}</span>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator className="my-1 bg-border/50" />
+                      <DropdownMenuItem onClick={() => { navigate("/customer/profile"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                        <UserCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                        <span className="text-sm font-bold">Profile</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => { navigate("/customer/orders"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                        <ShoppingBag className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                        <span className="text-sm font-bold">Orders</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => { navigate("/customer/refer-earn"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                        <Gift className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                        <span className="text-sm font-bold">Refer & Earn</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => { navigate("/customer/rewards"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                        <Star className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                        <span className="text-sm font-bold">Rewards</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => { navigate("/customer/qa"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                        <HelpCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                        <span className="text-sm font-bold">Help & Support</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => { navigate("/customer/profile"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                        <Settings className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                        <span className="text-sm font-bold">Settings</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="my-1 bg-border/50" />
+                      <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-all group text-destructive">
+                        <LogOut className="h-4 w-4" />
+                        <span className="text-sm font-bold">Logout</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link to="/login">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 font-semibold text-sm transition-all duration-300"
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
 
-              {/* Signup Button */}
-              <Link to="/signup">
-                <Button
-                  size="sm"
-                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  Sign Up
-                </Button>
-              </Link>
+                  <Link to="/signup">
+                    <Button
+                      size="sm"
+                      className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
+                </div>
+              )}
 
               {/* Wishlist */}
               <Link to="/wishlist">

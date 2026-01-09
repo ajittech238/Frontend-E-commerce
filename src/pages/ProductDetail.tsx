@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import { useState, useMemo, useRef, useEffect } from "react";
-=======
 import { useMemo } from "react";
->>>>>>> a123d2df196bdb7fc975ca903a95b7451f9b43f5
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -48,7 +45,7 @@ const ProductDetail = () => {
     beautyProducts,
     // Add more arrays here
   ];
-  
+
   // Find the product from the combined list
   const product = useMemo(() => {
     for (const productArray of allProductArrays) {
@@ -61,9 +58,9 @@ const ProductDetail = () => {
   // Find related products
   const relatedProducts = useMemo(() => {
     if (!product) return [];
-    
+
     const allProducts = allProductArrays.flat();
-    
+
     let filtered = allProducts.filter(
       (p) => p.category === product.category && p.id !== product.id
     );
@@ -116,7 +113,7 @@ const ProductDetail = () => {
     const selectedOptionValue = primaryVariant ? selectedVariants[primaryVariant.name] : undefined;
     const selectedOption = primaryVariant?.options.find(opt => opt.value === selectedOptionValue);
     currentStock = selectedOption?.stock ?? 999;
-    
+
     if (product.variants.length > 1) {
       const secondaryVariant = product.variants[1];
       const selectedOptionValue2 = secondaryVariant ? selectedVariants[secondaryVariant.name] : undefined;
@@ -147,27 +144,26 @@ const ProductDetail = () => {
     );
   }
 
-<<<<<<< HEAD
   const inWishlist = isInWishlist(product.id);
-  
+
   const handleVariantSelect = (variantName: string, value: string) => {
     setSelectedVariants(prev => ({ ...prev, [variantName]: value }));
     setQuantity(1);
   };
-  
+
   // Combine all products for related products
   const allProducts = allProductArrays.flat();
-  
+
   let relatedProducts = allProducts.filter(
     (p) => p.category === product.category && p.id !== product.id
   ).slice(0, 4);
-  
+
   if (relatedProducts.length === 0) {
     relatedProducts = allProducts.filter(
       (p) => p.subcategory?.some(sub => product.subcategory?.includes(sub)) && p.id !== product.id
     ).slice(0, 4);
   }
-  
+
   if (relatedProducts.length === 0) {
     relatedProducts = allProducts
       .filter((p) => p.id !== product.id)
@@ -247,8 +243,6 @@ const ProductDetail = () => {
     );
   };
 
-=======
->>>>>>> a123d2df196bdb7fc975ca903a95b7451f9b43f5
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -266,7 +260,7 @@ const ProductDetail = () => {
 
         {/* Use the new shared component to display product details */}
         <ProductDisplay product={product} />
-        
+
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-16">

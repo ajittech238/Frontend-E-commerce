@@ -6,10 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { OrderProvider } from "@/context/OrderContext";
-import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
+// import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
-import ProductDetail from "./pages/ProductDetail";
+// import ProductDetail from "./pages/ProductDetail";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -107,7 +107,7 @@ import BeautyPage from "./pages/BeautyPage";
 // import JewelleryPage from "./pages/JewelleryPage";
 import JewelleryPage from "./pages/JewelleryPage";
 import PerfumePage from "./pages/PerfumePage";
-import BeautyPage from "./pages/BeautyPage";
+// import BeautyPage from "./pages/BeautyPage";
 import BooksPage from "./pages/BooksPage"; // Uncommented this line
 import ScrollToTop from "./components/utils/ScrollToTop"; // Import ScrollToTop
 
@@ -127,7 +127,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
+                {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
                 <Route path="/category/:id" element={<Products />} />
                 <Route path="/fashion" element={<FashionCategoryPage />} />
                 <Route path="/fashion/:type" element={<FashionCategoryPage />} />
@@ -141,7 +141,7 @@ const App = () => (
                 <Route path="/beauty" element={<BeautyPage/>} />
 
                 <Route path="/jewellery" element={<JewelleryPage/>}/>
-                <Route path="/perfume" element={<PerfumePage/>}/>
+                  {/* <Route path="/beauty" element={<BeautyPage/>}/> */}
                 <Route path="/sports" element={<SportsPage />} /> {/* Added SportsPage route */}
                 <Route path="/books" element={<BooksPage />} /> {/* Added BooksPage route */}
 

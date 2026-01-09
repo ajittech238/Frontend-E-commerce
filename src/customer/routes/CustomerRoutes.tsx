@@ -13,10 +13,12 @@ import CustomerReferEarn from "../pages/CustomerReferEarn";
 import CustomerRewards from "../pages/CustomerRewards";
 import CustomerQA from "../pages/CustomerQA";
 import ProtectedRoute from "./ProtectedRoute";
+import StandaloneCustomerLayout from "../components/StandaloneCustomerLayout";
 
 const CustomerRoutes: React.FC = () => {
   return (
     <Routes>
+      {/* Dashboard Layout Routes */}
       <Route
         path="/"
         element={
@@ -26,6 +28,16 @@ const CustomerRoutes: React.FC = () => {
         }
       >
         <Route index element={<CustomerOverview />} />
+      </Route>
+
+      {/* Standalone (Flipkart style) Routes */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <StandaloneCustomerLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route path="profile" element={<CustomerProfile />} />
         <Route path="orders" element={<CustomerOrders />} />
         <Route path="orders/:orderId" element={<CustomerOrderDetail />} />
