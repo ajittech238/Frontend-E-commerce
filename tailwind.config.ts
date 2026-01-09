@@ -134,6 +134,8 @@ export default {
         "slide-out-right": "slide-out-right 0.3s ease-out",
         "fade-up": "fade-up 0.5s ease-out",
         bounce: "bounce 1s infinite",
+        "bounce-slow": "bounce 3s infinite",
+        "spin-slow": "spin 8s linear infinite",
       },
     },
   },

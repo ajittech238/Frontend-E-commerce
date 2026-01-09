@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Bell, Mail, MessageSquare, AlertTriangle, CheckCircle, Trash2, MoreHorizontal, Eye, Settings } from "lucide-react";
+import { Search, Bell, Mail, MessageSquare, AlertTriangle, CheckCircle, Trash2, MoreHorizontal, Eye, Settings, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +19,66 @@ const notifications = [
 
 export default function AdminNotifications() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+  const toggleExpand = (id: string) => {
+    setExpandedRows(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+
+  const renderExpandedRow = (n: any) => (
+    <div className="bg-muted/50 p-4 mx-2 my-2 rounded-lg border space-y-3 animate-in slide-in-from-top-2">
+
+      <div className="bg-card p-3 rounded border">
+        <p className="text-xs text-muted-foreground">Message</p>
+        <p className="text-sm">{n.message}</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-card p-3 rounded border">
+          <p className="text-xs text-muted-foreground">Recipient</p>
+          <p className="text-sm font-medium">{n.recipient}</p>
+        </div>
+
+        <div className="bg-card p-3 rounded border flex items-center justify-center">
+          {getStatusBadge(n.status)}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-card p-3 rounded border">
+          <p className="text-xs text-muted-foreground">Channel</p>
+          {getChannelBadge(n.channel)}
+        </div>
+
+        <div className="bg-card p-3 rounded border">
+          <p className="text-xs text-muted-foreground">Sent At</p>
+          <p className="text-sm">{n.sentAt}</p>
+        </div>
+      </div>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm" className="w-full justify-start">
+            <MoreHorizontal className="h-4 w-4 mr-2" />
+            Actions
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem><Eye className="h-4 w-4 mr-2" /> View</DropdownMenuItem>
+          <DropdownMenuItem><Mail className="h-4 w-4 mr-2" /> Resend</DropdownMenuItem>
+          <DropdownMenuItem className="text-destructive">
+            <Trash2 className="h-4 w-4 mr-2" /> Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+
 
   const getTypeIcon = (type: string) => {
     const icons: Record<string, JSX.Element> = {
@@ -105,43 +165,83 @@ export default function AdminNotifications() {
               <TableRow>
                 <TableHead className="w-12"><Checkbox /></TableHead>
                 <TableHead>Notification</TableHead>
-                <TableHead>Recipient</TableHead>
-                <TableHead>Channel</TableHead>
-                <TableHead>Sent At</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="hidden md:table-cell text-right">Recipient</TableHead>
+                <TableHead className="hidden md:table-cell text-right">Channel</TableHead>
+                <TableHead className="hidden lg:table-cell text-right">Sent At</TableHead>
+                <TableHead className="hidden lg:table-cell text-right">Status</TableHead>
+                <TableHead className="hidden lg:table-cell text-right">Actions</TableHead>
+                
               </TableRow>
             </TableHeader>
             <TableBody>
               {notifications.map((notification) => (
-                <TableRow key={notification.id}>
-                  <TableCell><Checkbox /></TableCell>
-                  <TableCell>
-                    <div className="flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center mt-0.5">
-                        {getTypeIcon(notification.type)}
+                <>
+                  {/* MAIN ROW */}
+                  <TableRow key={notification.id}>
+                    <TableCell><Checkbox /></TableCell>
+
+                    <TableCell>
+                      <div className="flex items-start gap-3">
+                        <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center mt-0.5">
+                          {getTypeIcon(notification.type)}
+                        </div>
+                        <div>
+                          <div className="font-medium">{notification.title}</div>
+                          <div className="text-sm text-muted-foreground max-w-md truncate hidden lg:table-cell">
+                            {notification.message}
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-medium">{notification.title}</div>
-                        <div className="text-sm text-muted-foreground max-w-md truncate">{notification.message}</div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{notification.recipient}</TableCell>
-                  <TableCell>{getChannelBadge(notification.channel)}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{notification.sentAt}</TableCell>
-                  <TableCell>{getStatusBadge(notification.status)}</TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem><Eye className="h-4 w-4 mr-2" />View Details</DropdownMenuItem>
-                        <DropdownMenuItem><Mail className="h-4 w-4 mr-2" />Resend</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive"><Trash2 className="h-4 w-4 mr-2" />Delete</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
+                    </TableCell>
+
+                    <TableCell className="hidden md:table-cell">{notification.recipient}</TableCell>
+                    <TableCell className="hidden md:table-cell">{getChannelBadge(notification.channel)}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground hidden lg:table-cell ">{notification.sentAt}</TableCell>
+                    <TableCell className="hidden lg:table-cell">{getStatusBadge(notification.status)}</TableCell>
+
+                    {/* DESKTOP ACTIONS */}
+                    <TableCell className="hidden lg:table-cell text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem><Eye className="h-4 w-4 mr-2" />View Details</DropdownMenuItem>
+                          <DropdownMenuItem><Mail className="h-4 w-4 mr-2" />Resend</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive">
+                            <Trash2 className="h-4 w-4 mr-2" />Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+
+                    {/* CHEVRON */}
+                    <TableCell className="lg:hidden">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => toggleExpand(notification.id)}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${expandedRows.has(notification.id) ? "rotate-180" : ""
+                            }`}
+                        />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+
+                  {/* EXPANDED ROW */}
+                  {expandedRows.has(notification.id) && (
+                    <TableRow className="lg:hidden">
+                      <TableCell colSpan={8} className="p-0">
+                        {renderExpandedRow(notification)}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
+
               ))}
             </TableBody>
           </Table>
@@ -150,3 +250,13 @@ export default function AdminNotifications() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+

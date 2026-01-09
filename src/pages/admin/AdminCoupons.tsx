@@ -2,7 +2,7 @@ import { useState, ReactNode } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Eye, Edit, Trash2, Copy, Percent, DollarSign, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus } from "lucide-react";
+import { MoreHorizontal, Eye, Edit, Trash2, Copy, Percent, DollarSign, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -115,43 +115,67 @@ export default function AdminCoupons() {
   };
 
   const renderExpandedRow = (item: Coupon) => (
-    <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-3 p-4">
-        <Label className="text-xs font-medium text-muted-foreground self-center">Min Cart</Label>
-        <div className="text-sm">{item.minCart > 0 ? `₹${item.minCart}` : <span className="text-muted-foreground">—</span>}</div>
-        
-        <Label className="text-xs font-medium text-muted-foreground self-center">Usage</Label>
-        <div className="space-y-1 min-w-[100px]">
-          <div className="flex justify-between text-xs">
-            <span>{item.usedCount}</span>
-            <span className="text-muted-foreground">{item.usageLimit || "∞"}</span>
+    <div className="bg-muted/50 dark:bg-muted/80 p-4 mx-2 my-1 rounded-lg border border-border/50 animate-in slide-in-from-top-2">
+      <div className="space-y-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="bg-card p-3 rounded-md border border-border/30">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Min Cart</p>
+            <p className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <DollarSign className="w-4 h-4 text-muted-foreground" />
+              {item.minCart > 0 ? `₹${item.minCart}` : "—"}
+            </p>
           </div>
-          {item.usageLimit && <Progress value={(item.usedCount / item.usageLimit) * 100} className="h-1.5" />}
+          <div className="bg-card p-3 rounded-md border border-border/30">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Usage</p>
+            <p className="text-sm font-semibold text-foreground flex items-center gap-2 justify-center">
+              <span className="text-xs">{item.usedCount} / {item.usageLimit || "∞"}</span>
+            </p>
+            {item.usageLimit && <Progress value={(item.usedCount / item.usageLimit) * 100} className="h-1.5 mt-1" />}
+          </div>
+          <div className="bg-card p-3 rounded-md border border-border/30 flex flex-col items-center justify-center gap-2">
+            <p className="text-xs text-muted-foreground mb-1 font-medium">Valid Until</p>
+            <p className="text-sm font-semibold text-foreground">{new Date(item.endsAt).toLocaleDateString()}</p>
+          </div>
         </div>
         
-        <Label className="text-xs font-medium text-muted-foreground self-center">Validity</Label>
-        <div className="text-sm">{new Date(item.endsAt).toLocaleDateString()}</div>
-        
-        <Label className="text-xs font-medium text-muted-foreground self-center">Status</Label>
-        <div className="text-sm"><StatusBadge status={item.status} /></div>
+        <div className="bg-card p-3 rounded-md border border-border/30">
+          <p className="text-xs text-muted-foreground mb-2 font-medium">Status</p>
+          <StatusBadge status={item.status} />
+        </div>
 
-        <Label className="text-xs font-medium text-muted-foreground self-center">Actions</Label>
-        <div>
+        <div className="space-y-2 pt-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8">
-                Actions <MoreHorizontal className="w-4 h-4 ml-2" />
+              <Button variant="outline" size="sm" className="w-full justify-start">
+                <MoreHorizontal className="h-4 w-4 mr-2" />
+                Actions
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem><Eye className="w-4 h-4 mr-2" /> View Usage</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => { setEditingItem(item); setIsDialogOpen(true); }}>
-                <Edit className="w-4 h-4 mr-2" /> Edit
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <Eye className="h-4 w-4 mr-2" /> View Usage
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditingItem(item);
+                  setIsDialogOpen(true);
+                }}
+              >
+                <Edit className="h-4 w-4 mr-2" /> Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" /> Delete</DropdownMenuItem>
+              <DropdownMenuItem className="text-destructive">
+                <Trash2 className="h-4 w-4 mr-2" /> Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+      </div>
     </div>
   );
 
@@ -159,6 +183,8 @@ export default function AdminCoupons() {
     {
       key: "code",
       header: "Coupon Code",
+      width: "200px",
+      showOnMobile: true,
       render: (item: Coupon) => (
         <div className="flex items-center gap-2">
           <code className="px-2 py-1 bg-pink-gradient/10 text-primary rounded font-mono text-sm">{item.code}</code>
@@ -171,6 +197,8 @@ export default function AdminCoupons() {
     {
       key: "discount",
       header: "Discount",
+      width: "120px",
+      showOnMobile: true,
       render: (item: Coupon) => (
         <div className="flex items-center gap-1">
           {item.type === "percent" ? <Percent className="w-4 h-4 text-muted-foreground" /> : <DollarSign className="w-4 h-4 text-muted-foreground" />}
@@ -183,13 +211,15 @@ export default function AdminCoupons() {
     {
       key: "minCart",
       header: "Min Cart",
-      className: "hidden md:table-cell",
+      width: "120px",
+      showOnMobile: false,
       render: (item: Coupon) => item.minCart > 0 ? `₹${item.minCart}` : <span className="text-muted-foreground">—</span>,
     },
     {
       key: "usage",
       header: "Usage",
-      className: "hidden md:table-cell",
+      width: "150px",
+      showOnMobile: false,
       render: (item: Coupon) => (
         <div className="space-y-1 min-w-[100px]">
           <div className="flex justify-between text-xs">
@@ -203,43 +233,56 @@ export default function AdminCoupons() {
     {
       key: "validity",
       header: "Valid Until",
-      className: "hidden lg:table-cell",
+      width: "120px",
+      showOnMobile: false,
+      breakpoint: "lg",
       render: (item: Coupon) => new Date(item.endsAt).toLocaleDateString(),
     },
     {
       key: "status",
       header: "Status",
-      className: "hidden lg:table-cell",
+      width: "100px",
+      showOnMobile: false,
+      breakpoint: "lg",
       render: (item: Coupon) => <StatusBadge status={item.status} />,
     },
     {
       key: "actions",
       header: "Actions",
-      className: "hidden lg:table-cell",
-      width: "60px",
+      width: "100px",
+      showOnMobile: false,
       render: (item: Coupon) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="w-8 h-8">
+            <Button variant="ghost" size="icon" className="h-8 w-8">
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem><Eye className="w-4 h-4 mr-2" /> View Usage</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => { setEditingItem(item); setIsDialogOpen(true); }}>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <Eye className="w-4 h-4 mr-2" /> View Usage
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditingItem(item);
+                setIsDialogOpen(true);
+              }}
+            >
               <Edit className="w-4 h-4 mr-2" /> Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" /> Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">
+              <Trash2 className="w-4 h-4 mr-2" /> Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),
     },
-    {
-      key: "expander",
-      header: "",
-      width: "50px",
-    }
   ];
 
   return (
@@ -269,27 +312,25 @@ export default function AdminCoupons() {
                       className={someSelected && !allSelected ? "data-[state=checked]:bg-pink-gradient/50" : ""}
                     />
                   </TableHead>
-                  {columns.map((col) => {
-                    const isExpandCol = col.key === "expander";
-                    return (
-                      <TableHead
-                        key={col.key}
-                        style={{ width: col.width }}
-                        className={`${col.className || ''} ${
-                          isExpandCol ? "lg:hidden" : ""
-                        } font-semibold text-foreground text-xs sm:text-sm`}
-                      >
-                        {isExpandCol ? "" : col.header}
-                      </TableHead>
-                    );
-                  })}
+                  {columns.map((col) => (
+                    <TableHead 
+                      key={col.key} 
+                      style={{ width: col.width }} 
+                      className={`font-semibold text-foreground text-xs sm:text-sm ${col.showOnMobile === false ? `hidden ${(col as any).breakpoint || 'md'}:table-cell` : ''}`}
+                    >
+                      {col.header}
+                    </TableHead>
+                  ))}
+                  <TableHead className="w-12 md:hidden">
+                    <ChevronDown className="w-4 h-4" />
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {paginatedData.length === 0 ? (
                   <TableRow>
                     <TableCell
-                      colSpan={columns.length + 1}
+                      colSpan={columns.length + 2}
                       className="h-24 sm:h-32 text-center text-xs sm:text-sm text-muted-foreground"
                     >
                       No coupons found
@@ -313,48 +354,34 @@ export default function AdminCoupons() {
                               aria-label={`Select row ${id}`}
                             />
                           </TableCell>
-                          {columns.map((col) => {
-                            const isExpandCol = col.key === "expander";
-                             let cellContent: ReactNode;
- 
-                             if (isExpandCol) {
-                               cellContent = (
-                                 <Button
-                                   variant="ghost"
-                                   size="sm"
-                                   className="h-8 w-8 p-0"
-                                   onClick={(e) => {
-                                     e.stopPropagation();
-                                     toggleExpand(id);
-                                   }}
-                                 >
-                                   {isExpanded ? (
-                                     <Minus className="h-4 w-4 text-primary" />
-                                   ) : (
-                                     <Plus className="h-4 w-4 text-primary" />
-                                   )}
-                                 </Button>
-                               );
-                             } else {
-                               cellContent = col.render ? col.render(item) : (item as unknown as Record<string, unknown>)[col.key] as ReactNode;
-                             }
-                            return (
-                              <TableCell
-                                key={col.key}
-                                style={{ width: col.width }}
-                                className={`${col.className || ''} ${isExpandCol ? 'lg:hidden' : ''} text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words`}
-                              >
-                                {cellContent}
-                              </TableCell>
-                            );
-                          })}
+                          {columns.map((col) => (
+                            <TableCell
+                              key={col.key}
+                              style={{ width: col.width }}
+                              className={`text-xs sm:text-sm px-2 sm:px-4 py-2 sm:py-3 break-words ${col.showOnMobile === false ? `hidden ${(col as any).breakpoint || 'md'}:table-cell` : ''}`}
+                            >
+                              {col.render ? col.render(item) : item[col.key as keyof Coupon] as ReactNode}
+                            </TableCell>
+                          ))}
+                          <TableCell className="w-12 lg:hidden">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="w-8 h-8"
+                              onClick={() => toggleExpand(id)}
+                            >
+                              <ChevronDown 
+                                className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
+                              />
+                            </Button>
+                          </TableCell>
                         </TableRow>
-                         {isExpanded && (
-                            <TableRow className="lg:hidden border-l-4 border-primary bg-muted/20 hover:bg-muted/30 rounded-lg">
-                                <TableCell colSpan={columns.length+1} className="p-0">
-                                    {renderExpandedRow(item)}
-                                </TableCell>
-                            </TableRow>
+                        {isExpanded && (
+                          <TableRow className="lg:hidden">
+                            <TableCell colSpan={columns.length + 2} className="p-0">
+                              {renderExpandedRow(item)}
+                            </TableCell>
+                          </TableRow>
                         )}
                       </>
                     );

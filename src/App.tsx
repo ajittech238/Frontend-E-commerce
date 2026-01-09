@@ -95,6 +95,8 @@ import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
+import JewelleryPage from "./pages/JewelleryPage";
+import PerfumePage from "./pages/PerfumePage";
 import SportsPage from "./pages/SportsPage";
 import CustomerDash from "./pages/customer-dashboard/CustomerDash";
 import CustomerRoutes from "./customer/routes/CustomerRoutes";
@@ -110,6 +112,7 @@ import PerfumePage from "./pages/PerfumePage";
 // import BeautyPage from "./pages/BeautyPage";
 import BooksPage from "./pages/BooksPage"; // Uncommented this line
 import ScrollToTop from "./components/utils/ScrollToTop"; // Import ScrollToTop
+import ForgotPassword from "./pages/ForgotPassword";
 
 const queryClient = new QueryClient();
 
@@ -139,7 +142,8 @@ const App = () => (
                 {/* <Route path "/jewellery" element={<JewelleryPage />} />  */}
                 {/* <Route path="/perfumes" element={<PerfumePage />} /> */}
                 <Route path="/beauty" element={<BeautyPage/>} />
-
+                <Route path="/menfashion" element={<MensFashionPage/>}/>
+                <Route path="/womenfashion" element={<WomenFashionPage/>}/>
                 <Route path="/jewellery" element={<JewelleryPage/>}/>
                   {/* <Route path="/beauty" element={<BeautyPage/>}/> */}
                 <Route path="/sports" element={<SportsPage />} /> {/* Added SportsPage route */}
@@ -149,6 +153,7 @@ const App = () => (
                 <Route path="/deals" element={<Products />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/forgotpass" element={<ForgotPassword/>}/>
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />

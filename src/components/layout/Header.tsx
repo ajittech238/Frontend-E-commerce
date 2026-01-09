@@ -15,12 +15,17 @@ import {
   Star,
   Loader,
   Home,
+<<<<<<< HEAD
   LogOut,
   Settings,
   Gift,
   HelpCircle,
   ShoppingBag,
   UserCircle
+=======
+  Diamond,
+  
+>>>>>>> b97111a0eb8a30b3792b445f164941d29486b62c
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,11 +71,14 @@ const Header = () => {
       return;
     }
 
-    const filtered = allProducts.filter(product =>
-      product.name.toLowerCase().includes(query.toLowerCase()) ||
-      product.description?.toLowerCase().includes(query.toLowerCase()) ||
-      product.category?.toLowerCase().includes(query.toLowerCase())
-    ).slice(0, 8);
+    const filtered = allProducts
+      .filter(
+        (product) =>
+          product.name.toLowerCase().includes(query.toLowerCase()) ||
+          product.description?.toLowerCase().includes(query.toLowerCase()) ||
+          product.category?.toLowerCase().includes(query.toLowerCase())
+      )
+      .slice(0, 8);
 
     setSearchResults(filtered);
     setShowSearchResults(true);
@@ -94,7 +102,10 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
         setShowSearchResults(false);
       }
     };
@@ -132,11 +143,18 @@ const Header = () => {
                 className="lg:hidden h-10 w-10 rounded-lg hover:bg-accent"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {isMobileMenuOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
               </Button>
 
               {/* Logo */}
-              <Link to="/" className="flex items-center gap-2 flex-shrink-0 group">
+              <Link
+                to="/"
+                className="flex items-center gap-2 flex-shrink-0 group"
+              >
                 <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
                   <Package className="h-5 w-5 text-white font-bold" />
                 </div>
@@ -147,10 +165,11 @@ const Header = () => {
             </div>
 
             {/* Center Section - Search Bar (Desktop) */}
-            <div className="hidden lg:flex flex-1 max-w-xl" ref={searchContainerRef}>
-              <div
-                className="relative flex items-center w-full rounded-lg border border-border/50 bg-white dark:bg-slate-900"
-              >
+            <div
+              className="hidden lg:flex flex-1 max-w-xl"
+              ref={searchContainerRef}
+            >
+              <div className="relative flex items-center w-full rounded-lg border border-border/50 bg-white dark:bg-slate-900">
                 <Search className="h-5 w-5 text-muted-foreground absolute left-4 z-10" />
                 <Input
                   ref={searchInputRef}
@@ -190,23 +209,29 @@ const Header = () => {
                             {product.name}
                           </p>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground">{product.category}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {product.category}
+                            </span>
                             {product.rating && (
                               <div className="flex items-center gap-1">
                                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                <span className="text-xs text-muted-foreground">{product.rating}</span>
+                                <span className="text-xs text-muted-foreground">
+                                  {product.rating}
+                                </span>
                               </div>
                             )}
                           </div>
                         </div>
                         <span className="text-sm font-bold text-primary">
-                          ₹{product.price.toLocaleString('en-IN')}
+                          ₹{product.price.toLocaleString("en-IN")}
                         </span>
                       </Link>
                     ))}
                     {searchResults.length >= 8 && (
                       <Link
-                        to={`/products?search=${encodeURIComponent(searchQuery)}`}
+                        to={`/products?search=${encodeURIComponent(
+                          searchQuery
+                        )}`}
                         onClick={() => {
                           setShowSearchResults(false);
                           setSearchQuery("");
@@ -219,11 +244,15 @@ const Header = () => {
                   </div>
                 )}
 
-                {showSearchResults && searchQuery.length > 0 && searchResults.length === 0 && (
-                  <div className="absolute top-12 left-0 right-0 bg-white dark:bg-slate-900 border border-border rounded-lg shadow-lg z-50 p-4 text-center">
-                    <p className="text-sm text-muted-foreground">No products found for "{searchQuery}"</p>
-                  </div>
-                )}
+                {showSearchResults &&
+                  searchQuery.length > 0 &&
+                  searchResults.length === 0 && (
+                    <div className="absolute top-12 left-0 right-0 bg-white dark:bg-slate-900 border border-border rounded-lg shadow-lg z-50 p-4 text-center">
+                      <p className="text-sm text-muted-foreground">
+                        No products found for "{searchQuery}"
+                      </p>
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -241,12 +270,34 @@ const Header = () => {
                 </span>
               </Button>
 
+<<<<<<< HEAD
               {/* Account Dropdown */}
               {isAuthenticated ? (
                 <div 
                   className="relative group"
                   onMouseEnter={() => setIsAccountOpen(true)}
                   onMouseLeave={() => setIsAccountOpen(false)}
+=======
+              {/* Account */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  navigate(isAuthenticated ? "/dashboard" : "/login")
+                }
+                className="hidden sm:flex items-center gap-2 h-10 px-3 rounded-lg hover:bg-accent font-medium text-sm"
+              >
+                <User className="h-5 w-5" />
+                <span className="hidden md:block">Account</span>
+              </Button>
+
+              {/* Login Button */}
+              <Link to="/login">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border-2 border-border/50 hover:border-primary/50 hover:bg-pink-gradient/5 font-semibold text-sm transition-all duration-300"
+>>>>>>> b97111a0eb8a30b3792b445f164941d29486b62c
                 >
                   <DropdownMenu open={isAccountOpen} onOpenChange={setIsAccountOpen}>
                     <DropdownMenuTrigger asChild>
@@ -399,7 +450,7 @@ const Header = () => {
                         </p>
                       </div>
                       <span className="text-xs font-bold text-primary">
-                        ₹{product.price.toLocaleString('en-IN')}
+                        ₹{product.price.toLocaleString("en-IN")}
                       </span>
                     </Link>
                   ))}
@@ -439,19 +490,19 @@ const Header = () => {
               {/* Dropdown Menu */}
               <div className="absolute left-0 mt-0 w-40 bg-white dark:bg-card border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <Link
-                  to="/fashion/men"
+                  to="/menfashion"
                   className="block px-4 py-3 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-accent/50 transition-colors border-b border-border/30 first:rounded-t-lg"
                 >
                   Men
                 </Link>
                 <Link
-                  to="/fashion/women"
+                  to="/womenfashion"
                   className="block px-4 py-3 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-accent/50 transition-colors border-b border-border/30"
                 >
                   Women
                 </Link>
                 <Link
-                  to="/fashion/kids"
+                  to="/menfashion"
                   className="block px-4 py-3 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-accent/50 transition-colors last:rounded-b-lg"
                 >
                   Kids
@@ -481,13 +532,14 @@ const Header = () => {
               </Link>
             </li>
 
-
             <li>
               <Link
                 to="/homeliving"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span><Home className="h-4 w-4 text-gray-500" /></span>
+                <span>
+                  <Home className="h-4 w-4 text-gray-500" />
+                </span>
                 Home & Living
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
@@ -504,25 +556,25 @@ const Header = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
-            
-             {/* jewellery */}
+
+            {/* jewellery */}
             <li>
               <Link
                 to="/jewellery"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span>📚</span>
+                <span><Diamond className="h-4 w-4 text-gray-500"/></span>
                 Jewellery
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
-             {/* perfume */}
-             <li>
+            {/* perfume */}
+            <li>
               <Link
                 to="/perfume"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span>📚</span>
+                <span>🧴</span>
                 PerFume
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
@@ -538,9 +590,7 @@ const Header = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>
             </li>
-            
 
-            
             <li className="ml-auto">
               <Link
                 to="/products"
@@ -571,7 +621,9 @@ const Header = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-foreground">Sign In</p>
-                  <p className="text-xs text-muted-foreground">Access your account</p>
+                  <p className="text-xs text-muted-foreground">
+                    Access your account
+                  </p>
                 </div>
               </Link>
             </div>
@@ -580,7 +632,9 @@ const Header = () => {
 
             {/* Categories */}
             <div className="space-y-3">
-              <h3 className="font-display font-bold text-lg">Shop by Category</h3>
+              <h3 className="font-display font-bold text-lg">
+                Shop by Category
+              </h3>
               <div className="space-y-2">
                 {/* Fashion Link */}
                 <Link
@@ -588,7 +642,9 @@ const Header = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                 >
-                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">Fashion</span>
+                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                    Fashion
+                  </span>
                   <ChevronDown className="h-4 w-4 -rotate-90 text-muted-foreground group-hover:text-primary transition-colors" />
                 </Link>
 
@@ -624,7 +680,9 @@ const Header = () => {
                   className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
                 >
                   <span className="text-lg">⚡</span>
-                  <span className="font-medium text-foreground hover:text-primary transition-colors">Electronics</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">
+                    Electronics
+                  </span>
                 </Link>
 
                 {/* Books */}
@@ -634,18 +692,26 @@ const Header = () => {
                   className="flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
                 >
                   <span className="text-lg">📚</span>
-                  <span className="font-medium text-foreground hover:text-primary transition-colors">Books</span>
+                  <span className="font-medium text-foreground hover:text-primary transition-colors">
+                    Books
+                  </span>
                 </Link>
 
                 {/* Other Categories */}
                 {categories.slice(2).map((category) => (
                   <Link
                     key={category.id}
-                    to={category.id === 'home' ? '/homeliving' : `/category/${category.id}`}
+                    to={
+                      category.id === "home"
+                        ? "/homeliving"
+                        : `/category/${category.id}`
+                    }
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors group"
                   >
-                    <span className="font-medium text-foreground group-hover:text-primary transition-colors">{category.name}</span>
+                    <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                      {category.name}
+                    </span>
                     <ChevronDown className="h-4 w-4 -rotate-90 text-muted-foreground group-hover:text-primary transition-colors" />
                   </Link>
                 ))}
@@ -672,7 +738,11 @@ const Header = () => {
                   className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-accent transition-colors"
                 >
                   <span className="font-medium">Wishlist</span>
-                  {wishlistItems.length > 0 && <Badge className="bg-pink-gradient">{wishlistItems.length}</Badge>}
+                  {wishlistItems.length > 0 && (
+                    <Badge className="bg-pink-gradient">
+                      {wishlistItems.length}
+                    </Badge>
+                  )}
                 </Link>
               </div>
             </div>

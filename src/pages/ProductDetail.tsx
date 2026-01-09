@@ -15,14 +15,14 @@ import ProductDisplay from "@/components/products/ProductDisplay"; // <-- Import
 import { products } from "@/data/products";
 import { electronicsProducts } from "@/data/electronics";
 import { homeLivingProducts } from "@/data/Home&living";
-import { groceryProducts } from "@/data/grocery";
+import { groceryProducts } from "@/data/Grocery";
 import { booksProducts } from "@/data/books";
 import { perfumeProducts } from "@/data/perfume";
 import { jewelleryProducts } from "@/data/Jewellery";
 import { sportsProducts } from "@/data/Sports";
 import { fashionProducts } from "@/data/fashion";
 import { beautyProducts } from "@/data/beauty";
-
+import { mensProducts } from "@/data/Menfashion";
 
 const MAGNIFIER_SIZE = 100;
 const ZOOM_LEVEL = 2;
@@ -30,8 +30,8 @@ const ProductDetail = () => {
   const { id } = useParams();
 
   // ========================================
-// STEP 2: Combine all product arrays
-// ========================================
+  // STEP 2: Combine all product arrays
+  // ========================================
   const allProductArrays = [
     products,
     electronicsProducts,
@@ -43,6 +43,7 @@ const ProductDetail = () => {
     sportsProducts,
     fashionProducts,
     beautyProducts,
+    mensProducts,
     // Add more arrays here
   ];
 
@@ -66,9 +67,11 @@ const ProductDetail = () => {
     );
 
     if (filtered.length < 4) {
-      const moreProducts = allProducts.filter(
-        (p) => !filtered.some(fp => fp.id === p.id) && p.id !== product.id
-      ).sort(() => Math.random() - 0.5);
+      const moreProducts = allProducts
+        .filter(
+          (p) => !filtered.some((fp) => fp.id === p.id) && p.id !== product.id
+        )
+        .sort(() => Math.random() - 0.5);
       filtered = [...filtered, ...moreProducts.slice(0, 4 - filtered.length)];
     }
 
@@ -249,13 +252,27 @@ const ProductDetail = () => {
       <main className="container py-4 sm:py-8 px-4 sm:px-0">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 flex-wrap">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <Link to="/" className="hover:text-foreground transition-colors">
+            Home
+          </Link>
           <ChevronRight className="h-4 w-4" />
-          <Link to="/products" className="hover:text-foreground transition-colors">Products</Link>
+          <Link
+            to="/products"
+            className="hover:text-foreground transition-colors"
+          >
+            Products
+          </Link>
           <ChevronRight className="h-4 w-4" />
-          <Link to={`/category/${product.category}`} className="hover:text-foreground transition-colors capitalize">{product.category}</Link>
+          <Link
+            to={`/category/${product.category}`}
+            className="hover:text-foreground transition-colors capitalize"
+          >
+            {product.category}
+          </Link>
           <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground truncate max-w-[200px]">{product.name}</span>
+          <span className="text-foreground truncate max-w-[200px]">
+            {product.name}
+          </span>
         </nav>
 
         {/* Use the new shared component to display product details */}
@@ -264,7 +281,9 @@ const ProductDetail = () => {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-16">
-            <h2 className="font-display text-2xl font-bold mb-8">Related Products</h2>
+            <h2 className="font-display text-2xl font-bold mb-8">
+              Related Products
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((p, index) => (
                 <ProductCard key={p.id} product={p} index={index} />
@@ -280,7 +299,3 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-
-
-
-
