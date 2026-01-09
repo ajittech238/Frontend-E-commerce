@@ -7,7 +7,7 @@ import ProductDisplay from "./ProductDisplay"; // <-- Import the new shared comp
 import { X } from "lucide-react";
 
 interface ProductModalProps {
-  product: any; // You should replace 'any' with a proper Product type
+  product: Product; 
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }
