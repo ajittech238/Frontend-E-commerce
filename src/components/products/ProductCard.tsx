@@ -247,6 +247,10 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
     }
   };
 
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`);
+  };
+
   const discountPercent = product.originalPrice
     ? Math.round(
         ((product.originalPrice - product.price) / product.originalPrice) * 100

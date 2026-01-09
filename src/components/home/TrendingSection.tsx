@@ -165,7 +165,7 @@ const TrendingSection = () => {
                   height: CARD_HEIGHT,
                 }}
               >
-                <div className="h-full rounded-2xl overflow-hidden transition-transform hover:scale-105">
+                <div className="h-full rounded-2xl overflow-hidden">
                   <ProductCard product={product} index={index} />
                 </div>
               </div>

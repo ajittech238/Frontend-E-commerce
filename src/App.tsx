@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { OrderProvider } from "@/context/OrderContext";
+import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -92,10 +93,7 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 import JewelleryPage from "./pages/JewelleryPage";
-import BeautyPage from "./pages/BeautyPage";
 import PerfumePage from "./pages/PerfumePage";
-// import BeautyCategory from "./pages/BeautyCatego.ry";
-// import JewelleryPage from "./pages/JewelleryPage";
 const queryClient = new QueryClient();
 
 const App = () => (
