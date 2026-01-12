@@ -20,12 +20,13 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { cn } from "@/lib/utils";
 
+import { Product } from "@/types/product";
 const MAGNIFIER_SIZE = 100;
 const ZOOM_LEVEL = 2;
 
 // Define the props interface for the component
 interface ProductDisplayProps {
-  product: any; // You should replace 'any' with a proper Product type
+  product: Product; // You should replace 'any' with a proper Product type
 }
 
 const ProductDisplay = ({ product }: ProductDisplayProps) => {
@@ -50,7 +51,7 @@ const ProductDisplay = ({ product }: ProductDisplayProps) => {
     // Initialize variants when product changes
     if (product.variants && Object.keys(product.variants).length > 0) {
       const initialVariants: { [key: string]: string } = {};
-      product.variants.forEach((variant: any) => {
+      product.variants.forEach((variant) => {
         if (variant.options.length > 0) {
           initialVariants[variant.name] = variant.options[0].value;
         }
@@ -71,9 +72,9 @@ const ProductDisplay = ({ product }: ProductDisplayProps) => {
 
   const dynamicPrice = useMemo(() => {
     let finalPrice = product.price;
-    product.variants?.forEach((variant: any) => {
+    product.variants?.forEach((variant) => {
       const selectedOptionValue = selectedVariants[variant.name];
-      const selectedOption = variant.options.find((opt: any) => opt.value === selectedOptionValue);
+      const selectedOption = variant.options.find((opt) => opt.value === selectedOptionValue);
       if (selectedOption?.priceModifier) {
         finalPrice += selectedOption.priceModifier;
       }
@@ -88,13 +89,13 @@ const ProductDisplay = ({ product }: ProductDisplayProps) => {
     let currentStock = 999;
     const primaryVariant = product.variants[0];
     const selectedOptionValue = selectedVariants[primaryVariant.name];
-    const selectedOption = primaryVariant.options.find((opt: any) => opt.value === selectedOptionValue);
+    const selectedOption = primaryVariant.options.find((opt) => opt.value === selectedOptionValue);
     currentStock = selectedOption?.stock ?? 999;
 
     if (product.variants.length > 1) {
       const secondaryVariant = product.variants[1];
       const selectedOptionValue2 = selectedVariants[secondaryVariant.name];
-      const selectedOption2 = secondaryVariant.options.find((opt: any) => opt.value === selectedOptionValue2);
+      const selectedOption2 = secondaryVariant.options.find((opt) => opt.value === selectedOptionValue2);
       if (selectedOption2) {
         currentStock = Math.min(currentStock, selectedOption2.stock);
       }
@@ -234,11 +235,11 @@ const ProductDisplay = ({ product }: ProductDisplayProps) => {
           <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{product.description || "Experience premium quality with this exceptional product."}</p>
           <StockStatus />
 
-          {product.variants && product.variants.map((variant: any) => (
+          {product.variants && product.variants.map((variant: { name: string; options: { value: string; stock: number }[] }) => (
             <div key={variant.name} className="space-y-3 pt-4 border-t border-border">
               <label className="text-sm font-semibold text-foreground">{variant.name}: <span className="text-muted-foreground font-normal">{selectedVariants[variant.name]}</span></label>
               <div className="flex flex-wrap gap-2">
-                {variant.options.map((option: any) => (
+                {variant.options.map((option: { value: string; stock: number }) => (
                   <button
                     key={option.value}
                     onClick={() => handleVariantSelect(variant.name, option.value)}
@@ -303,7 +304,7 @@ const ProductDisplay = ({ product }: ProductDisplayProps) => {
               <div className="w-full">
                 <h2 className="font-display text-2xl font-bold mb-6">Specifications</h2>
                 <div className="space-y-3 overflow-hidden">
-                  {product.specifications.map((spec: any) => (
+                  {product.specifications.map((spec: { name: string; value: string }) => (
                     <div key={spec.name} className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center border-b pb-3 last:border-b-0">
                       <span className="font-medium text-foreground mb-1 sm:mb-0">{spec.name}</span>
                       <span className="text-muted-foreground text-sm truncate">{spec.value}</span>
@@ -318,7 +319,7 @@ const ProductDisplay = ({ product }: ProductDisplayProps) => {
                   Customer Reviews ({product.detailedReviews.length})
                 </h2>
                 <div className="space-y-6">
-                  {product.detailedReviews.map((review: any) => (
+                  {product.detailedReviews.map((review: { id: string, author: string, date: string, rating: number, comment: string }) => (
                     <div key={review.id} className="border-b pb-6 last:border-b-0">
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-2">
                         <span className="font-semibold text-foreground">{review.author}</span>

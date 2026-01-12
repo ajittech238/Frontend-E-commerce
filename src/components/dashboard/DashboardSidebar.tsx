@@ -64,6 +64,7 @@ const menuGroups = [
     label: "HR & Payroll",
     items: [
       { title: "Employees", url: "/dashboard/employees", icon: Users },
+      { title: "Attendence", url: "/dashboard/attendence", icon: Users },
       { title: "Departments", url: "/dashboard/departments", icon: Building2 },
       { title: "Leaves", url: "/dashboard/leaves", icon: Calendar },
       { title: "Salaries", url: "/dashboard/salaries", icon: DollarSign },

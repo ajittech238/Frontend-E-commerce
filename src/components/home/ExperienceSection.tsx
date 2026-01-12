@@ -3,15 +3,15 @@ import { ArrowRight, Award, Briefcase, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const images = [
-  "/images/exp-1.jpg",
-  "/images/exp-2.jpg",
-  "/images/exp-3.jpg",
+  "/public/a/exp-1.jpg",
+  "/public/a/exp-2.jpg",
+  "/public/a/exp-3.jpg",
 ];
 
 const stats = [
   { icon: Briefcase, value: "5+", label: "Years Experience" },
-  { icon: Users, value: "120+", label: "Happy Clients" },
-  { icon: Award, value: "300+", label: "Projects Delivered" },
+  { icon: Users, value: "120+", label: "Happy Customers" },
+  { icon: Award, value: "300+", label: "Products Delivered" },
 ];
 
 const ExperienceSection = () => {
