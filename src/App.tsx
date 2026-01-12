@@ -100,6 +100,7 @@ import CustomerRoutes from "./customer/routes/CustomerRoutes";
 import WarehouseRoutes from "./WarehouseRoutes";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import CustomerSupportDashboard from "./pages/admin/CustomerSupport";
 
 const queryClient = new QueryClient();
 
@@ -146,6 +147,20 @@ const App = () => {
                       <Route path="settings" element={<DashboardSettings />} />
                       <Route path="refer-earn" element={<ReferEarn />} />
                       <Route path="rewards" element={<Rewards />} />
+                      <Route path="attendence" element={<StaffAttendance/>} />
+                      <Route path="employees" element={<AdminEmployees/>} />
+                      <Route path="departments" element={<AdminDepartments/>} />
+                      <Route path="leaves" element={<AdminLeaves/>} />
+                      <Route path="salaries" element={<AdminSalaries/>} />
+                      <Route path="racks" element={<AdminRacks/>} />
+                      <Route path="warehouses" element={<AdminWarehouses/>} />
+                      <Route path="notifications" element={<AdminNotifications/>} />
+                      <Route path="transactions" element={<AdminTransactions/>} />
+                      <Route path="returns" element={<AdminReturns/>} />
+                      <Route path="invoices" element={<AdminInvoices/>} />
+                      <Route path="coupons" element={<AdminCoupons/>} />
+                      <Route path="reviews" element={<AdminReviews/>} />
+                      <Route path="categories" element={<AdminCategories/>} />
                       <Route path="qa" element={<QA />} />
                       <Route path="shops" element={<Shops />} />
                       <Route path="roles" element={<Roles />} />
@@ -156,6 +171,7 @@ const App = () => {
                       <Route path="amazon" element={<AmazonDashboard />} />
                       <Route path="shopify" element={<ShopifyDashboard />} />
                       <Route path="razorpay" element={<RazorpayDashboard />} />
+                      <Route path="customersupport" element={<CustomerSupportDashboard />} />
 
                       {/* ADMIN */}
                       <Route path="attendance" element={<StaffAttendance />} />
