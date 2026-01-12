@@ -10,8 +10,6 @@ import { OrderProvider } from "@/context/OrderContext";
 import { CustomerAuthProvider } from "@/customer/context/CustomerAuthContext";
 
 import ScrollToTop from "./components/utils/ScrollToTop";
-
-/* ===== PUBLIC PAGES ===== */
 import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -21,21 +19,24 @@ import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import NotFound from "./pages/NotFound";
 
+// Category & Fashion Pages
 import FashionCategoryPage from "./pages/FashionCategoryPage";
 import ElectronicsPage from "./pages/ElectronicsPage";
-import GroceryPage from "./pages/Grocerypage";
-import HomeLivingPage from "./pages/Home&livingPage";
 import BeautyPage from "./pages/BeautyPage";
 import SportsPage from "./pages/SportsPage";
+import GroceryPage from "./pages/Grocerypage";
+import HomeLivingPage from "./pages/Home&livingPage";
+import JewelleryPage from "./pages/JewelleryPage";
+import PerfumePage from "./pages/PerfumePage";
 import BooksPage from "./pages/BooksPage";
 
-/* ===== PAYMENTS ===== */
+// Payment Pages
 import SBIPayment from "./pages/payment/SBIPayment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PaymentHistory from "./pages/payment/PaymentHistory";
 
-/* ===== DASHBOARD ===== */
+// Dashboard
 import { DashboardLayout } from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
@@ -56,7 +57,7 @@ import AmazonDashboard from "./pages/dashboard/AmazonDashboard";
 import ShopifyDashboard from "./pages/dashboard/ShopifyDashboard";
 import RazorpayDashboard from "./pages/dashboard/RazorpayDashboard";
 
-/* ===== ADMIN ===== */
+// Admin
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminCategories from "./pages/admin/AdminCategories";
@@ -78,13 +79,13 @@ import AdminEmployees from "./pages/admin/AdminEmployees";
 import AdminDepartments from "./pages/admin/AdminDepartments";
 import AdminSalaries from "./pages/admin/AdminSalaries";
 import AdminLeaves from "./pages/admin/AdminLeaves";
-import StaffAttendance from "./pages/admin/Attendence";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminTransactions from "./pages/admin/AdminTransactions";
 import AdminIntegrations from "./pages/admin/AdminIntegrations";
 import Analytics from "./pages/admin/Analytics";
+import StaffAttendance from "./pages/admin/Attendence";
 
-/* ===== INTEGRATIONS ===== */
+// Integrations
 import AmazonIntegration from "./pages/admin/integrations/AmazonIntegration";
 import ShopifyIntegration from "./pages/admin/integrations/ShopifyIntegration";
 import EbayIntegration from "./pages/admin/integrations/EbayIntegration";
@@ -94,9 +95,16 @@ import WooCommerceIntegration from "./pages/admin/integrations/WooCommerceIntegr
 import RazorpayIntegration from "./pages/admin/integrations/RazorpayIntegration";
 import WhatsAppIntegration from "./pages/admin/integrations/WhatsAppIntegration";
 
-/* ===== CUSTOMER / WAREHOUSE ===== */
+// Customer / Warehouse
 import CustomerRoutes from "./customer/routes/CustomerRoutes";
+<<<<<<< HEAD
 import WarehouseRoutes from "./warehouse/WarehouseRoutes";
+=======
+import WarehouseRoutes from "./WarehouseRoutes";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import CustomerSupportDashboard from "./pages/admin/CustomerSupport";
+>>>>>>> a2ff3f4e2f90fc98b4fd046df5faf81b73cf3390
 
 const queryClient = new QueryClient();
 
@@ -110,59 +118,53 @@ const App = () => {
               <OrderProvider>
                 <Toaster />
                 <Sonner />
-
                 <BrowserRouter>
                   <ScrollToTop />
-
                   <Routes>
-                    {/* PUBLIC */}
+                    {/* PUBLIC PAGES */}
                     <Route path="/" element={<Index />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
-                    <Route path="/category/:id" element={<Products />} />
-
                     <Route path="/fashion" element={<FashionCategoryPage />} />
-                    <Route
-                      path="/fashion/:type"
-                      element={<FashionCategoryPage />}
-                    />
+                    <Route path="/fashion/:type" element={<FashionCategoryPage />} />
                     <Route path="/electronics" element={<ElectronicsPage />} />
                     <Route path="/grocery" element={<GroceryPage />} />
                     <Route path="/homeliving" element={<HomeLivingPage />} />
                     <Route path="/beauty" element={<BeautyPage />} />
                     <Route path="/sports" element={<SportsPage />} />
                     <Route path="/books" element={<BooksPage />} />
-
+                    <Route path="/jewellery" element={<JewelleryPage />} />
+                    <Route path="/perfumes" element={<PerfumePage />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/checkout" element={<Checkout />} />
-                    <Route
-                      path="/order-confirmation/:orderId"
-                      element={<OrderConfirmation />}
-                    />
-
-                    {/* PAYMENTS */}
-                    <Route path="/payment/sbi" element={<SBIPayment />} />
-                    <Route
-                      path="/payment-success"
-                      element={<PaymentSuccess />}
-                    />
-                    <Route path="/payment-failed" element={<PaymentFailed />} />
-                    <Route
-                      path="/payment-history"
-                      element={<PaymentHistory />}
-                    />
+                    <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
 
                     {/* DASHBOARD */}
                     <Route path="/dashboard" element={<DashboardLayout />}>
                       <Route index element={<Dashboard />} />
                       <Route path="products" element={<DashboardProducts />} />
                       <Route path="orders" element={<DashboardOrders />} />
-                      <Route path="seller-orders" element={<SellerOrders />} />
                       <Route path="checkout" element={<DashboardCheckout />} />
                       <Route path="settings" element={<DashboardSettings />} />
                       <Route path="refer-earn" element={<ReferEarn />} />
                       <Route path="rewards" element={<Rewards />} />
+                      <Route path="attendence" element={<StaffAttendance/>} />
+                      <Route path="employees" element={<AdminEmployees/>} />
+                      <Route path="departments" element={<AdminDepartments/>} />
+                      <Route path="leaves" element={<AdminLeaves/>} />
+                      <Route path="salaries" element={<AdminSalaries/>} />
+                      <Route path="racks" element={<AdminRacks/>} />
+                      <Route path="warehouses" element={<AdminWarehouses/>} />
+                      <Route path="notifications" element={<AdminNotifications/>} />
+                      <Route path="transactions" element={<AdminTransactions/>} />
+                      <Route path="returns" element={<AdminReturns/>} />
+                      <Route path="invoices" element={<AdminInvoices/>} />
+                      <Route path="coupons" element={<AdminCoupons/>} />
+                      <Route path="reviews" element={<AdminReviews/>} />
+                      <Route path="categories" element={<AdminCategories/>} />
                       <Route path="qa" element={<QA />} />
                       <Route path="shops" element={<Shops />} />
                       <Route path="roles" element={<Roles />} />
@@ -173,110 +175,20 @@ const App = () => {
                       <Route path="amazon" element={<AmazonDashboard />} />
                       <Route path="shopify" element={<ShopifyDashboard />} />
                       <Route path="razorpay" element={<RazorpayDashboard />} />
+                      <Route path="customersupport" element={<CustomerSupportDashboard />} />
 
                       {/* ADMIN */}
-                      <Route path="users" element={<AdminUsers />} />
-                      <Route path="admin-orders" element={<AdminOrders />} />
-                      <Route path="categories" element={<AdminCategories />} />
-                      <Route path="coupons" element={<AdminCoupons />} />
-                      <Route path="returns" element={<AdminReturns />} />
-                      <Route path="invoices" element={<AdminInvoices />} />
-                      <Route path="reviews" element={<AdminReviews />} />
-                      <Route path="warehouses" element={<AdminWarehouses />} />
-                      <Route
-                        path="warehouse-cart"
-                        element={<AdminWarehouseCart />}
-                      />
-                      <Route
-                        path="warehouse-invoices"
-                        element={<AdminWarehouseInvoices />}
-                      />
-                      <Route
-                        path="warehouse-products"
-                        element={<AdminWarehouseProducts />}
-                      />
-                      <Route
-                        path="warehouse-management"
-                        element={<AdminWarehouseManagement />}
-                      />
-                      <Route
-                        path="warehouse-refer-earn"
-                        element={<AdminWarehouseReferEarn />}
-                      />
-                      <Route
-                        path="warehouse-returns"
-                        element={<AdminWarehouseReturns />}
-                      />
-                      <Route path="racks" element={<AdminRacks />} />
-                      <Route
-                        path="rack-products"
-                        element={<AdminRackProducts />}
-                      />
-                      <Route
-                        path="scratch-cards"
-                        element={<AdminScratchCards />}
-                      />
-                      <Route path="employees" element={<AdminEmployees />} />
-                      <Route
-                        path="departments"
-                        element={<AdminDepartments />}
-                      />
-                      <Route path="salaries" element={<AdminSalaries />} />
-                      <Route path="leaves" element={<AdminLeaves />} />
                       <Route path="attendance" element={<StaffAttendance />} />
-                      <Route
-                        path="notifications"
-                        element={<AdminNotifications />}
-                      />
-                      <Route
-                        path="transactions"
-                        element={<AdminTransactions />}
-                      />
-                      <Route
-                        path="integrations"
-                        element={<AdminIntegrations />}
-                      />
                       <Route path="analytics" element={<Analytics />} />
-
-                      {/* INTEGRATION DETAILS */}
-                      <Route
-                        path="integrations/amazon"
-                        element={<AmazonIntegration />}
-                      />
-                      <Route
-                        path="integrations/shopify"
-                        element={<ShopifyIntegration />}
-                      />
-                      <Route
-                        path="integrations/ebay"
-                        element={<EbayIntegration />}
-                      />
-                      <Route
-                        path="integrations/walmart"
-                        element={<WalmartIntegration />}
-                      />
-                      <Route
-                        path="integrations/flipkart"
-                        element={<FlipkartIntegration />}
-                      />
-                      <Route
-                        path="integrations/woocommerce"
-                        element={<WooCommerceIntegration />}
-                      />
-                      <Route
-                        path="integrations/razorpay"
-                        element={<RazorpayIntegration />}
-                      />
-                      <Route
-                        path="integrations/whatsapp"
-                        element={<WhatsAppIntegration />}
-                      />
+                      <Route path="users" element={<AdminUsers />} />
+                      <Route path="integrations" element={<AdminIntegrations />} />
                     </Route>
 
                     {/* MODULE ROUTES */}
                     <Route path="/customer/*" element={<CustomerRoutes />} />
                     <Route path="/warehouse/*" element={<WarehouseRoutes />} />
 
+                    {/* 404 */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </BrowserRouter>

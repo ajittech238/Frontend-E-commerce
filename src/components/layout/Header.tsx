@@ -53,6 +53,7 @@ const Header = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -118,14 +119,23 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Promo Banner */}
-      <div className="bg-gradient-to-r from-primary/90 to-primary text-primary-foreground text-center py-2.5 text-sm font-semibold">
-        <div className="container flex items-center justify-center gap-2">
-          <Zap className="h-4 w-4 animate-pulse" />
-          <span>🎉 Mega Sale Live! Free shipping on all orders over ₹999</span>
-          <Zap className="h-4 w-4 animate-pulse" />
-        </div>
-      </div>
+      {showBanner && (
+        <div className="bg-gradient-to-r from-primary/90 to-primary text-primary-foreground text-center py-2.5 text-sm font-semibold relative">
+          <div className="container flex items-center justify-center gap-2">
+            <Zap className="h-4 w-4 animate-pulse" />
+            <span>🎉 Mega Sale Live! Free shipping on all orders over ₹999</span>
+            <Zap className="h-4 w-4 animate-pulse" />
+          </div>
 
+          {/* Cross button */}
+          <button
+            onClick={() => setShowBanner(false)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-200"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
       {/* Main Header */}
       <div className="bg-white dark:bg-card border-b border-border/50 backdrop-blur-lg bg-opacity-95">
         <div className="container">

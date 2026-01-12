@@ -67,8 +67,6 @@
 // };
 
 // export default TrendingSection;
-
-
 import { useRef, useEffect } from "react";
 import { ArrowRight, ArrowLeft, TrendingUp, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -76,38 +74,49 @@ import ProductCard from "@/components/products/ProductCard";
 import { trending, products } from "@/data/products";
 import { Link } from "react-router-dom";
 
-const CARD_WIDTH = 300;
-const CARD_HEIGHT = 500;
-
 const TrendingSection = () => {
   const trendingProducts =
     trending.length >= 4 ? trending : products.slice(0, 8);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
+  /* ================= MANUAL SCROLL ================= */
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
 
+    const isMobile = window.innerWidth < 640;
+    const scrollAmount = isMobile
+      ? window.innerWidth * 0.75
+      : 300;
+
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -CARD_WIDTH : CARD_WIDTH,
+      left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
 
-  // ===== Auto Slide =====
+  /* ================= AUTO SLIDE ================= */
   useEffect(() => {
     const interval = setInterval(() => {
       if (!scrollRef.current) return;
+
+      const isMobile = window.innerWidth < 640;
+      const scrollAmount = isMobile
+        ? window.innerWidth * 0.75
+        : 300;
 
       const container = scrollRef.current;
 
       if (
         container.scrollLeft + container.clientWidth >=
-        container.scrollWidth - 10
+        container.scrollWidth - scrollAmount
       ) {
         container.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        container.scrollBy({ left: CARD_WIDTH, behavior: "smooth" });
+        container.scrollBy({
+          left: scrollAmount,
+          behavior: "smooth",
+        });
       }
     }, 3000);
 
@@ -117,7 +126,8 @@ const TrendingSection = () => {
   return (
     <section className="md:py-10 bg-gradient-to-b from-background to-accent/5">
       <div className="container">
-        {/* Header */}
+
+        {/* ================= HEADER ================= */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-gradient/10 border border-primary/20 mb-4">
@@ -127,62 +137,74 @@ const TrendingSection = () => {
               </span>
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold">Trending Now</h2>
+            <h2 className="text-3xl md:text-5xl font-bold">
+              Trending Now
+            </h2>
             <p className="text-muted-foreground mt-2">
               Discover what's hot and what customers love
             </p>
           </div>
 
           <Link to="/products">
-            <Button className="group bg-gradient-to-r from-primary to-primary/90 text-white px-6 py-3 rounded-xl shadow-lg gap-2">
+            <Button className="bg-gradient-to-r from-primary to-primary/90 text-white px-6 py-3 rounded-xl shadow-lg gap-2">
               Explore Trending
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="h-5 w-5" />
             </Button>
           </Link>
         </div>
 
-        {/* Slider */}
+        {/* ================= SLIDER ================= */}
         <div className="relative">
-          {/* Left Button */}
+
+          {/* LEFT BUTTON (DESKTOP ONLY) */}
           <button
             onClick={() => handleScroll("left")}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
+            className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
           >
             <ArrowLeft className="h-5 w-5 text-primary" />
           </button>
 
-          {/* Cards */}
+          {/* CARDS */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-2"
+            className="
+              flex items-center
+              gap-3 md:gap-4
+              overflow-x-auto overflow-y-visible
+              scrollbar-hide scroll-smooth
+              px-2 md:px-2
+              snap-x snap-mandatory
+            "
           >
             {trendingProducts.slice(0, 10).map((product, index) => (
               <div
                 key={product.id}
-                className="flex-shrink-0"
-                style={{
-                  width: CARD_WIDTH,
-                  height: CARD_HEIGHT,
-                }}
+                className="
+                  w-[75vw]
+                  min-w-[75vw]
+                  sm:w-auto
+                  sm:min-w-[220px]
+                  md:min-w-[300px]
+                  flex justify-center
+                  snap-center
+                "
               >
-                <div className="h-full rounded-2xl overflow-hidden">
-                  <ProductCard product={product} index={index} />
-                </div>
+                <ProductCard product={product} index={index} />
               </div>
             ))}
           </div>
 
-          {/* Right Button */}
+          {/* RIGHT BUTTON (DESKTOP ONLY) */}
           <button
             onClick={() => handleScroll("right")}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
+            className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
           >
             <ArrowRight className="h-5 w-5 text-primary" />
           </button>
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-14 text-center">
+        {/* ================= BOTTOM CTA ================= */}
+        <div className="mt-12 text-center">
           <p className="text-muted-foreground mb-6">
             💡 New trending items are discovered every day!
           </p>
@@ -190,9 +212,9 @@ const TrendingSection = () => {
           <Link to="/products">
             <Button
               variant="outline"
-              className="rounded-xl border-2 font-semibold px-8 py-3 group"
+              className="rounded-xl border-2 font-semibold px-8 py-3"
             >
-              <TrendingUp className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform" />
+              <TrendingUp className="h-5 w-5 mr-2" />
               View All Trending Products
             </Button>
           </Link>
