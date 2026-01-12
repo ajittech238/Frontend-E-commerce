@@ -38,6 +38,7 @@ const FashionCategoryComponent = () => {
     }).format(price);
   };
 
+
   const renderProductCard = (product: any, index: number) => {
     const inWishlist = isInWishlist(product.id);
     
@@ -73,7 +74,7 @@ const FashionCategoryComponent = () => {
 
           {/* Discount Badge */}
           {product.discount && (
-            <div className="absolute top-2 left-2 bg-destructive text-white text-xs font-bold px-2 py-1 rounded">
+            <div className="absolute top-2 left-2  text-white text-xs font-bold px-2 py-1 rounded">
               {product.discount}% OFF
             </div>
           )}

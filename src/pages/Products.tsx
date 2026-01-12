@@ -1,12 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSearchParams, useParams } from "react-router-dom";
-import {
-  SlidersHorizontal,
-  Grid3X3,
-  List,
-  ChevronDown,
-  X,
-} from "lucide-react";
+import { SlidersHorizontal, Grid3X3, List, ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
@@ -30,6 +24,11 @@ import CartSidebar from "@/components/cart/CartSidebar";
 import ProductCard from "@/components/products/ProductCard";
 import { products, categories } from "@/data/products";
 import { cn } from "@/lib/utils";
+import orangedress from "/public/a/orangedress.png";
+import videoplayback from "../../public/a/videoplayback.mp4";
+import restyle from "/public/a/restyle.png";
+import greenshirt from "/public/a/greenshirt.png";
+import whitelehnga from "/public/a/whitelehnga.png";
 
 const Products = () => {
   const [searchParams] = useSearchParams();
@@ -49,10 +48,11 @@ const Products = () => {
 
     // Filter by search query
     if (searchQuery) {
-      result = result.filter((p) =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase())
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.category.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -62,7 +62,9 @@ const Products = () => {
     }
 
     // Filter by price
-    result = result.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    result = result.filter(
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
+    );
 
     // Sort
     switch (sortBy) {
@@ -146,11 +148,7 @@ const Products = () => {
       </div>
 
       {/* Clear Filters */}
-      <Button
-        variant="outline"
-        className="w-full"
-        onClick={clearFilters}
-      >
+      <Button variant="outline" className="w-full" onClick={clearFilters}>
         Clear All Filters
       </Button>
     </div>
@@ -160,6 +158,176 @@ const Products = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-8">
+        {/* <div className="relative overflow-hidden rounded-lg shadow-lg h-[600px] mb-[80px] mt-12">
+          
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover "
+          >
+            <source src={videoplayback} type="video/mp4" />
+          </video>
+
+          
+          <div className="absolute top-0 left-0 w-full h-full bg-black/20"></div>
+
+        
+          <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-8">
+           
+            <h1 className="text-5xl text-white text-center pb-8 font-bold">
+              Fashion Categories
+            </h1>
+
+           
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
+              
+              <div className="flex flex-col items-center justify-center gap-4 bg-white/5    0 backdrop-blur-sm rounded-lg p-6">
+                <div className="w-32 h-32">
+                  <img
+                    src={restyle}
+                    className="object-cover w-full h-full rounded-full shadow-md"
+                    alt="Fashion Category Logo"
+                  />
+                </div>
+                <p className="text-[#3b0310] italic font-semibold text-lg text-center">
+                  Fashion categories for boys, girls, and kids are designed to
+                  balance style, comfort, and practicality while meeting the
+                  needs of different age groups.
+                </p>
+              </div>
+
+             
+              <div className="flex gap-4 items-center justify-center">
+           
+                <div className="flex-1 flex flex-col gap-2">
+                  <h2 className="text-center text-white font-bold text-lg italic bg-black/50 py-1 rounded">
+                    Girls Fashion
+                  </h2>
+                  <img
+                    src={whitelehnga}
+                    className="object-cover w-full h-[280px] border-4 border-white rounded-2xl shadow-lg"
+                    alt="Girls Fashion"
+                  />
+                </div>
+
+       
+                <div className="flex-1 flex flex-col gap-2">
+                  <h2 className="text-center text-white font-bold text-lg italic bg-black/50 py-1 rounded">
+                    Boys Fashion
+                  </h2>
+                  <img
+                    src={greenshirt}
+                    className="object-cover w-full h-[280px] border-4 border-white rounded-2xl shadow-lg"
+                    alt="Boys Fashion"
+                  />
+                </div>
+
+               
+                <div className="flex-1 flex flex-col gap-2">
+                  <h2 className="text-center text-white font-bold text-lg italic bg-black/50 py-1 rounded">
+                    Kids Fashion
+                  </h2>
+                  <img
+                    src={orangedress}
+                    className="object-cover w-full h-[280px] border-4 border-white rounded-2xl shadow-lg"
+                    alt="Kids Fashion"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+        {/* ================= ULTRA LUXURY HERO SECTION ================= */}
+        <section className="relative min-h-[95vh] w-full overflow-hidden rounded-[40px] mt-12 mb-28">
+          {/* Background Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={videoplayback} type="video/mp4" />
+          </video>
+
+          {/* Dark Cinematic Overlay */}
+          <div className="absolute inset-0 bg-black/70" />
+
+          {/* Light Gradient Glow */}
+          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-pink-500/30 blur-[120px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-orange-400/30 blur-[120px]" />
+
+          {/* Content */}
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between h-full px-8 lg:px-20 py-20 gap-16">
+            {/* LEFT – TEXT */}
+            <div className="max-w-xl text-center lg:text-left">
+              <span className="inline-block px-5 py-2 rounded-full bg-white/10 backdrop-blur text-white text-sm tracking-widest mb-6">
+                PREMIUM FASHION 2026
+              </span>
+
+              <h1 className="text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+                Wear Your
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-orange-400 to-yellow-300">
+                  Confidence
+                </span>
+              </h1>
+
+              <p className="mt-8 text-lg text-white/80 leading-relaxed">
+                Discover trend-setting fashion for boys, girls & kids. Designed
+                for comfort. Styled for impact.
+              </p>
+
+              <div className="mt-10 flex gap-5 justify-center lg:justify-start">
+                <button className="px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 text-white font-semibold hover:scale-105 transition">
+                  Shop Collection
+                </button>
+                <button className="px-8 py-4 rounded-full border border-white/30 text-white hover:bg-white/10 transition">
+                  Explore Trends
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT – FLOATING FASHION CARDS */}
+            <div className="relative grid grid-cols-3 gap-8">
+              {/* Girls */}
+              <div className="relative translate-y-10 hover:-translate-y-2 transition duration-500">
+                <img
+                  src={whitelehnga}
+                  className="w-[220px] h-[320px] object-cover rounded-[30px] shadow-2xl border border-white/20"
+                />
+                <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white font-semibold">
+                  Girls
+                </p>
+              </div>
+
+              {/* Boys */}
+              <div className="relative -translate-y-6 hover:-translate-y-12 transition duration-500">
+                <img
+                  src={greenshirt}
+                  className="w-[240px] h-[360px] object-cover rounded-[30px] shadow-2xl border border-white/20"
+                />
+                <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white font-semibold">
+                  Boys
+                </p>
+              </div>
+
+              {/* Kids */}
+              <div className="relative translate-y-16 hover:translate-y-6 transition duration-500">
+                <img
+                  src={orangedress}
+                  className="w-[220px] h-[320px] object-cover rounded-[30px] shadow-2xl border border-white/20"
+                />
+                <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white font-semibold">
+                  Kids
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Page Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
           <div>
@@ -237,9 +405,13 @@ const Products = () => {
         </div>
 
         {/* Active Filters */}
-        {(selectedCategories.length > 0 || priceRange[0] > 0 || priceRange[1] < 350000) && (
+        {(selectedCategories.length > 0 ||
+          priceRange[0] > 0 ||
+          priceRange[1] < 350000) && (
           <div className="flex flex-wrap items-center gap-2 mb-6">
-            <span className="text-sm text-muted-foreground">Active filters:</span>
+            <span className="text-sm text-muted-foreground">
+              Active filters:
+            </span>
             {selectedCategories.map((catId) => (
               <Button
                 key={catId}
@@ -284,7 +456,7 @@ const Products = () => {
               className={cn(
                 "grid gap-6",
                 viewMode === "grid"
-                  ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+                  ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
                   : "grid-cols-1"
               )}
             >

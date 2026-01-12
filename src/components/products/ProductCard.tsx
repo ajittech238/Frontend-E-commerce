@@ -17,6 +17,8 @@ interface ProductCardProps {
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  
   
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -89,7 +91,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
               </span>
             )}
             {discountPercent > 0 && (
-              <span className="badge-sale">
+              <span className="badge-sale bg-[#4b5563]">
                 {discountPercent}% off
               </span>
             )}
@@ -141,7 +143,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             )}
           >
             <Button
-              className="w-auto text btn-etsy text-sm h-10"
+              className={cn(
+                "w-full text text-sm h-10 transition-colors",
+                (product.category === "mens" || product.subcategory?.includes("men")) ? "bg-[#ac9e8c] bg-gradient-to-r from-[#ac9e8c] to-[#e2d2bd] hover:from-[#e2d2bd] to-[#ac9e8c] text-white border-none" :
+                (product.category === "womens" || product.subcategory?.includes("women")) ? "bg-[#ac5662] hover:bg-[#8e4651] text-white border-none" :
+                (product.category === "kids" || product.subcategory?.includes("kids")) ? "bg-[#436191] hover:bg-[#364e75] text-white border-none" :
+                "btn-etsy"
+              )}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -171,10 +179,29 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </Link>
          
 
+          {/* Product size.... */}
+          {product.sizes && product.sizes.length > 0 && (
+            <div className="space-y-1">
+              <label className="text-sm font-semibold text-foreground">
+                Available Sizes:
+              </label>
+              <div className="flex gap-2 flex-wrap">
+                {product.sizes.map((size: string) => (
+                  <button
+                    key={size}
+                    className="text-[12px] px-2 border border-border/50 rounded-lg hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Product Description - Single Line */}
-          <p className="text-xs text-muted-foreground line-clamp-1 leading-relaxed">
+          <div className="text-xs text-muted-foreground gap-1.5 leading-relaxed">
             {product.description || "High-quality product with exceptional features."}
-          </p>
+          </div>
 
           {/* Rating */}
           <div className="flex items-center gap-1.5">

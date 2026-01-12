@@ -94,6 +94,65 @@ import FlipkartIntegration from "./pages/admin/integrations/FlipkartIntegration"
 import WooCommerceIntegration from "./pages/admin/integrations/WooCommerceIntegration";
 import RazorpayIntegration from "./pages/admin/integrations/RazorpayIntegration";
 import WhatsAppIntegration from "./pages/admin/integrations/WhatsAppIntegration";
+import FashionCategoryPage from "./pages/FashionCategoryPage";
+import ElectronicsPage from "./pages/ElectronicsPage";
+import GroceryPage from "./pages/Grocerypage";
+import HomeLivingPage from "./pages/Home&livingPage";
+import MenTopWear from "./pages/fashion/MenTopWear";
+import MenBottomWear from "./pages/fashion/MenBottomWear";
+import MenFootwear from "./pages/fashion/MenFootwear";
+import WomenDresses from "./pages/fashion/WomenDresses";
+import WomenEthnic from "./pages/fashion/WomenEthnic";
+import WomenWestern from "./pages/fashion/WomenWestern";
+import WomenFootwear from "./pages/fashion/WomenFootwear";
+import KidsWear from "./pages/fashion/KidsWear";
+import Accessories from "./pages/fashion/Accessories";
+import SBIPayment from "./pages/payment/SBIPayment";
+import PaymentSuccess from "./pages/payment/PaymentSuccess";
+import PaymentFailed from "./pages/payment/PaymentFailed";
+import PaymentHistory from "./pages/payment/PaymentHistory";
+import SportsPage from "./pages/SportsPage";
+import CustomerDash from "./pages/customer-dashboard/CustomerDash";
+import JewelleryPage from "./pages/JewelleryPage";
+import PerfumePage from "./pages/PerfumePage";
+import BeautyPage from "./pages/BeautyPage";
+import BooksPage from "./pages/BooksPage"; // Uncommented this line
+import ScrollToTop from "./components/utils/ScrollToTop"; // Import ScrollToTop
+import MensFashionPage from "./pages/MensFashionPage";
+import WomenFashionPage from "./pages/WomenFashionPage";
+import KidsFashionPage from "./pages/KidsFashionPage";
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <CustomerAuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <OrderProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <ScrollToTop /> {/* Place ScrollToTop here */}
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/category/:id" element={<Products />} />
+                <Route path="/fashion" element={<FashionCategoryPage />} />
+                <Route path="/fashion/:type" element={<FashionCategoryPage />} />
+                <Route path="/electronics" element={<ElectronicsPage />} />
+                <Route path="/grocery" element={<GroceryPage />} />
+                <Route path="/homeliving" element={<HomeLivingPage />} />
+                <Route path="/beauty" element={<BeautyPage/>} />
+                <Route path="/menfashion" element={<MensFashionPage/>}/>
+                <Route path="/womenfashion" element={<WomenFashionPage/>}/>
+                <Route path="/kidsfashion" element={<KidsFashionPage/>}/>
+                <Route path="/jewellery" element={<JewelleryPage/>}/>
+                <Route path="/perfume" element={<PerfumePage/>}/>
+                <Route path="/sports" element={<SportsPage />} /> {/* Added SportsPage route */}
+                <Route path="/books" element={<BooksPage />} /> {/* Added BooksPage route */}
 
 // Customer / Warehouse
 import CustomerRoutes from "./customer/routes/CustomerRoutes";
