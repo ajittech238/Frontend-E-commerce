@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Filter, Smartphone, Laptop, Headphones, Watch, Zap, Package, Tablet, Camera, Speaker, Monitor, Truck, Shield, RotateCcw, X, Plus, Minus } from "lucide-react";
+import { Filter, Smartphone, Laptop, Headphones, Watch, Zap, Package, Tablet, Camera, Speaker, Monitor, Truck, Shield, RotateCcw, X, Plus, Minus, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { electronicsProducts } from "@/data/electronics";
@@ -14,6 +14,7 @@ const ElectronicsPage = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("popularity");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const categories = [
     { id: "smartphones", name: "Smartphones", icon: Smartphone },
@@ -84,10 +85,17 @@ const ElectronicsPage = () => {
       </section>
 
       <div className="container py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-5 gap-8">
           {/* Filters Sidebar */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6 bg-card p-6 rounded-xl border border-border/50">
+          <div className="lg:hidden">
+            <Button variant="outline" className="w-full justify-between" onClick={() => setShowMobileFilters(!showMobileFilters)}>
+              <span className="flex items-center gap-2"><Filter className="h-4 w-4" /> Filters</span>
+              <ChevronDown className={cn("h-4 w-4 transition-transform", showMobileFilters ? "rotate-180" : "")} />
+            </Button>
+          </div>
+
+          <aside className={cn("lg:col-span-1", showMobileFilters ? "block" : "hidden lg:block")}>
+            <div className="sticky top-24 space-y-6 bg-card p-4 sm:p-6 rounded-xl border border-border/50">
               <div>
                 <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                   <Filter className="h-5 w-5" />
@@ -203,7 +211,7 @@ const ElectronicsPage = () => {
           </aside>
 
           {/* Main Content */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 flex-1">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                 Discover <span className="text-purple-600">Electronics</span> ({sortedProducts.length})

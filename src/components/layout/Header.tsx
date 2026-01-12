@@ -21,7 +21,7 @@ import {
   HelpCircle,
   ShoppingBag,
   UserCircle,
-  Diamond
+  Diamond,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -268,12 +268,15 @@ const Header = () => {
 
               {/* Account Dropdown */}
               {isAuthenticated ? (
-                <div 
+                <div
                   className="relative group"
                   onMouseEnter={() => setIsAccountOpen(true)}
                   onMouseLeave={() => setIsAccountOpen(false)}
                 >
-                  <DropdownMenu open={isAccountOpen} onOpenChange={setIsAccountOpen}>
+                  <DropdownMenu
+                    open={isAccountOpen}
+                    onOpenChange={setIsAccountOpen}
+                  >
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
@@ -282,43 +285,96 @@ const Header = () => {
                       >
                         <User className="h-5 w-5 text-primary" />
                         <span className="hidden md:block">Account</span>
-                        <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isAccountOpen ? "rotate-180" : "")} />
+                        <ChevronDown
+                          className={cn(
+                            "h-4 w-4 transition-transform duration-300",
+                            isAccountOpen ? "rotate-180" : ""
+                          )}
+                        />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56 mt-1 p-2 bg-white dark:bg-zinc-900 border border-border/50 rounded-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200" align="end">
+                    <DropdownMenuContent
+                      className="w-56 mt-1 p-2 bg-white dark:bg-zinc-900 border border-border/50 rounded-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+                      align="end"
+                    >
                       <DropdownMenuLabel className="px-3 py-2">
                         <div className="flex flex-col">
-                          <span className="text-sm font-black text-foreground">My Account</span>
-                          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{user?.email}</span>
+                          <span className="text-sm font-black text-foreground">
+                            My Account
+                          </span>
+                          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                            {user?.email}
+                          </span>
                         </div>
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator className="my-1 bg-border/50" />
-                      <DropdownMenuItem onClick={() => { navigate("/customer/profile"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/customer/profile");
+                          setIsAccountOpen(false);
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group"
+                      >
                         <UserCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
                         <span className="text-sm font-bold">Profile</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => { navigate("/customer/orders"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/customer/orders");
+                          setIsAccountOpen(false);
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group"
+                      >
                         <ShoppingBag className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
                         <span className="text-sm font-bold">Orders</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => { navigate("/customer/refer-earn"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/customer/refer-earn");
+                          setIsAccountOpen(false);
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group"
+                      >
                         <Gift className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
                         <span className="text-sm font-bold">Refer & Earn</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => { navigate("/customer/rewards"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/customer/rewards");
+                          setIsAccountOpen(false);
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group"
+                      >
                         <Star className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
                         <span className="text-sm font-bold">Rewards</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => { navigate("/customer/qa"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/customer/qa");
+                          setIsAccountOpen(false);
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group"
+                      >
                         <HelpCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
-                        <span className="text-sm font-bold">Help & Support</span>
+                        <span className="text-sm font-bold">
+                          Help & Support
+                        </span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => { navigate("/customer/profile"); setIsAccountOpen(false); }} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/customer/profile");
+                          setIsAccountOpen(false);
+                        }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-primary/10 hover:text-primary transition-all group"
+                      >
                         <Settings className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
                         <span className="text-sm font-bold">Settings</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="my-1 bg-border/50" />
-                      <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-all group text-destructive">
+                      <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-destructive/10 hover:text-destructive transition-all group text-destructive"
+                      >
                         <LogOut className="h-4 w-4" />
                         <span className="text-sm font-bold">Logout</span>
                       </DropdownMenuItem>
@@ -537,7 +593,9 @@ const Header = () => {
                 to="/jewellery"
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-200 relative group flex items-center gap-1"
               >
-                <span><Diamond className="h-4 w-4 text-gray-500"/></span>
+                <span>
+                  <Diamond className="h-4 w-4 text-gray-500" />
+                </span>
                 Jewellery
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-full transition-all duration-300" />
               </Link>

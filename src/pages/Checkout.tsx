@@ -103,14 +103,18 @@ const Checkout = () => {
       // If customer context isn't available or fails, continue silently
     }
 
-    clearCart();
-
     toast({
       title: "Order Placed Successfully! 🎉",
       description: `Order ID: ${orderId}`,
     });
 
-    navigate(`/order-confirmation/${orderId}`);
+    if (formData.paymentMethod === 'card') {
+      // Navigate to SBI Payment page with real data
+      navigate(`/sbi-payment`, { state: { orderId, total } });
+    } else {
+      clearCart();
+      navigate(`/order-confirmation/${orderId}`);
+    }
   };
 
   if (items.length === 0 && step === 1) {
@@ -242,7 +246,7 @@ const Checkout = () => {
                     className="border-border/50"
                   />
 
-                  <Button onClick={() => validateStep1() && setStep(2)} className="w-50 hover: bg-pink-400 bg-pink-600">
+                  <Button onClick={() => validateStep1() && setStep(2)} className="w-50  bg-pink-600">
                   Continue to Payment
                 </Button>
                 </div>
