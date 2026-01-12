@@ -407,7 +407,7 @@ const Header = () => {
                   Women
                 </Link>
                 <Link
-                  to="/menfashion"
+                  to="/kidsfashion"
                   className="block px-4 py-3 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-accent/50 transition-colors last:rounded-b-lg"
                 >
                   Kids

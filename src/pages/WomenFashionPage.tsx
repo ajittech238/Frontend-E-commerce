@@ -1,6 +1,6 @@
 // Import necessary hooks and components from React and other libraries.
 import React, { useState, useEffect } from "react";
-import { Filter, Home, Plus, Minus } from "lucide-react";
+import { Filter, Plus, Minus } from "lucide-react";
 
 // Import UI components and utilities.
 import ProductCard from "@/components/products/ProductCard";
@@ -11,7 +11,7 @@ import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 
 // Import data for the page.
-import { mensCategories, mensProducts } from "../data/Menfashion";
+import { womensCategories, womensProducts } from "../data/Womenfashion";
 import { Product } from "@/types/product";
 
 interface GroupedProducts {
@@ -26,7 +26,7 @@ export default function WomenFashionPage() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    const filtered = mensProducts.filter((product) => {
+    const filtered = womensProducts.filter((product) => {
       const matchesPrice = product.price <= priceRange;
       const matchesCategory =
         selectedCategory === "all" ||
@@ -39,7 +39,7 @@ export default function WomenFashionPage() {
     const grouped: GroupedProducts = {};
     filtered.forEach((product) => {
       const subcatName =
-        mensCategories.find((c) => c.id === product.subCategoryId)?.name ||
+        womensCategories.find((c) => c.id === product.subCategoryId)?.name ||
         "Other";
       if (!grouped[subcatName]) grouped[subcatName] = [];
       grouped[subcatName].push(product);
@@ -60,18 +60,18 @@ export default function WomenFashionPage() {
       <Header />
 
       {/* Page Header */}
-      <section className="bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border-b py-8">
+      <section className="bg-gradient-to-r from-primary/10 to-primary/5 border-b py-8">
         <div className="container flex items-center justify-between">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold flex items-center gap-3">
-              <Home className="h-10 w-10 text-blue-700" />
-              Men's Fashion
+              <img src="/a/womenlogo1.png" className="h-18 w-20" />
+              Women's Fashion
             </h1>
             <p className="text-muted-foreground mt-2 text-lg">
               Style That Defines You
             </p>
           </div>
-          <Badge className="text-base px-4 py-2 bg-blue-600 text-white">
+          <Badge className="text-base px-4 py-2 bg-[#9d4855d1] hover:shadow-md  text-white">
             {productCount} Products
           </Badge>
         </div>
@@ -114,7 +114,7 @@ export default function WomenFashionPage() {
                     isExpanded && "max-h-48 overflow-y-auto pr-2"
                   )}
                 >
-                  {mensCategories.map((cat, index) => {
+                  {womensCategories.map((cat, index) => {
                     if (!isExpanded && index >= 5) return null;
                     return (
                       <button
@@ -133,7 +133,7 @@ export default function WomenFashionPage() {
                   })}
                 </div>
 
-                {mensCategories.length > 5 && (
+                {womensCategories.length > 5 && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-sm text-primary flex items-center gap-1"

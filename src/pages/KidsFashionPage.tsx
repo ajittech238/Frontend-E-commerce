@@ -9,27 +9,24 @@ import { Badge } from "@/components/ui/badge";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-// import menslogo from "/public/a/menlogo.png";
 
 // Import data for the page.
-import { mensCategories, mensProducts } from "../data/Menfashion";
+import { kidsCategories, kidsProducts } from "../data/Kidsfashion";
 import { Product } from "@/types/product";
 
 interface GroupedProducts {
   [key: string]: Product[];
 }
 
-export default function MensFashionPage() {
+export default function KidsFashionPage() {
   const [priceRange, setPriceRange] = useState(100000);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [groupedProducts, setGroupedProducts] = useState<GroupedProducts>({});
   const [productCount, setProductCount] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
 
-
-
   useEffect(() => {
-    const filtered = mensProducts.filter((product) => {
+    const filtered = kidsProducts.filter((product) => {
       const matchesPrice = product.price <= priceRange;
       const matchesCategory =
         selectedCategory === "all" ||
@@ -42,7 +39,7 @@ export default function MensFashionPage() {
     const grouped: GroupedProducts = {};
     filtered.forEach((product) => {
       const subcatName =
-        mensCategories.find((c) => c.id === product.subCategoryId)?.name ||
+        kidsCategories.find((c) => c.id === product.subCategoryId)?.name ||
         "Other";
       if (!grouped[subcatName]) grouped[subcatName] = [];
       grouped[subcatName].push(product);
@@ -63,21 +60,40 @@ export default function MensFashionPage() {
       <Header />
 
       {/* Page Header */}
-      <section className="bg-gradient-to-r from-primary/10 to-primary/5 border-b py-8">
+      <section className="bg-gradient-to-r from-[#d6d7d5] to-[#cacbca] border-b py-8">
         <div className="container flex items-center justify-between">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold flex items-center gap-3">
-              {/* <Home className="h-10 w-10 text-blue-700" /> */}
-              <img src="/a/menslogo.png" className="h-18 w-20" />
-              Men's Fashion
+              <img src="/a/kidslogo.png" className="h-18 w-20" />
+              Kid's Fashion
             </h1>
-            <p className="text-muted-foreground mt-2 text-xl">
+            <p className="text-muted-foreground mt-2 text-lg">
               Style That Defines You
             </p>
           </div>
-          <Badge className="text-base px-4 py-2 bg-[#c9ae80]  bg-gradient-to-r from-[#cfc1a2] to-[#a08d63] hover:from-[#a08d63] hover:to-[#cfc1a2] text-white">
+          {/* <Badge
+  className="
+    text-base px-4 py-2
+    bg-gradient-to-r from-[#4b5563] to-[#99a7bb]
+    hover:bg-gradient-to-r hover:from-[#99a7bb] hover:to-[#4b5563]
+    hover:shadow-md
+    text-white
+  "
+>
+  {productCount} Products
+</Badge> */}
+
+          <button
+            className=" rounded-full
+    text-base px-4 py-2
+    bg-gradient-to-r from-[#4b5563] to-[#99a7bb]
+    hover:bg-gradient-to-r hover:from-[#99a7bb] hover:to-[#4b5563]
+    hover:shadow-md
+    text-white
+  "
+          >
             {productCount} Products
-          </Badge>
+          </button>
         </div>
       </section>
 
@@ -118,7 +134,7 @@ export default function MensFashionPage() {
                     isExpanded && "max-h-48 overflow-y-auto pr-2"
                   )}
                 >
-                  {mensCategories.map((cat, index) => {
+                  {kidsCategories.map((cat, index) => {
                     if (!isExpanded && index >= 5) return null;
                     return (
                       <button
@@ -137,7 +153,7 @@ export default function MensFashionPage() {
                   })}
                 </div>
 
-                {mensCategories.length > 5 && (
+                {kidsCategories.length > 5 && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-sm text-primary flex items-center gap-1"
