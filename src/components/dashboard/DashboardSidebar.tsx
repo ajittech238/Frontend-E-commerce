@@ -3,7 +3,8 @@ import {
   LayoutDashboard, Package, ShoppingCart, CreditCard, Settings, LogOut, Store,
   Users, BarChart3, FolderTree, Ticket, Warehouse, Box, RotateCcw, FileText, Star, Shield,
   Gift, Coins, MessageSquare, Mail, Bell, Calendar, Building2, DollarSign, Plug, Bot,
-  ShoppingBag, Truck, HelpCircle, PanelLeftClose, PanelRightOpen
+  ShoppingBag, Truck, HelpCircle, PanelLeftClose, PanelRightOpen,
+  Smartphone
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
@@ -64,6 +65,7 @@ const menuGroups = [
     label: "HR & Payroll",
     items: [
       { title: "Employees", url: "/dashboard/employees", icon: Users },
+      { title: "Attendence", url: "/dashboard/attendence", icon: Users },
       { title: "Departments", url: "/dashboard/departments", icon: Building2 },
       { title: "Leaves", url: "/dashboard/leaves", icon: Calendar },
       { title: "Salaries", url: "/dashboard/salaries", icon: DollarSign },
@@ -92,6 +94,7 @@ const menuGroups = [
       { title: "Roles & Permissions", url: "/dashboard/roles", icon: Shield },
       { title: "Event Logs", url: "/dashboard/events", icon: BarChart3 },
       { title: "Settings", url: "/dashboard/settings", icon: Settings },
+      { title: "Customer Care", url: "/dashboard/customersupport", icon: Smartphone },
     ],
   },
 ];

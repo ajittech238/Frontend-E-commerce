@@ -41,69 +41,73 @@ const reviews: Review[] = [
 
 const ReviewsSection = () => {
   return (
-    <section className="py-16 md:py-10 bg-gradient-to-b from-background to-accent/5">
-      <div className="container">
+    <section className="py-24 bg-background relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container relative z-10">
         {/* Header */}
-        <div className="text-center mb-14 animate-in fade-in slide-in-from-top duration-700">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
             <Quote className="h-4 w-4 text-primary" />
-            <span className="text-sm font-semibold text-primary">
-              Customer Reviews
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">
+              Testimonials
             </span>
           </div>
 
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
-            What Our Customers Say
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+            Voices of Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Community</span>
           </h2>
-          <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-            Real reviews from real customers who love our products and experience
+          <p className="text-muted-foreground text-lg font-light max-w-2xl mx-auto">
+            Discover why thousands of customers trust us for their premium shopping needs.
           </p>
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {reviews.map((review, index) => (
             <div
               key={review.id}
-              className="group relative p-6 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-border shadow-lg hover:shadow-xl transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
-              style={{ animationDelay: `${index * 80}ms` }}
+              className="group relative p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-border shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
             >
-              {/* Quote icon */}
-              <Quote className="absolute top-4 right-4 h-6 w-6 text-primary/20 group-hover:text-primary/40 transition" />
+              <Quote className="absolute top-8 right-8 h-10 w-10 text-primary/10 group-hover:text-primary/20 transition-colors" />
 
               {/* User */}
-              <div className="flex items-center gap-4 mb-4">
-                <img
-                  src={review.avatar}
-                  alt={review.name}
-                  className="h-12 w-12 rounded-full object-cover border-2 border-primary/20"
-                />
+              <div className="flex items-center gap-5 mb-8">
+                <div className="relative">
+                   <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:blur-lg transition-all" />
+                   <img
+                     src={review.avatar}
+                     alt={review.name}
+                     className="relative h-16 w-16 rounded-full object-cover border-2 border-white dark:border-slate-800 shadow-lg"
+                   />
+                </div>
                 <div>
-                  <h4 className="font-semibold text-foreground">
+                  <h4 className="font-bold text-lg text-foreground">
                     {review.name}
                   </h4>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     {review.role}
                   </p>
                 </div>
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-1 mb-3">
+              <div className="flex items-center gap-1.5 mb-6">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
                     className={`h-4 w-4 ${
                       i < review.rating
                         ? "text-yellow-400 fill-yellow-400"
-                        : "text-muted-foreground"
+                        : "text-slate-200 dark:text-slate-700"
                     }`}
                   />
                 ))}
               </div>
 
               {/* Comment */}
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 text-lg font-light leading-relaxed italic">
                 “{review.comment}”
               </p>
             </div>

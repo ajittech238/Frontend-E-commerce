@@ -53,7 +53,7 @@ export function DashboardLayout() {
                   </kbd>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-shrink-0 ml-auto">
               {/* Theme Toggle */}
               <Button
@@ -68,15 +68,15 @@ export function DashboardLayout() {
                   <Sun className="w-5 h-5 sm:w-6 sm:h-6 text-foreground stroke-[2px]" />
                 )}
               </Button>
-              
-                  
+
+
 
               {/* Notifications */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/20 hover:bg-accent/40 transition-all duration-200"
                   >
                     <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-foreground stroke-[2px]" />
@@ -145,7 +145,8 @@ export function DashboardLayout() {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 p-2 xs:p-3 sm:p-4 md:p-6 overflow-auto bg-background/50">
+          <main className="flex-1 p-2 xs:p-3 sm:p-4 md:p-6 bg-background/50">
+
             <div className="max-w-7xl mx-auto">
               <Outlet />
             </div>

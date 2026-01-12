@@ -1,142 +1,138 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
-  ShoppingCart,
-  Package,
-  Warehouse,
-  Users,
-  RotateCcw,
-  HeadphonesIcon,
-  BarChart3,
-  User,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Store,
+  LayoutDashboard, ShoppingBag, Heart, MapPin, Star, Settings, LogOut, Store,
+  Users, BarChart3, Ticket, RotateCcw, FileText, Bell, Calendar, HeadphonesIcon,
+  User, CreditCard, Gift, Coins, HelpCircle
 } from "lucide-react";
+import {
+  Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
+  SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface SidebarProps {
-  collapsed: boolean;
-  onToggle: () => void;
-}
-
-const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-  { icon: ShoppingCart, label: "Orders", path: "/orders" },
-  { icon: Package, label: "Products", path: "/products" },
-  { icon: Warehouse, label: "Inventory", path: "/inventory" },
-  { icon: Users, label: "Customers", path: "/customers" },
-  { icon: RotateCcw, label: "Returns", path: "/returns" },
-  { icon: HeadphonesIcon, label: "Support", path: "/support" },
-  { icon: BarChart3, label: "Reports", path: "/reports" },
+const menuGroups = [
+  {
+    label: "Overview",
+    items: [
+      { title: "Dashboard", url: "/customerdash", icon: LayoutDashboard },
+      { title: "My Profile", url: "/customer/profile", icon: User },
+    ],
+  },
+  {
+    label: "Shopping",
+    items: [
+      { title: "My Orders", url: "/customer/orders", icon: ShoppingBag, badge: "2" },
+      { title: "Wishlist", url: "/customer/wishlist", icon: Heart, badge: "12" },
+      { title: "Addresses", url: "/customer/addresses", icon: MapPin },
+    ],
+  },
+  {
+    label: "Account",
+    items: [
+      { title: "Notifications", url: "/customer/notifications", icon: Bell, badge: "3" },
+      { title: "Refer & Earn", url: "/customer/refer-earn", icon: Gift },
+      { title: "Rewards", url: "/customer/rewards", icon: Coins },
+      { title: "Q&A", url: "/customer/qa", icon: HelpCircle },
+    ],
+  },
+  {
+    label: "Support",
+    items: [
+      { title: "Help Center", url: "/customer/support", icon: HeadphonesIcon },
+      { title: "Returns", url: "/customer/returns", icon: RotateCcw },
+    ],
+  },
+  {
+    label: "Settings",
+    items: [
+      { title: "Security", url: "/customer/change-password", icon: Settings },
+    ],
+  },
 ];
 
-const bottomNavItems = [
-  { icon: User, label: "Profile", path: "/profile" },
-];
-
-export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+export function Sidebar({ collapsed: _unused_collapsed, onToggle: _unused_onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
-
-  const NavItem = ({ item }: { item: typeof navItems[0] }) => {
-    const isActive = location.pathname === item.path;
-    const Icon = item.icon;
-
-    const linkContent = (
-      <NavLink
-        to={item.path}
-        className={cn(
-          "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group relative",
-          isActive
-            ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-glow"
-            : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
-        )}
-      >
-        <Icon className={cn("w-5 h-5 flex-shrink-0", isActive && "drop-shadow-lg")} />
-        {!collapsed && (
-          <span
-            className="font-bold tracking-tight text-sm"
-          >
-            {item.label}
-          </span>
-        )}
-        {isActive && (
-          <div
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary-foreground rounded-r-full"
-          />
-        )}
-      </NavLink>
-    );
-
-    if (collapsed) {
-      return (
-        <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
-          <TooltipContent side="right" className="bg-secondary text-secondary-foreground">
-            {item.label}
-          </TooltipContent>
-        </Tooltip>
-      );
-    }
-
-    return linkContent;
-  };
+  const navigate = useNavigate();
+  const { state } = useSidebar();
+  const collapsed = state === "collapsed";
 
   return (
-    <aside
-      style={{ width: collapsed ? 80 : 256 }}
-      className="fixed left-0 top-0 h-full bg-sidebar flex flex-col border-r border-sidebar-border z-50 transition-all duration-300"
-    >
-      {/* Logo */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
+    <ShadcnSidebar collapsible="icon" className="border-r border-border/50 bg-card">
+      <SidebarHeader className="p-4">
+        <NavLink to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-amber-400 flex items-center justify-center shadow-lg flex-shrink-0">
             <Store className="w-5 h-5 text-primary-foreground" />
           </div>
           {!collapsed && (
-            <div>
-              <h1 className="text-lg font-black text-sidebar-foreground tracking-tighter leading-tight">StaffHub</h1>
-              <p className="text-[10px] font-bold text-sidebar-foreground/60 uppercase tracking-[0.2em]">E-Commerce</p>
+            <div className="flex flex-col">
+              <span className="font-bold text-lg text-foreground">Zenith</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Customer Portal</span>
             </div>
           )}
-        </div>
-        <button
-          onClick={onToggle}
-          className="w-8 h-8 rounded-lg bg-sidebar-accent hover:bg-sidebar-accent/80 flex items-center justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors"
-        >
-          {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-        </button>
-      </div>
+        </NavLink>
+      </SidebarHeader>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto scrollbar-thin">
-        {!collapsed && (
-          <p className="text-[10px] font-black text-sidebar-foreground/40 uppercase tracking-[0.2em] px-4 mb-4">
-            Main Menu
-          </p>
-        )}
-        {navItems.map((item) => (
-          <NavItem key={item.path} item={item} />
-        ))}
-      </nav>
+      <SidebarContent className="px-2">
+        <ScrollArea className="h-[calc(100vh-180px)]">
+          {menuGroups.map((group) => (
+            <SidebarGroup key={group.label} className="py-2">
+              {!collapsed && (
+                <SidebarGroupLabel className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-1">
+                  {group.label}
+                </SidebarGroupLabel>
+              )}
+              <SidebarGroupContent>
+                <SidebarMenu className="space-y-0.5">
+                  {group.items.map((item) => {
+                    const isActive = location.pathname === item.url;
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton 
+                          asChild 
+                          tooltip={collapsed ? item.title : undefined}
+                        >
+                          <NavLink
+                            to={item.url}
+                            className={cn(
+                              "flex items-center py-2 rounded-lg transition-all text-sm",
+                              isActive
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                            )}
+                          >
+                            <item.icon className="w-4 h-4 flex-shrink-0" />
+                            {!collapsed && <span className="flex-1 truncate">{item.title}</span>}
+                            {!collapsed && (item as any).badge && (
+                              <Badge variant={isActive ? "secondary" : "outline"} className="text-[10px] px-1.5 py-0">
+                                {(item as any).badge}
+                              </Badge>
+                            )}
+                          </NavLink>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </ScrollArea>
+      </SidebarContent>
 
-      {/* Bottom Navigation */}
-      <div className="p-4 border-t border-sidebar-border space-y-2">
-        {bottomNavItems.map((item) => (
-          <NavItem key={item.path} item={item} />
-        ))}
-        <button
-          className={cn(
-            "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 w-full",
-            "text-destructive/80 hover:text-destructive hover:bg-destructive/10"
-          )}
+      <SidebarFooter className="p-3 space-y-2 border-t border-border/50">
+        <SidebarMenuButton
+          onClick={() => navigate("/")}
+          tooltip={collapsed ? "Logout" : undefined}
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-destructive hover:bg-destructive/10 w-full"
         >
-          <LogOut className="w-5 h-5 flex-shrink-0" />
-          {!collapsed && <span className="font-bold tracking-tight text-sm">Logout</span>}
-        </button>
-      </div>
-    </aside>
+          <LogOut className="w-4 h-4 flex-shrink-0" />
+          {!collapsed && <span className="font-medium">Logout</span>}
+        </SidebarMenuButton>
+      </SidebarFooter>
+    </ShadcnSidebar>
   );
 }

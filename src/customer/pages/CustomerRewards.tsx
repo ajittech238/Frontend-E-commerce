@@ -1,5 +1,5 @@
 import React from "react";
-import { Coins, Star, Trophy, ArrowRight, Zap, Target, Sparkles, Gift } from "lucide-react";
+import { Coins, Star, Trophy, ArrowRight, Zap, Target, Sparkles, Gift, CheckCircle2 } from "lucide-react";
 
 const CustomerRewards: React.FC = () => {
   const tiers = [
@@ -55,7 +55,7 @@ const CustomerRewards: React.FC = () => {
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
               {[
-                { title: "$15 Off", cost: "300 pts", code: "REWARD15", color: "bg-blue-500" },
+                { title: "₹150 Off", cost: "300 pts", code: "REWARD150", color: "bg-blue-500" },
                 { title: "Free Shipping", cost: "150 pts", code: "FREESHIP", color: "bg-green-500" },
               ].map((reward) => (
                 <div key={reward.code} className="bg-card border-border border-2 border-dashed rounded-3xl p-6 hover:border-primary/50 transition-all group cursor-pointer">

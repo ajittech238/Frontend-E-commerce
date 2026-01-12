@@ -1,16 +1,12 @@
 import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ChevronRight, Star } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartSidebar from "@/components/cart/CartSidebar";
 import ProductCard from "@/components/products/ProductCard";
-import ProductDisplay from "@/components/products/ProductDisplay"; // <-- Import the new component
-
-// ========================================
-// STEP 1: Import all your product arrays
-// ========================================
+import ProductDisplay from "@/components/products/ProductDisplay";
 import { products } from "@/data/products";
 import { electronicsProducts } from "@/data/electronics";
 import { homeLivingProducts } from "@/data/Home&living";
@@ -23,15 +19,10 @@ import { fashionProducts } from "@/data/fashion";
 import { beautyProducts } from "@/data/beauty";
 import { mensProducts } from "@/data/Menfashion";
 
-const MAGNIFIER_SIZE = 100;
-const ZOOM_LEVEL = 2;
 const ProductDetail = () => {
   const { id } = useParams();
 
-  // ========================================
-  // STEP 2: Combine all product arrays
-  // ========================================
-  const allProductArrays = [
+  const allProductArrays = useMemo(() => [
     products,
     electronicsProducts,
     homeLivingProducts,
@@ -43,24 +34,20 @@ const ProductDetail = () => {
     fashionProducts,
     beautyProducts,
     mensProducts,
-    // Add more arrays here
-  ];
+  ], []);
 
-  // Find the product from the combined list
   const product = useMemo(() => {
     for (const productArray of allProductArrays) {
       const foundProduct = productArray.find((p) => p.id === id);
       if (foundProduct) return foundProduct;
     }
     return null;
-  }, [id]);
+  }, [id, allProductArrays]);
 
-  // Find related products
   const relatedProducts = useMemo(() => {
     if (!product) return [];
 
     const allProducts = allProductArrays.flat();
-
     let filtered = allProducts.filter(
       (p) => p.category === product.category && p.id !== product.id
     );
@@ -75,9 +62,8 @@ const ProductDetail = () => {
     }
 
     return filtered.slice(0, 4);
-  }, [product]);
+  }, [product, allProductArrays]);
 
-  // Product not found case
   if (!product) {
     return (
       <div className="min-h-screen bg-background">
@@ -100,7 +86,6 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container py-4 sm:py-8 px-4 sm:px-0">
-        {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 flex-wrap">
           <Link to="/" className="hover:text-foreground transition-colors">
             Home
@@ -125,10 +110,8 @@ const ProductDetail = () => {
           </span>
         </nav>
 
-        {/* Use the new shared component to display product details */}
         <ProductDisplay product={product} />
 
-        {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-16">
             <h2 className="font-display text-2xl font-bold mb-8">

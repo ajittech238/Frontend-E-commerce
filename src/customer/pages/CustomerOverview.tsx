@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { useCart } from "@/context/CartContext";
 import {
   ShoppingBag,
   Heart,
@@ -11,7 +13,15 @@ import {
   ArrowUpRight,
   ShieldCheck,
   CreditCard,
-  Zap
+  Zap,
+  Calendar,
+  RefreshCw,
+  Download,
+  ArrowDownRight,
+  Eye,
+  Gift,
+  User,
+  Truck
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -23,9 +33,29 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CustomerOverview: React.FC = () => {
   const { user } = useCustomerAuth();
+  const { items: wishlistItems } = useWishlist();
+  const { items: cartItems } = useCart();
+  const [timeRange, setTimeRange] = useState("7d");
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
 
   const chartData = [
     { name: 'Jan', value: 400 },
@@ -37,199 +67,274 @@ const CustomerOverview: React.FC = () => {
   ];
 
   const stats = [
-    { label: "Total Orders", value: user?.ordersCount?.toString() || "0", change: "+2 this month", icon: ShoppingBag, color: "text-blue-500", bg: "bg-blue-500/10" },
-    { label: "Wishlist Items", value: "23", change: "4 new added", icon: Heart, color: "text-pink-500", bg: "bg-pink-500/10" },
-    { label: "Zenith Coins", value: "1,250", change: "₹125 value", icon: Star, color: "text-amber-500", bg: "bg-amber-500/10" },
-    { label: "Total Spent", value: user?.totalSpent || "₹0", change: "Last 6 months", icon: CreditCard, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    {
+      title: "Total Spent",
+      value: user?.totalSpent || "₹0",
+      change: "+12.5%",
+      trend: "up" as const,
+      icon: CreditCard,
+      gradient: "from-emerald-500 to-teal-500",
+      bgGradient: "from-emerald-500/10 to-teal-500/10",
+    },
+    {
+      title: "Total Orders",
+      value: user?.ordersCount?.toString() || "0",
+      change: `Last: ${user?.orders?.[0]?.date || 'None'}`,
+      trend: "up" as const,
+      icon: ShoppingBag,
+      gradient: "from-blue-500 to-indigo-500",
+      bgGradient: "from-blue-500/10 to-indigo-500/10",
+    },
+    {
+      title: "Wishlist Items",
+      value: wishlistItems.length.toString(),
+      change: "Items to buy",
+      trend: "up" as const,
+      icon: Heart,
+      gradient: "from-purple-500 to-pink-500",
+      bgGradient: "from-purple-500/10 to-pink-500/10",
+    },
+    {
+      title: "Cart Items",
+      value: cartItems.length.toString(),
+      change: "Items in cart",
+      trend: "up" as const,
+      icon: ShoppingBag,
+      gradient: "from-amber-500 to-orange-500",
+      bgGradient: "from-amber-500/10 to-orange-500/10",
+    }
   ];
 
-  const recentOrders = [
-    { id: "#ZN-98231", date: "Today, 02:45 PM", amount: "₹4,299.00", status: "In Transit", items: "iPhone Case, USB-C Cable" },
-    { id: "#ZN-98210", date: "24 Mar, 2024", amount: "₹1,850.00", status: "Delivered", items: "Cotton T-shirt (M)" },
-    { id: "#ZN-98192", date: "18 Mar, 2024", amount: "₹12,490.00", status: "Delivered", items: "Sony WH-1000XM4" },
-  ];
+  const recentOrders = user?.orders?.slice(0, 3).map((order: any) => ({
+    id: order.id,
+    date: new Date(order.createdAt).toLocaleDateString(),
+    amount: `₹${order.total.toLocaleString()}`,
+    status: order.orderStatus,
+    items: order.items.map((i: any) => i.name).join(", ")
+  })) || [];
+
+  const OrderStatusBadge = ({ status }: { status: string }) => {
+    const statusStyles: Record<string, string> = {
+      'Delivered': 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+      'In Transit': 'bg-purple-500/10 text-purple-600 border-purple-500/20',
+      'Processing': 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+      'Pending': 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+    };
+    return (
+      <Badge className={`text-xs whitespace-nowrap border ${statusStyles[status] || statusStyles.Pending}`}>
+        {status}
+      </Badge>
+    );
+  };
 
   return (
-    <div className="space-y-6 lg:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Top Banner & Profile Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white dark:bg-zinc-900 border border-border/50 rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden flex flex-col justify-between min-h-[280px]">
-          <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[11px] font-black uppercase tracking-widest mb-6">
-              <Zap size={12} className="fill-current" />
-              Elite Member
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-none mb-4">
-              Hello, <span className="text-primary">{user?.name.split(' ')[0]}</span>
-            </h1>
-            <p className="text-muted-foreground font-medium max-w-md text-sm lg:text-base leading-relaxed">
-              Your last order is arriving by <span className="text-foreground font-bold">Tomorrow, 8 PM</span>. You've saved <span className="text-emerald-500 font-bold">₹2,450</span> this month!
-            </p>
-          </div>
-          <div className="mt-8 flex items-center gap-6 relative z-10">
-            <button className="px-8 py-3.5 bg-foreground text-background dark:bg-white dark:text-black rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-all">
-              Track Order
-            </button>
-            <div className="h-10 w-px bg-border/50 hidden sm:block" />
-            <div className="hidden sm:flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
-                <ShieldCheck size={20} className="text-primary" />
-              </div>
-              <div>
-                <div className="text-[10px] font-black text-muted-foreground uppercase leading-none mb-1">Account Security</div>
-                <div className="text-xs font-bold text-foreground">Verified & Secured</div>
-              </div>
-            </div>
-          </div>
-          {/* Abstract Decorations */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20" />
-          <div className="absolute bottom-0 left-1/2 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl" />
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">Hello, {user?.name.split(' ')[0]}!</h1>
+          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">Welcome back! Here's what's happening with your account today.</p>
         </div>
-
-        <div className="bg-primary rounded-[2.5rem] p-8 text-white relative overflow-hidden flex flex-col justify-between group cursor-pointer shadow-2xl shadow-primary/20">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-8">
-              <Star size={32} className="fill-white" />
-              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-white group-hover:text-primary transition-all duration-500">
-                <ArrowUpRight size={24} />
-              </div>
-            </div>
-            <h3 className="text-3xl font-black leading-tight mb-2 uppercase tracking-tight">Reward<br />Points</h3>
-            <div className="text-5xl font-black tracking-tighter mb-1">1,250</div>
-            <p className="text-white/60 text-xs font-bold uppercase tracking-widest">Available for redemption</p>
-          </div>
-          <div className="mt-6 pt-6 border-t border-white/10 relative z-10">
-            <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-widest">
-              <span>Next Reward at 1500</span>
-              <span className="text-white/60">84%</span>
-            </div>
-            <div className="mt-2 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div className="h-full bg-white w-[84%] rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-            </div>
-          </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Select value={timeRange} onValueChange={setTimeRange}>
+            <SelectTrigger className="w-32 h-9 text-sm">
+              <Calendar className="w-4 h-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="24h">Last 24h</SelectItem>
+              <SelectItem value="7d">Last 7 days</SelectItem>
+              <SelectItem value="30d">Last 30 days</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9"
+            onClick={handleRefresh}
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">Refresh</span>
+          </Button>
+          <Button size="sm" className="h-9 bg-pink-gradient text-white shadow-md hover:shadow-lg hover:opacity-90 transition-all font-semibold border-0">
+            <Download className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">Export</span>
+          </Button>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-        {stats.map((stat) => (
-          <div key={stat.label} className="bg-white dark:bg-zinc-900 border border-border/50 rounded-[2rem] p-5 lg:p-6 hover:shadow-xl hover:shadow-primary/5 transition-all group">
-            <div className="flex items-start justify-between mb-4">
-              <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-sm`}>
-                <stat.icon size={22} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        {stats.map((stat, index) => (
+          <Card
+            key={stat.title}
+            className={`relative overflow-hidden border-0 bg-gradient-to-br ${stat.bgGradient} hover:shadow-lg transition-all duration-300 group cursor-pointer`}
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1 sm:space-y-2">
+                  <p className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.title}</p>
+                  <p className="text-lg sm:text-2xl font-bold text-foreground">{stat.value}</p>
+                  <div className={`flex items-center gap-1 text-xs sm:text-sm ${
+                    stat.trend === "up" ? "text-emerald-600" : "text-destructive"
+                  }`}>
+                    {stat.trend === "up" ? (
+                      <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                    ) : (
+                      <ArrowDownRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                    )}
+                    <span className="font-semibold">{stat.change}</span>
+                  </div>
+                </div>
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                  <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                </div>
               </div>
-              <div className="text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg">
-                {stat.change}
-              </div>
-            </div>
-            <div>
-              <div className="text-[10px] lg:text-xs font-black text-muted-foreground uppercase tracking-[0.1em] mb-1">{stat.label}</div>
-              <div className="text-xl lg:text-2xl font-black text-foreground tracking-tight">{stat.value}</div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
-      {/* Main Content Sections */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        {/* Orders Feed */}
-        <div className="xl:col-span-7 space-y-6">
-          <div className="flex items-center justify-between px-4">
-            <h3 className="text-xl font-black text-foreground tracking-tight uppercase">Active Orders</h3>
-            <button className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center hover:bg-accent transition-colors">
-              <ChevronRight size={18} />
-            </button>
-          </div>
-          <div className="space-y-4">
-            {recentOrders.map((order) => (
-              <div key={order.id} className="bg-white dark:bg-zinc-900 border border-border/50 rounded-[2rem] p-4 lg:p-6 group hover:border-primary/50 transition-all duration-300">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                      <ShoppingBag size={24} />
+      {/* Recent Activity & Spending */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Recent Orders */}
+        <Card className="lg:col-span-2 border-border/50">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle className="text-base sm:text-lg font-semibold">Recent Orders</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Track your latest purchases</CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" asChild className="text-primary cursor-pointer">
+              <Link to="/customer/orders">
+                View all
+                <ArrowUpRight className="w-4 h-4 ml-1" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="divide-y divide-border/50">
+              {recentOrders.length > 0 ? recentOrders.map((order: any) => (
+                <div
+                  key={order.id}
+                  className="flex items-center justify-between p-3 sm:p-4 hover:bg-accent/30 transition-colors"
+                >
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-pink-gradient/10 flex items-center justify-center flex-shrink-0">
+                      <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-black text-foreground text-sm lg:text-base">{order.id}</span>
-                        <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
-                          order.status === "In Transit" ? "bg-blue-500/10 text-blue-500" : "bg-emerald-500/10 text-emerald-500"
-                        }`}>
-                          {order.status}
-                        </span>
-                      </div>
-                      <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest mt-1 flex items-center gap-2">
-                        <Clock size={12} /> {order.date}
-                      </div>
-                      <div className="text-[10px] text-muted-foreground mt-1 font-medium truncate max-w-[200px]">{order.items}</div>
+                    <div className="min-w-0">
+                      <p className="font-medium text-foreground text-sm sm:text-base truncate">{order.id}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground truncate">{order.items}</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between sm:flex-col sm:items-end gap-1">
-                    <div className="text-lg font-black text-foreground">{order.amount}</div>
-                    <Link to={`/customer/orders/${order.id}`} className="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">View Details</Link>
+                  <div className="flex items-center gap-2 sm:gap-4">
+                    <div className="text-right hidden sm:block">
+                      <p className="font-semibold text-foreground text-sm">{order.amount}</p>
+                      <p className="text-xs text-muted-foreground">{order.date}</p>
+                    </div>
+                    <OrderStatusBadge status={order.status} />
+                    <Button variant="ghost" size="icon" asChild className="w-8 h-8 flex-shrink-0">
+                      <Link to={`/customer/orders/${order.id}`}>
+                        <Eye className="w-4 h-4" />
+                      </Link>
+                    </Button>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              )) : (
+                <div className="p-8 text-center text-muted-foreground">
+                  No orders yet.
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Analytics & Quick Access */}
-        <div className="xl:col-span-5 space-y-6">
-          <div className="bg-white dark:bg-zinc-900 border border-border/50 rounded-[2.5rem] p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h3 className="text-lg font-black text-foreground tracking-tight uppercase">Spending</h3>
-                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">Last 6 Months Activity</p>
+        {/* Address Details */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base sm:text-lg font-semibold">Address Details</CardTitle>
+              <MapPin className="w-5 h-5 text-primary" />
+            </div>
+            <CardDescription className="text-xs sm:text-sm">Your primary shipping address</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {user?.addresses && user.addresses.length > 0 ? (
+              <div className="space-y-3">
+                <div className="p-4 rounded-2xl bg-accent/30 border border-border/50">
+                  <p className="font-bold text-sm text-foreground">{user.addresses[0].fullName}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{user.addresses[0].address}</p>
+                  <p className="text-xs text-muted-foreground">{user.addresses[0].city}, {user.addresses[0].state} - {user.addresses[0].zipCode}</p>
+                  <p className="text-xs text-muted-foreground mt-2 flex items-center gap-2">
+                    <Clock size={12} />
+                    Last used during checkout
+                  </p>
+                </div>
+                <Button variant="outline" size="sm" className="w-full text-xs" asChild>
+                  <Link to="/customer/profile">Manage Addresses</Link>
+                </Button>
               </div>
-              <TrendingUp className="text-emerald-500" size={24} />
-            </div>
-            <div className="h-[200px] w-full -ml-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#ff4b91" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#ff4b91" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" opacity={0.1}/>
-                  <XAxis
-                    dataKey="name"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{fontSize: 10, fontWeight: 700, fill: '#94A3B8'}}
-                    dy={10}
-                  />
-                  <Tooltip
-                    contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', background: '#18181b', color: '#fff'}}
-                    itemStyle={{color: '#ff4b91', fontWeight: 900}}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#ff4b91"
-                    strokeWidth={4}
-                    fillOpacity={1}
-                    fill="url(#colorValue)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+            ) : (
+              <div className="text-center py-6">
+                <p className="text-xs text-muted-foreground mb-4">No addresses saved yet.</p>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link to="/products">Start Shopping</Link>
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-zinc-100 dark:bg-zinc-800/50 rounded-3xl p-6 hover:bg-primary/5 transition-colors cursor-pointer group">
-              <CreditCard size={24} className="text-primary mb-4 group-hover:scale-110 transition-transform" />
-              <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Payments</div>
-              <div className="text-xs font-bold text-foreground">Manage Cards</div>
+      {/* Rewards & Quick Access */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        <Card className="border-border/50 lg:col-span-1">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base sm:text-lg font-semibold">Saved Payments</CardTitle>
+              <CreditCard className="w-5 h-5 text-emerald-500" />
             </div>
-            <div className="bg-zinc-100 dark:bg-zinc-800/50 rounded-3xl p-6 hover:bg-primary/5 transition-colors cursor-pointer group">
-              <Star size={24} className="text-amber-500 mb-4 group-hover:scale-110 transition-transform" />
-              <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Support</div>
-              <div className="text-xs font-bold text-foreground">Customer Care</div>
-            </div>
-          </div>
+            <CardDescription className="text-xs sm:text-sm">Your payment methods</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {user?.orders && user.orders.length > 0 ? (
+              <div className="p-3 rounded-xl bg-accent/30 flex items-center justify-between border border-border/50">
+                <div className="flex items-center gap-2">
+                  <CreditCard size={16} className="text-primary" />
+                  <span className="text-xs font-bold uppercase">{user.orders[0].paymentMethod}</span>
+                </div>
+                <Badge variant="secondary" className="text-[10px]">Primary</Badge>
+              </div>
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-xs text-muted-foreground">No payment methods saved.</p>
+              </div>
+            )}
+            <Button variant="ghost" size="sm" className="w-full text-[10px] uppercase tracking-widest font-black" disabled>
+              Add New Method
+            </Button>
+          </CardContent>
+        </Card>
+
+        <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[
+            { label: "My Profile", icon: User, path: "/customer/profile", color: "text-blue-500", bg: "bg-blue-500/10" },
+            { label: "Track Orders", icon: Truck, path: "/customer/orders", color: "text-purple-500", bg: "bg-purple-500/10" },
+            { label: "Wishlist", icon: Heart, path: "/customer/wishlist", color: "text-pink-500", bg: "bg-pink-500/10" },
+            { label: "Rewards", icon: Gift, path: "/customer/rewards", color: "text-amber-500", bg: "bg-amber-500/10" },
+          ].map((item) => (
+            <Link key={item.label} to={item.path} className="group">
+              <Card className="border-border/50 h-full hover:border-primary/50 transition-all">
+                <CardContent className="p-4 flex flex-col items-center text-center justify-center h-full gap-3">
+                  <div className={`w-10 h-10 rounded-xl ${item.bg} ${item.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <item.icon size={20} />
+                  </div>
+                  <span className="text-xs font-bold text-foreground">{item.label}</span>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

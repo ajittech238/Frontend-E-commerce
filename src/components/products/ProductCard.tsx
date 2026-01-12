@@ -7,10 +7,10 @@ import { useWishlist } from "@/context/WishlistContext";
 import { cn } from "@/lib/utils"; 
 import ProductModal from "./ProductModal";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { HomeLivingProduct } from "@/data/Home&living";
+import { Product } from "@/types/product";
 
 interface ProductCardProps {
-  product: any;
+  product: Product;
   index?: number;
 }
 
@@ -43,6 +43,10 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
     } else {
       setIsDetailModalOpen(true);
     }
+  };
+
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`);
   };
 
   const discountPercent = product.originalPrice

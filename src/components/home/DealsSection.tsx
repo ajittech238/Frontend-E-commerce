@@ -119,8 +119,6 @@
 // export default DealsSection;
 
 
-
-
 import { useState, useEffect, useRef } from "react";
 import {
   ArrowRight,
@@ -160,24 +158,24 @@ const DealsSection = () => {
     return () => clearInterval(timer);
   }, []);
 
-  /* ================= AUTO SLIDER (EVERY 2s) ================= */
+  /* ================= AUTO SLIDER ================= */
   useEffect(() => {
     const interval = setInterval(() => {
       if (!scrollRef.current) return;
 
-      const cardWidth =
-        window.innerWidth < 640 ? 220 : 320; // mobile vs desktop
+      const isMobile = window.innerWidth < 640;
+      const cardWidth = isMobile ? window.innerWidth * 0.75 : 260;
+      const gap = isMobile ? 12 : 16;
 
       scrollRef.current.scrollBy({
-        left: cardWidth,
+        left: cardWidth + gap,
         behavior: "smooth",
       });
 
-      // loop back when end reached
       if (
         scrollRef.current.scrollLeft +
           scrollRef.current.clientWidth >=
-        scrollRef.current.scrollWidth - cardWidth
+        scrollRef.current.scrollWidth - (cardWidth + gap)
       ) {
         scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
       }
@@ -190,7 +188,10 @@ const DealsSection = () => {
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
 
-    const scrollAmount = window.innerWidth < 640 ? 220 : 320;
+    const isMobile = window.innerWidth < 640;
+    const scrollAmount = isMobile
+      ? window.innerWidth * 0.75
+      : 260;
 
     scrollRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
@@ -200,13 +201,8 @@ const DealsSection = () => {
 
   return (
     <section className="py-14 md:py-24 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-72 h-72 md:w-96 md:h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-20 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-primary/10 rounded-full blur-3xl animate-pulse delay-2000" />
-      </div>
-
       <div className="container relative z-10">
+
         {/* ================= HEADER ================= */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           <div className="flex items-center gap-4">
@@ -246,6 +242,7 @@ const DealsSection = () => {
 
         {/* ================= PRODUCTS SLIDER ================= */}
         <div className="relative mb-12">
+
           {/* LEFT BUTTON */}
           <button
             onClick={() => handleScroll("left")}
@@ -257,12 +254,27 @@ const DealsSection = () => {
           {/* PRODUCTS ROW */}
           <div
             ref={scrollRef}
-            className="flex gap-3 md:gap-4 overflow-x-auto scroll-smooth scrollbar-hide px-1"
+            className="
+              flex items-center
+              gap-3 md:gap-4
+              overflow-x-auto overflow-y-visible
+              scroll-smooth scrollbar-hide
+              px-2 md:px-1
+              snap-x snap-mandatory
+            "
           >
             {deals.slice(0, 10).map((product, index) => (
               <div
                 key={product.id}
-                className="min-w-[200px] sm:min-w-[230px] md:min-w-[260px] transition-transform"
+                className="
+                  w-[75vw]
+                  min-w-[75vw]
+                  sm:w-auto
+                  sm:min-w-[200px]
+                  md:min-w-[260px]
+                  flex justify-center
+                  snap-center
+                "
               >
                 <ProductCard product={product} index={index} />
               </div>

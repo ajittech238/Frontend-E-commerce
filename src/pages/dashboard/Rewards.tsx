@@ -1,16 +1,33 @@
 import { useState } from "react";
-import { Gift, Zap, Lock, Unlock, TrendingUp, DollarSign, MoreHorizontal } from "lucide-react";
+import { Gift, Zap, Lock, Unlock, TrendingUp, DollarSign, MoreHorizontal, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Minus, ChevronDown, Eye, User, Calendar } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { DataTable } from "@/components/admin/DataTable";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 const rewardTiers = [
   { name: "Bronze", points: "0-999", perks: "5% discount", color: "from-amber-500 to-orange-500", locked: false },
@@ -27,42 +44,120 @@ const rewardHistory = [
   { id: "RWD005", action: "Birthday Bonus", points: "+200", date: "2024-01-05", status: "credited" },
 ];
 
+const columns = [
+  { key: "action", header: "Action" },
+  { key: "points", header: "Points" },
+  { key: "date", header: "Date" },
+  { key: "status", header: "Status" },
+  { key: "actions", header: "" },
+];
+
 export default function Rewards() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
+  const [selectedReward, setSelectedReward] = useState<any>(null);
+
+  const handleViewDetails = (item: any) => {
+    setSelectedReward(item);
+    setIsViewDetailsOpen(true);
+  };
+
+  const toggleExpand = (id: string) => {
+    setExpandedRows(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+
+  const renderExpandedRow = (item: any) => (
+    <div className="bg-muted/50 p-4 mx-2 my-2 rounded-lg border space-y-3 animate-in slide-in-from-top-2">
+
+      <div className="bg-card p-3 rounded border">
+        <p className="text-xs text-muted-foreground">Date</p>
+        <p className="text-sm">{new Date(item.date).toLocaleDateString()}</p>
+      </div>
+
+      <div className="bg-card p-3 rounded border flex justify-around">
+        {statusRender(item)}
+        <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm" className="w-1/2 justify-start">
+            <MoreHorizontal className="w-4 h-4 mr-2" />
+            Actions
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="p-2">
+          <DropdownMenuItem className="gap-1" onClick={() => handleViewDetails(item)}><Eye className="w-4 -h-4"/> View Details</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      </div>
+
+      
+
+    </div>
+  );
+
+
+
+
+
+
+  const pageSize = 10;
   const currentPoints = 3450;
   const nextTierPoints = 5000;
 
-  const columns = [
-    { key: "action", header: "Action" },
-    { key: "points", header: "Points" },
-    { key: "date", header: "Date", render: (item: any) => new Date(item.date).toLocaleDateString() },
-    {
-      key: "status",
-      header: "Status",
-      render: (item: any) => (
-        <Badge className={item.status === "credited" ? "bg-emerald-500/10 text-emerald-600" : "bg-blue-500/10 text-blue-600"}>
-          {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-        </Badge>
-      ),
-    },
-    {
-      key: "actions",
-      header: "",
-      width: "60px",
-      render: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="w-8 h-8">
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>View Details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    },
-  ];
+  const getRowId = (item: any) => item.id;
+
+  const paginatedData = rewardHistory.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const totalPages = Math.ceil(rewardHistory.length / pageSize);
+
+  const allSelected = paginatedData.length > 0 && paginatedData.every((item) => selectedIds.includes(getRowId(item)));
+  const someSelected = paginatedData.some((item) => selectedIds.includes(getRowId(item)));
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...new Set([...selectedIds, ...paginatedData.map(getRowId)])]);
+    } else {
+      setSelectedIds(selectedIds.filter((id) => !paginatedData.map(getRowId).includes(id)));
+    }
+  };
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const statusRender = (item: any) => (
+    <Badge className={item.status === "credited" ? "bg-emerald-500/10 text-emerald-600" : "bg-blue-500/10 text-blue-600"}>
+      {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+    </Badge>
+  );
+
+  const actionsRender = (item: any) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="w-8 h-8">
+          <MoreHorizontal className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => handleViewDetails(item)}>View Details</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
+  const dateRender = (item: any) => new Date(item.date).toLocaleDateString();
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -174,16 +269,203 @@ export default function Rewards() {
           <CardDescription>Your recent points activity</CardDescription>
         </CardHeader>
         <CardContent>
-          <DataTable
-            columns={columns}
-            data={rewardHistory}
-            selectable
-            selectedIds={selectedIds}
-            onSelectionChange={setSelectedIds}
-            pagination={{ page: 1, pageSize: 10, total: rewardHistory.length, onPageChange: () => {} }}
-          />
+          <div className="rounded-xl border border-border/50 overflow-hidden">
+            <div className="overflow-x-auto">
+              <Table className="w-full table-auto">
+                <TableHeader>
+                  <TableRow className="bg-muted/30">
+                    <TableHead className="w-12">
+                      <Checkbox
+                        checked={allSelected}
+                        onCheckedChange={handleSelectAll}
+                      />
+                    </TableHead>
+
+                    <TableHead>Action</TableHead>
+                    <TableHead>Points</TableHead>
+
+                    {/* MD+ */}
+                    <TableHead className="hidden md:table-cell">Date</TableHead>
+                    <TableHead className="hidden md:table-cell">Status</TableHead>
+
+                    {/* LG+ */}
+                    <TableHead className="hidden lg:table-cell">Actions</TableHead>
+
+                    {/* CHEVRON */}
+                    <TableHead className="w-10 lg:hidden" />
+                  </TableRow>
+                </TableHeader>
+
+                {paginatedData.map((item) => {
+                  const id = item.id;
+                  const isExpanded = expandedRows.has(id);
+                  const isSelected = selectedIds.includes(id);
+
+                  return (
+                    <>
+                      {/* MAIN ROW */}
+                      <TableRow key={id} className={isSelected ? "bg-pink-gradient/5" : ""}>
+                        <TableCell>
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={(c) => handleSelectRow(id, !!c)}
+                          />
+                        </TableCell>
+
+                        <TableCell>{item.action}</TableCell>
+                        <TableCell>{item.points}</TableCell>
+
+                        {/* MD+ */}
+                        <TableCell className="hidden md:table-cell">
+                          {new Date(item.date).toLocaleDateString()}
+                        </TableCell>
+
+                        <TableCell className="hidden md:table-cell">
+                          {statusRender(item)}
+                        </TableCell>
+
+                        {/* LG+ */}
+                        <TableCell className="hidden lg:table-cell">
+                          {actionsRender(item)}
+                        </TableCell>
+
+                        {/* CHEVRON (MD + MOBILE) */}
+                        <TableCell className="lg:hidden">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => toggleExpand(id)}
+                          >
+                            <ChevronDown
+                              className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""
+                                }`}
+                            />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+
+                      {/* EXPANDED CARD */}
+                      {isExpanded && (
+                        <TableRow className="lg:hidden">
+                          <TableCell colSpan={7} className="p-0">
+                            {renderExpandedRow(item)}
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </>
+                  );
+                })}
+
+              </Table>
+            </div>
+          </div>
+
+          {rewardHistory.length > 0 && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 text-xs sm:text-sm">
+              <p className="text-muted-foreground">
+                Showing {(currentPage - 1) * pageSize + 1} to{" "}
+                {Math.min(currentPage * pageSize, rewardHistory.length)} of{" "}
+                {rewardHistory.length}
+              </p>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="w-8 h-8 sm:w-9 sm:h-9"
+                  onClick={() => handlePageChange(1)}
+                  disabled={currentPage === 1}
+                  title="First page"
+                >
+                  <ChevronsLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="w-8 h-8 sm:w-9 sm:h-9"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  title="Previous page"
+                >
+                  <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+                </Button>
+                <span className="px-2 sm:px-3 font-medium text-xs sm:text-sm">
+                  {currentPage} / {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="w-8 h-8 sm:w-9 sm:h-9"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  title="Next page"
+                >
+                  <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="w-8 h-8 sm:w-9 sm:h-9"
+                  onClick={() => handlePageChange(totalPages)}
+                  disabled={currentPage === totalPages}
+                  title="Last page"
+                >
+                  <ChevronsRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
+
+      {/* View Details Dialog */}
+      <Dialog open={isViewDetailsOpen} onOpenChange={setIsViewDetailsOpen}>
+        <DialogContent className="max-w-[95vw] max-h-[90vh] rounded-lg md:max-w-lg md:max-h-[80vh] shadow-lg flex flex-col">
+          <DialogHeader className="p-6">
+            <DialogTitle className="flex items-center text-2xl">
+              <Gift className="h-6 w-6 mr-3" />
+              Reward Details
+            </DialogTitle>
+            <DialogDescription>
+              Details for reward ID: {selectedReward?.id}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedReward && (
+            <div className="px-6 pb-6 space-y-4 flex-grow overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+              <div className="p-4 bg-muted/50 rounded-lg border">
+                <Label className="text-sm font-medium text-muted-foreground flex items-center mb-1">
+                  Action
+                </Label>
+                <p className="text-base font-medium">{selectedReward.action}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-4 bg-muted/50 rounded-lg border">
+                  <Label className="text-sm font-medium text-muted-foreground flex items-center mb-1">
+                    <TrendingUp className="h-4 w-4 mr-2" /> Points
+                  </Label>
+                  <p className="text-base font-medium">{selectedReward.points}</p>
+                </div>
+                <div className="p-4 bg-muted/50 rounded-lg border">
+                  <Label className="text-sm font-medium text-muted-foreground flex items-center mb-1">
+                    <Calendar className="h-4 w-4 mr-2" /> Date
+                  </Label>
+                  <p className="text-base font-medium">{new Date(selectedReward.date).toLocaleDateString()}</p>
+                </div>
+              </div>
+              <div className="p-4 bg-muted/50 rounded-lg border">
+                <Label className="text-sm font-medium text-muted-foreground flex items-center mb-1">
+                  Status
+                </Label>
+                <Badge className={selectedReward.status === "credited" ? "bg-emerald-500/10 text-emerald-600" : "bg-blue-500/10 text-blue-600"}>
+                  {selectedReward.status.charAt(0).toUpperCase() + selectedReward.status.slice(1)}
+                </Badge>
+              </div>
+            </div>
+          )}
+          <DialogFooter className="p-4 border-t mt-auto">
+            <Button variant="outline" onClick={() => setIsViewDetailsOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

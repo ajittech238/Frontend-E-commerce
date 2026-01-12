@@ -14,100 +14,112 @@ const NewArrivalsSection = () => {
   const arrivals =
     newArrivals.length >= 4 ? newArrivals : products.slice(6, 14);
 
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const handleScroll = (direction) => {
+  /* ================= MANUAL SCROLL (SAME AS DEALS) ================= */
+  const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
 
+    const isMobile = window.innerWidth < 640;
+    const scrollAmount = isMobile
+      ? window.innerWidth * 0.75
+      : 260;
+
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -320 : 320,
+      left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
 
   return (
-    <section className="py-16 md:py-5 bg-gradient-to-r from-background via-accent/5 to-background relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-pink-gradient/5 rounded-full blur-3xl" />
-      </div>
-
+    <section className="py-14 md:py-5 bg-gradient-to-r from-background via-accent/5 to-background relative overflow-hidden">
       <div className="container relative z-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top duration-700">
+
+        {/* ================= HEADER ================= */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
               <Star className="h-6 w-6 text-white" />
             </div>
+
             <div>
-              <div className="inline-flex items-center gap-2 mb-2">
+              <div className="inline-flex items-center gap-2 mb-1">
                 <Sparkles className="h-4 w-4 text-primary" />
                 <span className="text-sm font-semibold text-primary">
                   Just Arrived
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold">
+              <h2 className="text-3xl md:text-5xl font-bold">
                 New Arrivals
               </h2>
             </div>
           </div>
 
           <Link to="/products">
-            <Button className="group bg-gradient-to-r from-primary to-primary/90 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all gap-2 hover:-translate-y-1 whitespace-nowrap">
-              Browse All New
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <Button className="bg-gradient-to-r from-primary to-primary/90 text-white px-5 py-3 rounded-xl shadow-lg gap-2">
+              Browse All
+              <ArrowRight className="h-5 w-5" />
             </Button>
           </Link>
         </div>
 
-        {/* 🔥 Scrollable Products */}
+        {/* ================= SLIDER ================= */}
         <div className="relative mb-12">
-          {/* Left Button */}
+
+          {/* LEFT BUTTON (DESKTOP ONLY) */}
           <button
             onClick={() => handleScroll("left")}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
+            className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
           >
             <ArrowLeft className="h-5 w-5 text-primary" />
           </button>
 
-          {/* Products Row */}
+          {/* PRODUCTS ROW */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide px-2"
+            className="
+              flex items-center
+              gap-3 md:gap-4
+              overflow-x-auto overflow-y-visible
+              scroll-smooth scrollbar-hide
+              px-2 md:px-1
+              snap-x snap-mandatory
+            "
           >
             {arrivals.slice(0, 10).map((product, index) => (
               <div
                 key={product.id}
-                className="min-w-[260px] animate-in fade-in slide-in-from-bottom-4 duration-500"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="
+                  w-[75vw]
+                  min-w-[75vw]
+                  sm:w-auto
+                  sm:min-w-[200px]
+                  md:min-w-[260px]
+                  flex justify-center
+                  snap-center
+                "
               >
-                <div className="relative group">
-                  <ProductCard product={product} index={index} />
-                  {/* New badge */}
-                  <div className="absolute top-3 right-3 z-20 px-3 py-1 rounded-full bg-white text-primary text-xs font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity dark:bg-slate-800">
-                    ✨ New
-                  </div>
-                </div>
+                <ProductCard product={product} index={index} />
               </div>
             ))}
           </div>
 
-          {/* Right Button */}
+          {/* RIGHT BUTTON (DESKTOP ONLY) */}
           <button
             onClick={() => handleScroll("right")}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
+            className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:scale-110 transition"
           >
             <ArrowRight className="h-5 w-5 text-primary" />
           </button>
         </div>
 
-        {/* Info Section */}
-        <div className="p-8 md:p-10 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary/20 text-center animate-in fade-in slide-in-from-bottom duration-700 delay-300">
-          <p className="font-semibold mb-2">
+        {/* ================= INFO ================= */}
+        <div className="p-6 md:p-10 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 text-center">
+          <p className="font-semibold mb-1">
             🎉 Fresh products added every week
           </p>
           <p className="text-sm text-muted-foreground">
-            Stay updated on the latest handcrafted items from our community of artisans
+            Stay updated on the latest handcrafted items from our community
           </p>
         </div>
       </div>

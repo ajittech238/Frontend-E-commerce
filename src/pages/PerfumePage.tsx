@@ -1,6 +1,5 @@
-// Import necessary hooks and components from React and other libraries.
 import React, { useState, useEffect } from "react";
-import { Filter, Gem, Plus, Minus } from "lucide-react";
+import { Filter, Sparkles, Plus, Minus, Gem } from "lucide-react";
 
 // Import UI components and utilities.
 import ProductCard from "@/components/products/ProductCard";
@@ -77,6 +76,7 @@ export default function PerfumePage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-foreground flex items-center gap-3">
+                <Sparkles className="h-10 w-10 text-purple-600" />
                 <Gem className="h-10 w-10 text-yellow-600" />
                 Perfume
               </h1>
@@ -129,6 +129,17 @@ export default function PerfumePage() {
                       "max-h-48 overflow-y-auto scrollbar-hide pr-2"
                   )}
                 >
+                  <button
+                    onClick={() => setSelectedCategory("all")}
+                    className={cn(
+                      "w-full px-3 py-2 rounded text-sm font-medium text-left transition-all",
+                      selectedCategory === "all"
+                        ? "text-primary bg-primary/10"
+                        : "text-foreground hover:bg-accent"
+                    )}
+                  >
+                    All Perfumes
+                  </button>
                   {perfumeCategories.map((cat, index) => {
                     if (!isExpanded && index >= 5) return null;
                     return (
@@ -138,8 +149,8 @@ export default function PerfumePage() {
                         className={cn(
                           "w-full px-3 py-2 rounded text-sm font-medium text-left transition-all",
                           selectedCategory === cat.id
-                            ? "text-primary"
-                            : "text-foreground"
+                            ? "text-primary bg-primary/10"
+                            : "text-foreground hover:bg-accent"
                         )}
                       >
                         {cat.name}
