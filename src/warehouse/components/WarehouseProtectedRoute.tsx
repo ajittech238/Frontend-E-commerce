@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useWarehouseAuth } from "./WarehouseAuthContext";
+import { useWarehouseAuth } from "../context/WarehouseAuthContext";
 
 export default function WarehouseProtectedRoute({
   children,

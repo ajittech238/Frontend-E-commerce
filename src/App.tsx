@@ -156,10 +156,14 @@ const App = () => (
 
 // Customer / Warehouse
 import CustomerRoutes from "./customer/routes/CustomerRoutes";
+<<<<<<< HEAD
+import WarehouseRoutes from "./warehouse/WarehouseRoutes";
+=======
 import WarehouseRoutes from "./WarehouseRoutes";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import CustomerSupportDashboard from "./pages/admin/CustomerSupport";
+>>>>>>> a2ff3f4e2f90fc98b4fd046df5faf81b73cf3390
 
 const queryClient = new QueryClient();
 
